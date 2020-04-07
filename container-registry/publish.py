@@ -20,7 +20,7 @@ if f1_game == True:
     while True:
         udp_packet = udp_socket.recv(2048)
         packet = unpack_udp_packet(udp_packet)
-        future = publisher.publish(topic_path, data=packet)
+        future = publisher.publish(topic_path, data=str(packet).encode())
         print(future.result())
 else:
     while True:
