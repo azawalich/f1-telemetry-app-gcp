@@ -3,11 +3,11 @@ import secrets as s
 from f1_2019_telemetry.packets import unpack_udp_packet
 from google.cloud import pubsub_v1
 
-project_id = s.secrets['project_id']
+project_name = s.secrets['project_name']
 topic_name = s.secrets['topic_name']
 
 publisher = pubsub_v1.PublisherClient()
-topic_path = publisher.topic_path(project_id, topic_name)
+topic_path = publisher.topic_path(project_name, topic_name)
 
 udp_socket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
 udp_socket.bind(('0.0.0.0', 5005))
