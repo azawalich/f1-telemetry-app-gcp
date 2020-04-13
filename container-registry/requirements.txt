@@ -1,2 +1,0 @@
-f1_2019_telemetry
-apache-beam==2.19.0
