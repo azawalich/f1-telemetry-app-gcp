@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  pubsub:
+    image: gcr.io/f1-telemetry-app/pub-sub
+    command: publish.py
+    ports:
+      - 5005:5005
+      - 5005:5005/udp
+    tty: true
+
+  dataflow:
+    image: gcr.io/f1-telemetry-app/dataflow
+    command: launch.py
+    ports:
+      - 5000:5000
+    volumes:
+      - $HOME/.config/gcloud:/root/.config/gcloud
+    tty: true

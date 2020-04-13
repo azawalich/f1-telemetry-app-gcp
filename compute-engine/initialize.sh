@@ -53,6 +53,12 @@ python3 runner.py \
 
 #useful
 #tmux list-sessions
-#tmux attach-session -t sessioName
+#tmux attach-session -t sessionName
+#tmux kill-session -t sessionName
+gcloud compute scp f1-telemetry-app-gcp/compute-engine/docker-compose.yml f1-telemetry-app-vm:~
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose up
 
 logout
