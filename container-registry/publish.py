@@ -1,10 +1,19 @@
 import socket
-import secrets as s
 from f1_2019_telemetry.packets import unpack_udp_packet
 from google.cloud import pubsub_v1
 
-project_name = s.secrets['project_name']
-topic_name = s.secrets['topic_name']
+secrets = {}
+
+f = open('secrets.sh', 'r')
+lines_read = f.read().splitlines()[1:]
+f.close()
+
+for line in lines_read:
+    line_splitted = line.replace('\n', '').replace('"', '').split('=')
+    secrets[line_splitted[0]] = line_splitted[1]
+
+project_name = secrets['project_name']
+topic_name = secrets['topic_name']
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_name, topic_name)
