@@ -1,2 +1,3 @@
 flask
-apache-beam==2.19.0
+apache-beam[gcp]==2.19.0
+apitools
