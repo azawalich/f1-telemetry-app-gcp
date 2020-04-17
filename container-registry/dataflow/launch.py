@@ -2,6 +2,7 @@ from flask import Flask, Response, request
 import subprocess
 import time
 import re
+import datetime
 
 secrets = {}
 
@@ -42,18 +43,20 @@ def token_auth_handler_on():
         return Response(error_msg, 403)
     else:
         running_jobs = _get_dataflow_jobs_list("Running")
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
         if len(running_jobs) == 0:
             open_dataflow_cmd = """python3 runner.py \
             --project={} \
             --input_topic=projects/{}/topics/{} \
-            --output_path=gs://{}/ \
+            --output_path=gs://{}/raw/{} \
             --runner=DataflowRunner \
             --window_size=1 \
             --region={} \
-            --temp_location=gs://{}/temp
+            --temp_location=gs://{}/raw/{}/temp
             """.format(
                 secrets['project_name'],secrets['project_name'],secrets['topic_name'],
-                secrets['bucket_name'], secrets['region'], secrets['bucket_name'])
+                secrets['bucket_name'], current_time, secrets['region'], 
+                secrets['bucket_name'], current_time)
             
             subprocess.Popen(open_dataflow_cmd, shell=True)
             message="Started a Dataflow job."
