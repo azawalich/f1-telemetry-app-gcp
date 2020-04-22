@@ -48,7 +48,7 @@ class AddTimestamps(beam.DoFn):
             "message_body": element.decode("utf-8"),
             "publish_time": datetime.datetime.utcfromtimestamp(
                 float(publish_time)
-            ).strftime("%Y-%m-%d %H:%M:%S.%f"),
+            ).strftime("%Y-%m-%d %H:%M:%S"),
         }
 
 
