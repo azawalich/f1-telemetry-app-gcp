@@ -1,6 +1,7 @@
 import socket
 from f1_2019_telemetry.packets import unpack_udp_packet
 from google.cloud import pubsub_v1
+import jsonpickle
 
 secrets = {}
 
@@ -29,7 +30,8 @@ if f1_game == True:
     while True:
         udp_packet = udp_socket.recv(2048)
         packet = unpack_udp_packet(udp_packet)
-        future = publisher.publish(topic_path, data=str(packet).encode())
+        packet_encoded = jsonpickle.encode(packet)
+        future = publisher.publish(topic_path, data=packet_encoded.encode())
         print(future.result())
 else:
     while True:
