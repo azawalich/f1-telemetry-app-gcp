@@ -48,7 +48,7 @@ def token_auth_handler_on():
             open_dataflow_cmd = """python3 runner.py \
             --project={} \
             --input_topic=projects/{}/topics/{} \
-            --output_path=gs://{}/raw/{} \
+            --output_path=gs://{}/raw/{}/ \
             --runner=DataflowRunner \
             --window_size=1 \
             --region={} \
