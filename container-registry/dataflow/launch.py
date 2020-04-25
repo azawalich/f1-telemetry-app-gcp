@@ -44,8 +44,10 @@ def token_auth_handler_on():
     else:
         running_jobs = _get_dataflow_jobs_list("Running")
         current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        job_name = '{}_PubSub_to_GCS_raw'.format(current_time)
         if len(running_jobs) == 0:
             open_dataflow_cmd = """python3 runner.py \
+            --job_name={} \
             --project={} \
             --input_topic=projects/{}/topics/{} \
             --output_path=gs://{}/raw/{}/ \
@@ -54,9 +56,9 @@ def token_auth_handler_on():
             --region={} \
             --temp_location=gs://{}/raw/{}/temp
             """.format(
-                secrets['project_name'],secrets['project_name'],secrets['topic_name'],
-                secrets['bucket_name'], current_time, secrets['region'], 
-                secrets['bucket_name'], current_time)
+                job_name, secrets['project_name'],secrets['project_name'],
+                secrets['topic_name'], secrets['bucket_name'], current_time, 
+                secrets['region'], secrets['bucket_name'], current_time)
             
             subprocess.Popen(open_dataflow_cmd, shell=True)
             message="Started a Dataflow job."
