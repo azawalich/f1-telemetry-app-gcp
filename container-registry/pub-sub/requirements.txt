@@ -1,2 +1,3 @@
 f1_2019_telemetry
 google-cloud-pubsub
+jsonpickle
