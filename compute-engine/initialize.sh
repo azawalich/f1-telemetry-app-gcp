@@ -20,45 +20,25 @@ curl -fsSL "https://github.com/GoogleCloudPlatform/docker-credential-gcr/release
 docker-credential-gcr configure-docker
 exit
 
-#after login 
-docker pull gcr.io/f1-telemetry-app/f1-telemetry-app-gcp
-
-tmux
-
-docker run -it -p 0.0.0.0:5005:5005 -p 0.0.0.0:5005:5005/udp gcr.io/f1-telemetry-app/f1-telemetry-app-gcp
-
-#click ctrl+b and $; name session "pubsub"; click ctrl+b and d
-
-tmux
-docker cp de4f9ae0e43b:/telemetry-app/secrets.sh /home/aleksander_zawalich/
-docker cp de4f9ae0e43b:/telemetry-app/runner.py /home/aleksander_zawalich/
-source secrets.sh
-
-apt-get install python3-pip
-pip3 install apache-beam==2.19.0
-pip3 install apache_beam[gcp]
-pip3 install apitools
-
-#enable dataflow api
-
-python3 runner.py \
-  --project=$project_name \
-  --input_topic=projects/$project_name/topics/$topic_name \
-  --output_path=gs://$bucket_name/ \
-  --runner=DataflowRunner \
-  --window_size=1 \
-  --temp_location=gs://$bucket_name/temp
-
-#click ctrl+b and $; name session "dataflow"; click ctrl+b and d
-
 #useful
 #tmux list-sessions
 #tmux attach-session -t sessionName
 #tmux kill-session -t sessionName
+# click ctrl+b and d - exit session
+
+#get docker-compose.yml to a machine
 gcloud compute scp f1-telemetry-app-gcp/compute-engine/docker-compose.yml f1-telemetry-app-vm:~
+
+# install docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose pull
 docker-compose up
+# sometimes docker image prune
+
+# set proper timezone
+sudo timedatectl set-timezone Europe/Warsaw
+sudo timedatectl set-ntp on
 
 logout
