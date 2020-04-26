@@ -81,7 +81,7 @@ class convertPacketsToJSON(beam.PTransform):
     def expand(self, pcoll):
         return (
             pcoll
-            | beam.Map(lambda x: self.cleanup_packets(x))
+            | beam.Map(lambda x: self.cleanup_packets(single_file = x))
         )
 
 class WriteFilesToGCS(beam.DoFn):
