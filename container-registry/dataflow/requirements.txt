@@ -2,3 +2,6 @@ flask
 apache-beam[gcp]==2.19.0
 apitools
 datetime
+f1_2019_telemetry
+jsonpickle
+requests

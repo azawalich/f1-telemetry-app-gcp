@@ -21,6 +21,7 @@ docker-credential-gcr configure-docker
 exit
 
 #useful
+#tmux new -s sessionName
 #tmux list-sessions
 #tmux attach-session -t sessionName
 #tmux kill-session -t sessionName

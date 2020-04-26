@@ -5,3 +5,5 @@
 - saving PubSub Messages to GCS: https://github.com/GoogleCloudPlatform/python-docs-samples/blob/master/pubsub/streaming-analytics/PubSubToGCS.py
 ## v0.3 
 - token auth in webhooks: https://gist.github.com/tschieggm/7604940
+## v0.4
+- parser writing feedback: https://github.com/jsnowacki
