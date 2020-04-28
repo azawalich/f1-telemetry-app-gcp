@@ -15,4 +15,4 @@
 ## v0.5
 - inserts and schemas for BigQuery: 
   - [Documentation Article #1](https://cloud.google.com/bigquery/docs/tables#python)
-  - [Documentation Article #2](https://cloud.google.com/bigquery/streaming-data-into-bigquery
+  - [Documentation Article #2](https://cloud.google.com/bigquery/streaming-data-into-bigquery)
