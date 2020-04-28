@@ -22,7 +22,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '{}{}'.format(secrets['local_path
 client = bigquery.Client()
 
 # python type of dataset initialize due to lack of location parameter in gcloud CLI (gcloud alpha bq) 
-dataset = bigquery.Dataset(client.dataset('definitions'))
+dataset_name = 'definitions'
+dataset = bigquery.Dataset(client.dataset(dataset_name))
 dataset.location = 'EU'
 dataset = client.create_dataset(dataset)
 
@@ -48,7 +49,7 @@ for single_structure in list(basic_dict.keys()):
     ]
     
     if single_structure not in tables:
-        table_id = "{}.{}.{}".format(secrets['project_name'], 'definitions', single_structure)
+        table_id = "{}.{}.{}".format(secrets['project_name'], dataset_name, single_structure)
         table = bigquery.Table(table_id, schema=schema)
         table = client.create_table(table)
         print(
