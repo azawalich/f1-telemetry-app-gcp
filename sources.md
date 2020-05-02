@@ -12,7 +12,7 @@
 - token auth in webhooks: [GitHub repository code](https://gist.github.com/tschieggm/7604940)
 ## v0.4
 - parser writing feedback: **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/) [GitHub repository](https://github.com/jsnowacki)
-## v0.5 / v0.5.1 / v0.5.2
+## v0.5 / v0.5.1 / v0.5.2 / v0.5.3
 - inserts and schemas for BigQuery: 
   - [Documentation Article - tables](https://cloud.google.com/bigquery/docs/tables#python)
   - [Documentation Article - inserts](https://cloud.google.com/bigquery/streaming-data-into-bigquery)
