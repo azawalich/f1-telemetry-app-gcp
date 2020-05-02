@@ -46,7 +46,7 @@ def fill_repeated_fields_dict(name_d, type_d):
     return bigquery.SchemaField(
         name_d,
         type_d,
-        mode="REQUIRED")
+        mode="NULLABLE")
 
 def check_packet_types(chosen_packet_f, single_key_f):
     # in case of nested-type attribures
@@ -105,9 +105,13 @@ def check_packet_types(chosen_packet_f, single_key_f):
             )
     # in case of non-nested attributes 
     else:
+        if single_key_f == 'publish_time':
+            bigquery_type = 'DATETIME'
+        else:
+            bigquery_type = schema_types[type(chosen_packet_f[single_key_f]).__name__]
         temp_schema = fill_repeated_fields_dict(
             single_key_f,
-            schema_types[type(chosen_packet_f[single_key_f]).__name__]
+            bigquery_type
             )
     return temp_schema
 

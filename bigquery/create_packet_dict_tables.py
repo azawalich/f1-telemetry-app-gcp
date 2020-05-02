@@ -24,7 +24,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '{}{}'.format(secrets['local_path
 
 ######### 2. GITLAB DOWNLOAD #########
 
-gl = gitlab.Gitlab('http://gitlab.com', private_token=secrets['gitlab_token'])
+gl = gitlab.Gitlab('https://gitlab.com', private_token=secrets['gitlab_token'])
 gl.auth()
 
 project = gl.projects.get('azawalich/f1-2019-telemetry')
