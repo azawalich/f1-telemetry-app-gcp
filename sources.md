@@ -14,5 +14,6 @@
 - parser writing feedback: **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/) [GitHub repository](https://github.com/jsnowacki)
 ## v0.5 / v0.5.1 / v0.5.2
 - inserts and schemas for BigQuery: 
-  - [Documentation Article #1](https://cloud.google.com/bigquery/docs/tables#python)
-  - [Documentation Article #2](https://cloud.google.com/bigquery/streaming-data-into-bigquery)
+  - [Documentation Article - tables](https://cloud.google.com/bigquery/docs/tables#python)
+  - [Documentation Article - inserts](https://cloud.google.com/bigquery/streaming-data-into-bigquery)
+  - [Documentation Article - nested fields](https://cloud.google.com/bigquery/docs/nested-repeated)
