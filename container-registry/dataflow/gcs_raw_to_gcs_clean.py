@@ -48,7 +48,7 @@ def check_upacked_udp_packet_types(unpacked_udp_packet):
             temp_dict = unpacked_udp_packet
     return temp_dict
 
-def convert_upacked_udp_packet_to_json(unpacked_udp_packet):
+def convert_upacked_udp_packet_to_json(unpacked_udp_packet, publish_time):
     """Convert unpacked telemetry packet (appropriately-typed one) to its' JSON representation.
 
     Args:
@@ -66,6 +66,7 @@ def convert_upacked_udp_packet_to_json(unpacked_udp_packet):
             full_dict[single_field] = temp_dict
         else:
            full_dict[single_field] = check_upacked_udp_packet_types(getattr(unpacked_udp_packet, single_field))
+    full_dict['publish_time'] = publish_time
     return json.dumps(full_dict, ensure_ascii=False).encode('utf8').decode()
 
 class convertPacketsToJSON(beam.PTransform):
@@ -73,8 +74,7 @@ class convertPacketsToJSON(beam.PTransform):
         json_packets = []
         temp_packet = json.loads(single_file)
         decoded_packet = jsonpickle.decode(temp_packet['packet_encoded'])
-        decoded_packet['publish_time'] = temp_packet['publish_time']
-        json_packet = convert_upacked_udp_packet_to_json(decoded_packet)
+        json_packet = convert_upacked_udp_packet_to_json(decoded_packet, temp_packet['publish_time'])
         json_packets.append(json_packet)
         return json_packets
 

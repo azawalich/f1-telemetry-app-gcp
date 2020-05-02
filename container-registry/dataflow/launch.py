@@ -65,7 +65,7 @@ def token_auth_handler_on():
         # Dataflow accepts only names consisting of [a-z0-9-]
         job_name = re.sub('_|:', '-', 'pubsub_to_gcs_raw_{}'.format(current_time))
         if len(running_jobs) == 0:
-            open_dataflow_cmd = """python3 runner.py \
+            open_dataflow_cmd = """python3 pubsub_to_gcs_raw.py \
             --job_name={} \
             --project={} \
             --input_topic=projects/{}/topics/{} \
@@ -126,7 +126,7 @@ def conv_token_auth_handler_on():
         job_name = re.sub('_|:', '-', 'gcs_raw_to_gcs_clean_{}'.format(raw_folder))
         if len(raw_folder) > 0:
             open_dataflow_cmd = """
-            python3 data_cleanup.py \
+            python3 gcs_raw_to_gcs_clean.py \
             --job_name={} \
             --project={} \
             --gcs_input_files=gs://{}/raw/{}/-* \
