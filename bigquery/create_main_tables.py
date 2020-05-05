@@ -1,6 +1,6 @@
 import os 
 import time
-import json
+import simplejson as json
 from google.cloud import pubsub # needed for not having segfault with bigquery...
 from google.cloud import bigquery
 from google.cloud import storage
@@ -27,15 +27,18 @@ storage_client = storage.Client()
 bucket = storage_client.get_bucket(secrets['bucket_name'])
 
 test_files = [
-    "8109909506422837145_0_0.json", "8109909506422837145_0_1.json", "8109909506422837145_0_2.json",
-    "8109909506422837145_0_3.json", "8109909506422837145_0_4.json", "8109909506422837145_0_5.json", 
-    "8109909506422837145_0_6.json", "8109909506422837145_0_7.json"]
+    "motion_0.json", "session_1.json", "lap_2.json",
+    "event_3.json", "participant_4.json", "car_setup_5.json", 
+    "car_telemetry_6.json", "car_status_7.json"]
 
 read_packets = []
 
 for single_file in test_files:
-    blob = bucket.blob('clean/2020-04-22_17:25:29/{}'.format(single_file))
-    read_packets.append(json.loads(blob.download_as_string()))
+    blob = bucket.blob('example_packets_converted/{}'.format(single_file))
+    packet_data = json.loads(blob.download_as_string())
+    packet_data['publish_time'] = ''
+    packet_data['insert_time'] = ''
+    read_packets.append(packet_data)
     time.sleep(1)
 
 ######### 3. CREATE BIGQUERY TABLE SCHEMAS FOR PACKETS #########
@@ -105,8 +108,12 @@ def check_packet_types(chosen_packet_f, single_key_f):
             )
     # in case of non-nested attributes 
     else:
-        if single_key_f == 'publish_time':
+        # manually added
+        if single_key_f in ['publish_time', 'insert_time']:
             bigquery_type = 'DATETIME'
+        # nullable
+        elif single_key_f in ['lapTime']:
+            bigquery_type = 'FLOAT64'
         else:
             bigquery_type = schema_types[type(chosen_packet_f[single_key_f]).__name__]
         temp_schema = fill_repeated_fields_dict(
@@ -129,6 +136,7 @@ wheel_fields = [
 wheel_names = ['RL', 'RR', 'FL', 'FR']
 
 schema_list = []
+schema_list_json = []
 
 packet_types = [
     'motion',
@@ -141,10 +149,6 @@ packet_types = [
     'car_status'
 ]
 
-
-# setup credentials for bigquery
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '{}{}'.format(secrets['local_path'], secrets['bigquery_service_account_file'])
-
 # create schemas for each packet
 for chosen_packet in read_packets:
     temp_list = []
@@ -154,7 +158,29 @@ for chosen_packet in read_packets:
         except:
             print('Fuckup, packet {}, key {}'.format(read_packets.index(chosen_packet), single_key))
     schema_list.append(temp_list)
-    print('Done, packet {}'.format(read_packets.index(chosen_packet)))
+    print('Done schema, packet {}'.format(read_packets.index(chosen_packet)))
+
+    temp_json_list = []
+    for single_element in temp_list:
+        temp_json_list.append(single_element.to_api_repr())
+    schema_list_json.append(temp_json_list)
+    print('Done JSON, packet {}'.format(read_packets.index(chosen_packet)))
+
+# upload schemas to bucket (for later dataflow use)
+for single_packet in packet_types:
+    indeks = packet_types.index(single_packet)
+    filename = 'bigquery-schemas/{}_{}.json'.format(single_packet, indeks)
+    blob = bucket.blob(filename)
+    blob.upload_from_string(json.dumps({
+        'schema': schema_list_json[indeks],
+        'table_name': single_packet,
+        'packet_id': indeks
+    }))
+    print('uploaded {} to {}'.format(single_packet, filename))
+    time.sleep(1)
+
+# setup credentials for bigquery
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = '{}{}'.format(secrets['local_path'], secrets['bigquery_service_account_file'])
 
 client = bigquery.Client()
 
@@ -180,6 +206,6 @@ for single_schema in schema_list:
         print(
             "Created table {}.{}.{}".format(table.project, table.dataset_id, table.table_id)
         )
-        time.sleep(10)
+        time.sleep(1)
     else:
         "Table {} already exists, not adding it.".format(table_name)
