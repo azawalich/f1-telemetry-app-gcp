@@ -5,3 +5,4 @@ datetime
 f1_2019_telemetry
 jsonpickle
 requests
+simplejson
