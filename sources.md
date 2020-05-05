@@ -17,3 +17,11 @@
   - [Documentation Article - tables](https://cloud.google.com/bigquery/docs/tables#python)
   - [Documentation Article - inserts](https://cloud.google.com/bigquery/streaming-data-into-bigquery)
   - [Documentation Article - nested fields](https://cloud.google.com/bigquery/docs/nested-repeated)
+## v0.6
+- Apache Beam & BigQuery inserts:
+  - [Documentation Article - applying transforms](https://beam.apache.org/documentation/programming-guide/#applying-transforms)
+  - [Documentation Article - grouping by keys](https://beam.apache.org/documentation/programming-guide/#cogroupbykey)
+  - [GitHub Repository Code - creating rows/schema fields for BigQuery inserts](https://github.com/apache/beam/blob/474345f5987e47a22d063c7bfcb3638c85a57e64/sdks/python/apache_beam/examples/cookbook/bigquery_schema.py)
+  - [Stack Overflow Discussion - using built-in parser for converting JSON schemas to TableSchema and TableFieldsSchema](https://stackoverflow.com/questions/48741327/writing-nested-schema-to-bigquery-from-dataflow-python) 
+  - [Documentation Article (deprecated) - row formating for BigQuery](https://download.huihoo.com/google/gdgdevkit/DVD1/developers.google.com/bigquery/preparing-data-for-bigquery.html)
+  - [Documentation Article - inserting to BigQuery](https://beam.apache.org/documentation/io/built-in/google-bigquery/)
