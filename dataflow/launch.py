@@ -107,7 +107,7 @@ def token_auth_handler_off():
             } 
         
         webhook_url = 'http://{}:5000/dataflow-json-conv-on?auth-token={}'.format(
-            secrets['vm_external_ip'], secrets['webhook_auth_token'])
+            secrets['vm_worker_external_ip'], secrets['webhook_auth_token'])
         
         requests.post(url = webhook_url, data = data)
         
