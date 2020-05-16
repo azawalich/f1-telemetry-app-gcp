@@ -8,3 +8,7 @@ docker push gcr.io/f1-telemetry-app/dataflow
 docker build --file ./pub-sub/Dockerfile -t pub-sub . --no-cache
 docker tag pub-sub gcr.io/f1-telemetry-app/pub-sub
 docker push gcr.io/f1-telemetry-app/pub-sub
+
+docker build --file ./compute-engine/launcher/Dockerfile -t compute-engine . --no-cache
+docker tag compute-engine gcr.io/f1-telemetry-app/compute-engine
+docker push gcr.io/f1-telemetry-app/compute-engine

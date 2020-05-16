@@ -26,3 +26,6 @@
   - [Stack Overflow Discussion - using built-in parser for converting JSON schemas to TableSchema and TableFieldsSchema](https://stackoverflow.com/questions/48741327/writing-nested-schema-to-bigquery-from-dataflow-python) 
   - [Documentation Article (deprecated) - row formating for BigQuery](https://download.huihoo.com/google/gdgdevkit/DVD1/developers.google.com/bigquery/preparing-data-for-bigquery.html)
   - [Documentation Article - inserting to BigQuery](https://beam.apache.org/documentation/io/built-in/google-bigquery/)
+## v0.6.2
+- [Stack Overflow Discussion - running docker-compose on startup](https://stackoverflow.com/questions/43671482/how-to-run-docker-compose-up-d-at-system-start-up) 
+

@@ -1,10 +1,13 @@
+# TODO (azawalich; 16.05.2020): update VM name when google makes it seamlessly possible...
 gcloud beta compute --project=f1-telemetry-app instances create f1-telemetry-app-vm --zone=europe-west3-a --machine-type=n1-standard-2 --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=237255567678-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform --tags=http-server,https-server --image=ubuntu-1910-eoan-v20200331 --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-standard --boot-disk-device-name=f1-telemetry-app-vm --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any
 
 #reserve static IP
 gcloud compute addresses create vm-static-ip --project=f1-telemetry-app --network-tier=STANDARD --region=europe-west3
-gcloud compute instances add-access-config f1-telemetry-app-vm --project=f1-telemetry-app --zone=europe-west3-a --address=IP_OF_THE_NEWLY_CREATED_STATIC_ADDRESS --network-tier=STANDARD
+gcloud compute instances add-access-config f1-telemetry-app-vm --project=f1-telemetry-app --zone=europe-west3-a --address=<IP_OF_THE_NEWLY_CREATED_STATIC_ADDRESS> --network-tier=STANDARD
 
 gcloud beta compute ssh --zone "europe-west3-a" "f1-telemetry-app-vm" --project "f1-telemetry-app"
+
+# install docker https://docs.docker.com/engine/install/ubuntu/
 
 #making gcr.io images work within a VM
 sudo su
@@ -28,7 +31,9 @@ exit
 # click ctrl+b and d - exit session
 
 #get docker-compose.yml to a machine
-gcloud compute scp f1-telemetry-app-gcp/compute-engine/docker-compose.yml f1-telemetry-app-vm:~
+gcloud compute scp f1-telemetry-app-gcp/compute-engine/worker/docker-compose.yml f1-telemetry-app-vm:~
+
+#create service for automated docker-compose initialization https://stackoverflow.com/questions/43671482/how-to-run-docker-compose-up-d-at-system-start-up
 
 # install docker-compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
