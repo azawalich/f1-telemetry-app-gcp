@@ -273,35 +273,37 @@ def insert_packets_to_bigquery(file_pattern):
     # for each packet data, prepare it and insert to bigquery
     for single_tuple in tuples_list:
         tuple_packet_id, tuple_packet_data = single_tuple
-        tuple_schema = json.loads(tuple_packet_data['schemas'][0])
-        tuple_table_name = tuple_schema['table_name']
-        tuple_packet_data = json.loads(tuple_packet_data['data'][0])
-        tuple_rows_to_insert_string = tuple_packet_data['rows_to_insert']      
-        
-        # in case there is only one row
-        if '\n' not in tuple_rows_to_insert_string:
-            rows_to_convert = [tuple_rows_to_insert_string]
-        else:
-            rows_to_convert = tuple_rows_to_insert_string.split('\n')
-        
-        # prepare schemas and rows
-        schema_converted = bigquery_convert_to_schemas(schema_json = tuple_schema)
-        rows_to_add = []
-        for single_packet in rows_to_convert:
-            rows_to_add.append(bigquery_convert_to_rows(packet_json = json.loads(single_packet)))
-        
-        # insert to bigquery (apache beam does not support dynamic inserts and beam.io.WriteToBigQuery
-        # needs a separate pipeline to make inserts, hence the for loop)
-        pipeline = beam.Pipeline()
-        stuff = pipeline | beam.Create(rows_to_add) | beam.io.WriteToBigQuery(
-                    table='{}:packets_data.{}'.format(secrets['project_name'], tuple_table_name),
-                    schema=schema_converted,
-                    write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
-                    batch_size=300)
+        # if packet data exist
+        if len(tuple_packet_data['data']) > 0:
+            tuple_schema = json.loads(tuple_packet_data['schemas'][0])
+            tuple_table_name = tuple_schema['table_name']
+            tuple_packet_data = json.loads(tuple_packet_data['data'][0])
+            tuple_rows_to_insert_string = tuple_packet_data['rows_to_insert']      
+            
+            # in case there is only one row
+            if '\n' not in tuple_rows_to_insert_string:
+                rows_to_convert = [tuple_rows_to_insert_string]
+            else:
+                rows_to_convert = tuple_rows_to_insert_string.split('\n')
+            
+            # prepare schemas and rows
+            schema_converted = bigquery_convert_to_schemas(schema_json = tuple_schema)
+            rows_to_add = []
+            for single_packet in rows_to_convert:
+                rows_to_add.append(bigquery_convert_to_rows(packet_json = json.loads(single_packet)))
+            
+            # insert to bigquery (apache beam does not support dynamic inserts and beam.io.WriteToBigQuery
+            # needs a separate pipeline to make inserts, hence the for loop)
+            pipeline = beam.Pipeline()
+            stuff = pipeline | beam.Create(rows_to_add) | beam.io.WriteToBigQuery(
+                        table='{}:packets_data.{}'.format(secrets['project_name'], tuple_table_name),
+                        schema=schema_converted,
+                        write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND,
+                        batch_size=500)
 
-        result = pipeline.run()
-        print('BigQuery pipeline {} for table: {} {}'.format(result.wait_until_finish(), tuple_packet_id, tuple_table_name))
-        del pipeline
+            result = pipeline.run()
+            print('BigQuery pipeline {} for table: {} {}'.format(result.wait_until_finish(), tuple_packet_id, tuple_table_name))
+            del pipeline
     
     for hgx in glob.glob("mapped_results*.txt"):
         os.remove(hgx)
