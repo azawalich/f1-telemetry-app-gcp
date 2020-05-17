@@ -307,7 +307,7 @@ def insert_packets_to_bigquery(file_pattern):
     
     for hgx in glob.glob("mapped_results*.txt"):
         os.remove(hgx)
-    return result.wait_until_finish()
+    return True
 
 def run(gcs_input_files, output_path, pipeline_args=None):
     # `save_main_session` is set to true because some DoFn's rely on
@@ -361,7 +361,7 @@ if __name__ == "__main__":  # noqa
     time.sleep(60)
 
     data = {
-    'auth_token': secrets['webhook_auth_token']
+        'auth_token': secrets['webhook_auth_token']
     } 
 
     webhook_url = 'http://{}:5000/worker-off?auth-token={}'.format(
