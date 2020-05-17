@@ -151,7 +151,7 @@ def conv_token_auth_handler_on():
                 secrets['bucket_name'], raw_folder)
             
             subprocess.Popen(open_dataflow_cmd, shell=True)
-            message="Started a Dataflow job."
+            message="Started cleaning & BigQuery job."
         else:
             message='No raw_folder such as to convert: {}'.format(raw_folder)
         
