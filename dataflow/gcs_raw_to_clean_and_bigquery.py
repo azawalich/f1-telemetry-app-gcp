@@ -358,15 +358,4 @@ if __name__ == "__main__":  # noqa
     logging.info('{} starting bigquery final insert'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     insert_packets_to_bigquery(file_pattern = "mapped_results-*.txt")
 
-    time.sleep(60)
-
-    data = {
-        'auth_token': secrets['webhook_auth_token']
-    } 
-
-    webhook_url = 'http://{}:5000/worker-off?auth-token={}'.format(
-        secrets['vm_launcher_external_ip'], secrets['webhook_auth_token'])
-        
-    requests.post(url = webhook_url, data = data)
-
-
+    os.system('sudo shutdown now -h')
