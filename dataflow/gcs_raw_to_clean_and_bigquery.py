@@ -389,4 +389,4 @@ if __name__ == "__main__":  # noqa
     logging.info('{} starting bigquery final insert'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     insert_packets_to_bigquery(file_pattern = "mapped_results-*.txt")
 
-    os.system('sudo shutdown now -h')
+    os.system('shutdown now -h')
