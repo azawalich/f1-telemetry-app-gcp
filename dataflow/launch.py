@@ -54,7 +54,7 @@ def hello():
 
 @app.route('/dataflow-on', methods=['POST'])
 def token_auth_handler_on():
-    auth_token = request.args.get('auth_token')
+    auth_token = request.form['auth_token']
 
     if not auth_token or not _check_token_auth(auth_token):
         error_msg = '403 Please pass the correct authentication token'
@@ -88,7 +88,7 @@ def token_auth_handler_on():
 
 @app.route('/dataflow-off', methods=['POST'])
 def token_auth_handler_off():
-    auth_token = request.args.get('auth_token')
+    auth_token = request.form['auth_token']
     
     if not auth_token or not _check_token_auth(auth_token):
         error_msg = '403 Please pass the correct authentication token'
@@ -113,9 +113,9 @@ def token_auth_handler_off():
         
         return Response("All running Dataflow jobs closed.")
 
-@app.route('/dataflow-json-conv-on', methods=['GET', 'POST'])
+@app.route('/dataflow-json-conv-on', methods=['POST'])
 def conv_token_auth_handler_on():
-    auth_token = request.args.get('auth_token')
+    auth_token = request.form['auth_token']
     raw_folder = request.form['raw_folder']
     
     if not auth_token or not _check_token_auth(auth_token):
