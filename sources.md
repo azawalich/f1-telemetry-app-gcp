@@ -28,4 +28,14 @@
   - [Documentation Article - inserting to BigQuery](https://beam.apache.org/documentation/io/built-in/google-bigquery/)
 ## v0.6.2
 - [Stack Overflow Discussion - running docker-compose on startup](https://stackoverflow.com/questions/43671482/how-to-run-docker-compose-up-d-at-system-start-up) 
+## v0.7
+- [Medium article - creating multipage Dash application](https://towardsdatascience.com/create-a-multipage-dash-application-eceac464de91) 
+- [Documentation Article - Dash user guide](https://dash.plotly.com/)
+- [Documentation Article - Dash Bootstrap user guide](https://dash-bootstrap-components.opensource.faculty.ai/docs/)
+- [Documentation Article - Bootstrap user guide](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+- Font Awesome icons: [Website](https://fontawesome.com/icons), [GitHub repository code](https://github.com/FortAwesome/Font-Awesome)
+- [Code Snippet - CSS filter converter](https://codepen.io/sosuke/pen/Pjoqqp)
+- [Stack Overflow Discussion - importing modules in Python](https://stackoverflow.com/questions/24868733/how-to-access-a-module-from-outside-your-file-folder-in-python)
+- last, but not least: _tons of frontend-related Stack-overflow / Google search results material_ 
+
 
