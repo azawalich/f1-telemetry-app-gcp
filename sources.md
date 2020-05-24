@@ -37,5 +37,9 @@
 - [Code Snippet - CSS filter converter](https://codepen.io/sosuke/pen/Pjoqqp)
 - [Stack Overflow Discussion - importing modules in Python](https://stackoverflow.com/questions/24868733/how-to-access-a-module-from-outside-your-file-folder-in-python)
 - last, but not least: _tons of frontend-related Stack-overflow / Google search results material_ 
+## v0.7.1
+- [Documentation Article - Pandas dataframes in BigQuery python client](https://cloud.google.com/bigquery/docs/pandas-gbq-migration)
+- [Stack Overflow Discussion - dynamic Dash callbacks](https://stackoverflow.com/questions/48859013/how-to-create-dynamic-callback-for-generated-component)
+- Reddit Threads - F1 Team Colors: [2019](https://www.reddit.com/r/formula1/comments/arxt0r/f1_2019_team_colors_hex_codes/), [2020](https://www.reddit.com/r/formula1/comments/f6dpb7/f1_2020_team_colors_hex_codes/)
 
 
