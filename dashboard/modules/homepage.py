@@ -139,7 +139,7 @@ def tile_bar():
             value=stats_data['sessions_dropdown'][0],
             style={
                 'float': 'left', 
-                'margin-left': '50px',
+                'margin-left': '60px',
                 'width': '250px'
                 },
             clearable=False,
