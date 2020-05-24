@@ -39,7 +39,7 @@ def navigation_bar():
                     src="https://upload.wikimedia.org/wikipedia/commons/3/33/F1.svg",
                     height="25px",
                     style=css.ROW_MARGIN_BIG), 
-                html.H3("F1 Telemetry App")
+                html.H3("Telemetry App")
             ], align = 'left'
         ),
         html.Hr(),
@@ -76,7 +76,7 @@ def navigation_bar():
         For feedback and inquiries, [let's get in touch ;)](mailto:aleksander@zawalich.pl)
         '''),
         dcc.Markdown('''
-        Dashboard by [Aleksander Zawalich](http://zawalich.pl)
+        Dashboard code by [Aleksander Zawalich](http://zawalich.pl)
         '''),
         html.Hr(),
         html.I('All trademarks are property of their respective owners', className="small")

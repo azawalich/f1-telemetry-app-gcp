@@ -33,9 +33,9 @@ for single_section in sct.SECTIONS.keys():
                     height="130px",
                     style=tile_style['image']
                     ),
-                    html.B(
-                        temp_section['name'],
-                        style=temp_section['link_style']
+                html.B(
+                    temp_section['name'],
+                    style=temp_section['link_style']
                     )
             ], 
             href="/{}".format(single_section),
