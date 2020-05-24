@@ -1,3 +1,4 @@
 secrets.sh
 gcp-general/misc
 **/__pycache__/
+bigquery.json
