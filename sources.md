@@ -41,5 +41,8 @@
 - [Documentation Article - Pandas dataframes in BigQuery python client](https://cloud.google.com/bigquery/docs/pandas-gbq-migration)
 - [Stack Overflow Discussion - dynamic Dash callbacks](https://stackoverflow.com/questions/48859013/how-to-create-dynamic-callback-for-generated-component)
 - Reddit Threads - F1 Team Colors: [2019](https://www.reddit.com/r/formula1/comments/arxt0r/f1_2019_team_colors_hex_codes/), [2020](https://www.reddit.com/r/formula1/comments/f6dpb7/f1_2020_team_colors_hex_codes/)
-
+## v0.7.2
+- [GitHub repository file - Nationalities & countries dataset](https://github.com/knowitall/chunkedextractor/blob/master/src/main/resources/edu/knowitall/chunkedextractor/demonyms.csv)
+- [GitHub repository - World countries dataset](https://github.com/mledoze/countries)
+- [GitHub repository - Countries SVG flag icons](https://github.com/yammadev/flag-icons/)
 
