@@ -4,7 +4,7 @@ from google.cloud import bigquery
 
 sys.path.append(os.path.abspath(os.path.join('sql')))
 
-import sql.q_homepage as bqq
+import sql.q_statistics as bqq
 
 # initialize secrets
 
