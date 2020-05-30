@@ -96,6 +96,4 @@ def render_current(pathname):
 
 if __name__ == "__main__":
     app.title = 'F1 Telemetry App'
-    # local testing
-    # app.run_server('0.0.0.0')
-    app.run_server('0.0.0.0', port=80)
+    app.run_server('0.0.0.0', port=5005)

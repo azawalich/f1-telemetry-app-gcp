@@ -14,5 +14,5 @@ services:
     image: gcr.io/f1-telemetry-app/dashboard
     command: index.py
     ports:
-      - 5005:5005
+      - 80:5005
     tty: true
