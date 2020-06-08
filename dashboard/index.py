@@ -3,8 +3,6 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import os, sys
-sys.path += [os.path.abspath(os.path.join('assets')), os.path.abspath(os.path.join('modules'))]
 
 import assets.css_classes as css
 import assets.sections as sct

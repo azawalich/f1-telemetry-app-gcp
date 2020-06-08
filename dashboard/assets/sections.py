@@ -1,4 +1,4 @@
-import css_classes as css
+import assets.css_classes as css
 
 SECTIONS = {
     'homepage': {

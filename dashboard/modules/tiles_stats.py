@@ -2,13 +2,10 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-import sys, os
 import random 
 
-sys.path.append(os.path.abspath(os.path.join('assets')))
-
-import css_classes as css
-import sections as sct
+import assets.css_classes as css
+import assets.sections as sct
 
 def create_tiles(data_dict):
     

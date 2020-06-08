@@ -5,12 +5,9 @@ import dash_html_components as html
 import dash_core_components as dcc
 from google.cloud import bigquery
 
-sys.path.append(os.path.abspath(os.path.join('assets')))
-sys.path.append(os.path.abspath(os.path.join('sql')))
-
 import assets.css_classes as css
 import sql.q_homepage as bqq
-import tiles_stats
+import modules.tiles_stats as ts
 
 tiles_data = {
     'sessions_dropdown': [],
@@ -53,7 +50,7 @@ def overall_stats():
     return tiles_data
 
 stats_data = overall_stats()
-tiles_dict = tiles_stats.create_tiles(data_dict = stats_data['data'])
+tiles_dict = ts.create_tiles(data_dict = stats_data['data'])
 
 def tile_bar():
 
