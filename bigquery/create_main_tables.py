@@ -245,7 +245,8 @@ schema_list.append(
                 {'mode': 'NULLABLE', 'name': 'record_lap_format', 'type': 'STRING', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'assist_tractionControl', 'type': 'INT64', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'assist_antiLockBrakes', 'type': 'INT64', 'description': None}, 
-                {'mode': 'NULLABLE', 'name': 'datapoint_count', 'type': 'INT64', 'description': None}
+                {'mode': 'NULLABLE', 'name': 'datapoint_count', 'type': 'INT64', 'description': None},
+                {'mode': 'NULLABLE', 'name': 'insert_time', 'type': 'DATETIME', 'description': None}
             ]
         }
     )
