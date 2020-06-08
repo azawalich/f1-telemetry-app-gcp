@@ -7,6 +7,19 @@ from google.cloud import storage
 
 ######### 1. SETUP #########
 
+def bigquery_convert_to_schemas(schema_json):
+    schema_converted = []
+    for single_dict in schema_json['schema']:
+        schema_converted.append(
+            bigquery.SchemaField(
+                single_dict['name'],
+                single_dict['type'],
+                mode=single_dict['mode'],
+                description=single_dict['description']
+            )
+        )
+    return schema_converted
+
 # initialize secrets
 secrets = {}
 f = open('secrets.sh', 'r')
@@ -189,6 +202,59 @@ dataset_name = 'packets_data'
 dataset = bigquery.Dataset(client.dataset(dataset_name))
 dataset.location = 'EU'
 dataset = client.create_dataset(dataset)
+
+tables = []
+
+for single_table in client.list_tables(dataset):
+    tables.append(single_table.table_id)
+
+for single_schema in schema_list:
+    indeks = schema_list.index(single_schema)
+    table_name = packet_types[indeks]
+
+    if table_name not in tables:
+        table_id = "{}.{}.{}".format(secrets['project_name'], dataset_name, table_name)
+        table = bigquery.Table(table_id, schema=single_schema)
+        table = client.create_table(table)
+        print(
+            "Created table {}.{}.{}".format(table.project, table.dataset_id, table.table_id)
+        )
+        time.sleep(1)
+    else:
+        "Table {} already exists, not adding it.".format(table_name)
+
+packet_types.append('statistics')
+schema_list.append(
+    bigquery_convert_to_schemas(
+        {
+            'schema': [
+                {'mode': 'NULLABLE', 'name': 'sessionUID', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'publish_time', 'type': 'STRING', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'sessionType', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'sessionTime', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'sessionTime_format', 'type': 'STRING', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'distance_driven', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'distance_driven_format', 'type': 'STRING', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'team_id', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'nationality_id', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'track_id', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'lap_count', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'fastest_lap', 'type': 'FLOAT', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'assist_tractionControl', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'assist_antiLockBrakes', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'datapoint_count', 'type': 'INT64', 'description': None}
+            ]
+        }
+    )
+)
+
+dataset_name = 'dashboard_data'
+datasets = list(client.list_datasets())
+if dataset_name not in datasets:
+    # python type of dataset initialize due to lack of location parameter in gcloud CLI (gcloud alpha bq) 
+    dataset = bigquery.Dataset(client.dataset(dataset_name))
+    dataset.location = 'EU'
+    dataset = client.create_dataset(dataset)
 
 tables = []
 
