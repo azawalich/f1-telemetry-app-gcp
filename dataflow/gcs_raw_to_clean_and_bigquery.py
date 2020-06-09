@@ -428,7 +428,9 @@ def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
     elif packet_id == 2: # lap table
         player_indeks = last_row['header'][0]['playerCarIndex']
         statistics_dict['distance_driven'] = int(round(last_row['lapData'][player_indeks]['totalDistance']))
-        statistics_dict['distance_driven_format'] = '{}km'.format(statistics_dict['distance_driven'] / 1000)
+        statistics_dict['distance_driven_format'] = '{:,}km'.format(
+            statistics_dict['distance_driven'] / 1000
+            ).replace(',', ' ')
         statistics_dict['lap_count'] = last_row['lapData'][player_indeks]['currentLapNum']
         
         # to get fastest lap we need to iterate through all lap rows
