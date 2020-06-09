@@ -452,7 +452,25 @@ def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
         statistics_dict['record_lap_format'] = str(
             datetime.timedelta(seconds=statistics_dict['record_lap'])
             )[2:-3]
+    elif packet_id == 3: # event table
+        player_indeks = last_row['header'][0]['playerCarIndex']
 
+        # to get fastest lap we need to iterate through all event rows
+        event_codes = {
+            'race_winner': [],
+            'fastest_lap': []
+        }
+
+        for single_row_indeks in range(0, len(rows_to_add_reduced)):
+            single_row = rows_to_add_reduced[single_row_indeks]
+            if single_row['vehicleIdx'] == single_row['header'][0]['playerCarIndex']:
+                if single_row['eventStringCode'] == 'RCWN':
+                    event_codes['race_winner'].append(1)
+                elif single_row['eventStringCode'] == 'FTLP':
+                    event_codes['fastest_lap'].append(1)
+            
+        statistics_dict['event_win'] = len(event_codes['race_winner'])
+        statistics_dict['event_fastest_lap'] = len(event_codes['fastest_lap'])
     elif packet_id == 4: # participant table
         player_indeks = last_row['header'][0]['playerCarIndex']
         statistics_dict['team_id'] = last_row['participants'][player_indeks]['teamId']
@@ -489,9 +507,15 @@ def insert_packets_to_bigquery(file_pattern, database):
         ['sessionUID', 'publish_time', 'sessionType', 'sessionTime', 'sessionTime_format',
         'distance_driven', 'distance_driven_format', 'team_id', 'nationality_id', 'track_id', 
         'lap_count', 'fastest_lap', 'fastest_lap_format', 'record_lap', 'record_lap_format', 
-        'assist_tractionControl', 'assist_antiLockBrakes', 'insert_time']
+        'event_win', 'event_fastest_lap', 'assist_tractionControl', 'assist_antiLockBrakes', 
+        'datapoint_count_format', 'insert_time']
         )        
     statistics_dict['datapoint_count'] = 0
+
+    # if event table tuple does not exist (e.g. for time trial), set up stats to 0
+    if len(tuples_list[3][1]['data']) == 0:
+        statistics_dict['event_win'] = 0
+        statistics_dict['event_fastest_lap'] = 0
 
     # for each packet data, prepare it and insert to bigquery
     for single_tuple_indeks in range(0, len(tuples_list)):
@@ -537,6 +561,9 @@ def insert_packets_to_bigquery(file_pattern, database):
 
             if database == 'dashboard_data':
                 statistics_dict['datapoint_count'] = statistics_dict['datapoint_count'] + len(rows_to_add_reduced)
+                statistics_dict['datapoint_count_format'] = '{:,}'.format(
+                    statistics_dict['datapoint_count']
+                    ).replace(',', ' ')
                 statistics_dict = create_stiatistics_row(statistics_dict, tuple_packet_id, rows_to_add_reduced)
 
             # insert to bigquery (apache beam does not support dynamic inserts and beam.io.WriteToBigQuery
