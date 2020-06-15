@@ -249,7 +249,8 @@ schema_list.append(
                 {'mode': 'NULLABLE', 'name': 'assist_antiLockBrakes', 'type': 'INT64', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'datapoint_count', 'type': 'INT64', 'description': None},
                 {'mode': 'NULLABLE', 'name': 'datapoint_count_format', 'type': 'STRING', 'description': None},
-                {'mode': 'NULLABLE', 'name': 'insert_time', 'type': 'DATETIME', 'description': None}
+                {'mode': 'NULLABLE', 'name': 'insert_time', 'type': 'DATETIME', 'description': None},
+                {'mode': 'NULLABLE', 'name': 'networkGame', 'type': 'INT64', 'description': None}
             ]
         }
     )
