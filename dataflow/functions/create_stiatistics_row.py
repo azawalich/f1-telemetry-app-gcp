@@ -5,6 +5,7 @@ def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
     last_row = rows_to_add_reduced[-1]
     if packet_id == 1: # session table
         statistics_dict['sessionUID'] = last_row['header'][0]['sessionUID']
+        statistics_dict['networkGame'] = last_row['networkGame']
         statistics_dict['sessionType'] = last_row['sessionType']
         statistics_dict['sessionTime'] = int(
             round(last_row['header'][0]['sessionTime'], 0)

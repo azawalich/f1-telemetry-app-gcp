@@ -34,7 +34,7 @@ def insert_packets_to_bigquery(file_pattern, database, project_name):
         'distance_driven', 'distance_driven_format', 'team_id', 'nationality_id', 'track_id', 
         'lap_count', 'fastest_lap', 'fastest_lap_format', 'record_lap', 'record_lap_format', 
         'event_win', 'event_fastest_lap', 'assist_tractionControl', 'assist_antiLockBrakes', 
-        'datapoint_count_format', 'insert_time']
+        'datapoint_count_format', 'insert_time', 'networkGame']
         )        
     statistics_dict['datapoint_count'] = 0
 
