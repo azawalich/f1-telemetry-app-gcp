@@ -1,4 +1,5 @@
 secrets.sh
 gcp-general/misc
+dashboard/assets/fonts
 **/__pycache__/
 bigquery.json
