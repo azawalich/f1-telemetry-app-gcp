@@ -1,0 +1,419 @@
+@font-face {
+    font-family: Formula1;
+    src: url("fonts/Formula1-Regular.otf");
+}
+
+@font-face {
+    font-family: Formula1;
+    src: url("fonts/Formula1-Bold.otf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Formula1Wide;
+    src: url("fonts/Formula1-Wide.otf");
+}
+
+@font-face {
+    font-family: TitilliumWeb;
+    src: url("fonts/TitilliumWeb-Regular.ttf");
+}
+
+@media screen and (min-width: 2248px) and (min-height: 1152px) {
+    .scaleable-wrapper {
+       transform: scale(1.74);   
+    }
+
+    .layout-design {
+        position: relative;
+        left: 71%;
+        top: 71%;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+    }
+}
+
+/* in-between does not really want to work... */
+
+/* @media screen and (min-width: 1680px) and (max-width: 2247px) and (min-height: 1050px) and (max-height: 1151px){
+    .scaleable-wrapper {
+       transform: scale(1.4);   
+    }
+
+    .layout-design {
+        position: relative;
+        left: 70%;
+        top: 66%;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+    }
+} */
+
+/* @media screen and (min-width: 1680px) and (max-width: 2047px) and (min-height: 1050px) and (max-height: 1151px){
+    .scaleable-wrapper {
+       transform: scale(1.3);   
+    }
+
+    .layout-design {
+        position: relative;
+        left: 61%;
+        top: 60%;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+    }
+} */
+
+@media screen and (min-width: 1px) and (max-width: 1679px) and (min-height: 1px) and (max-height: 1049px){
+    .scaleable-wrapper {
+       transform: scale(1.18);   
+    }
+
+    .layout-design {
+        position: relative;
+        left: 57%;
+        top: 60%;
+        transform: translate(-50%, -50%);
+        transform-origin: center center;
+    }
+}
+
+body {
+    background-color: #101017;
+    font-family: Formula1;
+} 
+
+.layout-design {
+    width: 1300px;
+    height: 750px;
+}
+
+.scaleable-wrapper {
+    padding: 20px;
+    resize: both;
+    position: relative;
+    height: 750px;
+    width: 1300px;
+}
+
+h1, h2, h3, p{
+    font-family: Formula1;
+    color: #ffffff;
+    opacity: 0.9;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+a {
+    text-decoration: underline;
+}
+
+#sidebar {
+    width: 280px;
+    padding: 24px;
+    padding-bottom: 0px;
+    background-color: #101017;
+    float: left;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+}
+
+#session-indicator {
+    display: none;
+}
+
+#session-indicator h1{
+    color: white !important;
+    font-family: Formula1 !important;
+}
+
+#logo {
+    height: 24px;
+}
+
+#logo img:nth-child(1){
+    height: 24px;
+    float: left;
+}
+
+#logo img:nth-child(2){
+    height: 10px;
+    margin-top:14px;
+}
+
+#user img {
+    height: 115px;
+    width: 115px;
+    margin-top: 42px;
+    margin-bottom: 16px;
+    border-radius: 60px;
+}
+
+#user p {
+    line-height: 22px;
+    margin-bottom: 28px;
+}
+
+.overall-stat {
+    height: 50px;
+    margin-bottom: 24px;
+}
+
+.overall-stat p {
+    font-size: 12px;
+    line-height: 14px;
+}
+
+.overall-stat b {
+    font-size: 16px;
+    line-height: 19px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+/* czemu tak schodzi na dół? */
+.overall-stat img {
+    height: 18px;
+    filter: invert(64%) sepia(5%) saturate(112%) hue-rotate(202deg) brightness(98%) contrast(92%);
+    margin-left: 5px;
+    margin-top:-5px;
+}
+
+#description p {
+    font-family: TitilliumWeb;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.navigation-link a{
+    font-family: Formula1;
+    font-size: 12px;
+    line-height: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 34px;
+    display: block;
+}
+
+.navigation-link img {
+    height: 18px;
+    width: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-left: 3px;
+    margin-right: 35px;
+    filter: invert(64%) sepia(5%) saturate(112%) hue-rotate(202deg) brightness(98%) contrast(92%);
+}
+
+.navigation-link a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+#navigation-footer p, i {
+    font-family: Titillium Web;
+    font-size: 10px;
+    line-height: 0px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#navigation-footer a {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#navigation-footer a img {
+    color: rgba(255, 255, 255, 0.6);
+    height: 10px;
+}
+
+#navigation-footer a:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+#header {
+    width: 1016px;
+    height: 198px;
+    padding: 25px 0px;
+    /* trzeba dorzucić, bo teraz z Figmą się nie schodzi
+    padding-left: */ 
+    margin-left: 280px;
+    margin-bottom: 19px;
+    float: left;
+}
+
+#title-wrapper {
+    width: 252px;
+    height: 178px;
+    float: left;
+    margin-left: 24px;
+}
+
+#title-wrapper h1 {
+    font-family: Formula1Wide;
+    font-size: 18px;
+    line-height: 22px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+#global-stats-wrapper {
+    height: 178px;
+    width: 740px;
+    float: left;
+}
+
+#global-stats-wrapper div:nth-child(-n+3){
+    background-image: url('images/global_stats_background.svg')
+}
+
+#global-stats-wrapper :nth-child(3n+3) { 
+    margin-right: 0; 
+}
+
+.global-stats {
+    width: 236px;
+    height: 89px;
+    padding: 18px 14px;
+    margin-right: 16px;
+    float: left;
+}
+
+.global-stats p {
+    font-size: 12px;
+    line-height: 14px;
+    color: #FFFFFF;
+}
+
+.global-stats h2 {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    opacity: 0.9;
+}
+
+.global-stats h3 {
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+    opacity: 0.6;
+}
+
+#page-content {
+    margin-left: 280px;
+    width: 1016px;
+    height: 503px;
+    float: left;
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 24px; 
+}
+
+#page-content p {
+    color: #20202E;
+}
+
+#subtitle-wrapper h1 {
+    font-family: Formula1Wide;
+    font-size: 18px;
+    line-height: 22px;
+    color: #20202E;
+}
+
+#types-wrapper {
+    height: 24px;
+    margin-top: 16px;
+    margin-bottom: 26px;
+}
+
+#types-wrapper button {
+    font-family: Formula1;
+    font-size: 14px;
+    line-height: 17px;
+    color: #20202E;
+    opacity: 0.54;
+    float: left;
+    margin-right: 24px;
+    border: 0;
+    background-color: #ffffff;
+}
+
+#types-wrapper .to-choose:hover{
+    text-decoration: underline;
+}
+
+#types-wrapper :last-child { 
+    margin-right: 0; 
+}
+
+#types-wrapper .active {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+#types-wrapper .inactive {
+    opacity: 0.32;
+}
+
+#types-wrapper .inactive:hover {
+    cursor: default;
+}
+
+#datatable-paging-page-count table tr td {
+    border: 0 !important;
+    background-color: rgba(255, 255, 555, 1) !important;
+}
+
+#datatable-paging-page-count table {
+    margin-left: 14px;
+    width: 968px;
+    border-collapse: collapse;
+    background-color: #ffffff !important;
+}
+
+#datatable-paging-page-count table tr {
+    border-bottom: 5px solid #ffffff;
+}
+
+#datatable-paging-page-count td {
+    font-family: Formula1;
+    font-size: 14px;
+    line-height: 17px;
+    color: #20202E;
+    opacity: 0.9;
+}
+
+#datatable-paging-page-count tr:nth-child(n) td:nth-child(2) div {
+    margin-left:10px;
+}
+
+#datatable-paging-page-count th:nth-child(2) div {
+    margin-left:10px;
+}
+
+#datatable-paging-page-count tr:nth-child(n+2):hover {
+    cursor: pointer;
+}
+
+#datatable-paging-page-count th, .previous-next-container {
+    font-family: Formula1;
+    font-size: 10px;
+    line-height: 12px;
+    color: #20202E;
+    opacity: 0.6;
+}
+
+.dash-table-container .previous-next-container input.current-page {
+    font-family: Formula1;
+    font-size: 10px !important;
+    line-height: 12px;
+    color: #20202E;
+    opacity: 0.6;
+}
+
+#datatable-paging-page-count tr:nth-child(n+1) td:nth-child(-n+1) {
+    font-family: Formula1;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(31, 31, 45, 0.6)
+}

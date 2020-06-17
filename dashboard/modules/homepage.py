@@ -1,92 +1,65 @@
-import sys, os
-import pandas as pd
-from pandas.io import gbq
-import dash_html_components as html
+import dash
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
-from google.cloud import bigquery
+import dash_html_components as html
+import dash_table
+import pandas as pd
 
-import assets.css_classes as css
-import sql.q_homepage as bqq
-import modules.tiles_stats as ts
+def homepage_wrapper(stats, page_size):
+    types_list = []
+    for single_type in stats['session_cards']:
+        if stats['session_cards'][single_type]['count'] == 0:
+            is_disabled = True
+        elif single_type == 'All Sessions':
+            is_disabled = False
+        else:
+            is_disabled = False
 
-tiles_data = {
-    'sessions_dropdown': [],
-    'data': None
-}
-
-# setup credentials
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'bigquery.json'
-
-project_name = 'f1-telemetry-app'
-client = bigquery.Client()
-
-def overall_stats():
-
-    # big query data reading
-    recent_statistics_df = client.query(bqq.recent_statistics, project=project_name).to_dataframe()
-    
-    session_times = recent_statistics_df['last_session_publish_time'].tolist()
-
-    for single_session in session_times:
-
-        sessions_dropdown_dummy = {
-            'label': single_session,
-            'value': single_session
-        }
-        
-        tiles_data['sessions_dropdown'].append(sessions_dropdown_dummy)
-    
-    temp_dict = recent_statistics_df.head(1).to_dict('record')[0]
-    
-    del(
-        [
-            temp_dict['last_sessionUID'], 
-            temp_dict['last_session_publish_time'], 
-            temp_dict['last_session_type']
-            ]
+        types_list.append(
+            html.Button(
+                '{} ({})'.format(
+                    single_type, 
+                    stats['session_cards'][single_type]['count']
+                    ),
+            id=single_type,
+            disabled = is_disabled
+            )
         )
-    tiles_data['data'] = temp_dict
 
-    return tiles_data
+    pages_count = int(round(stats['choice_table'].shape[0] / page_size, 0))
 
-stats_data = overall_stats()
-tiles_dict = ts.create_tiles(data_dict = stats_data['data'])
-
-def tile_bar():
-
-    page_render = html.Div([
-        html.H1(
-            'Overall Statistics',
-            style=css.SECTION_HEADINGS
-            ),
+    if stats['choice_table'].shape[0] < page_size:
+        pages_count = 1
+    else:
+        if pages_count == 0:
+            pages_count = 1
+        else:
+            pages_count += 1
+            
+    elements_list = [
         html.Div(
-            tiles_dict,
-            style=css.TILE_WRAPPER
-        ),
-        html.H1(
-            'Choose session from a dropdown below!', 
-            style=css.SECTION_HEADINGS
-        ),
-        html.Br(),
-        dcc.Dropdown(
-            id='session-dropdown',
-            options=stats_data['sessions_dropdown'],
-            value=stats_data['sessions_dropdown'][0],
-            style={
-                'float': 'left', 
-                'margin-left': '60px',
-                'width': '250px'
-                },
-            clearable=False,
-            searchable=False
-    ),
-    html.Br(),
-    html.Br(),
-    html.Div(
-            className="lead",
-            id="cta-prompt"
-        ),
-    html.Br()
-    ])
-    
-    return page_render
+                    html.H1(
+                        'Choose Session'
+                    ),
+                    id='subtitle-wrapper'
+                ),
+        html.Div(
+                    types_list,
+                    id='types-wrapper'
+                ),
+
+        dash_table.DataTable(
+        id='datatable-paging-page-count',
+        columns=[{"name": i, "id": i} for i in stats['choice_table'].columns],
+        filter_query='',
+        page_current=0,
+        page_size=page_size,
+        page_action='custom',
+        page_count=pages_count,
+        style_header={'border': '0 !important', 'background-color': '#FFFFFF'},
+        style_cell={'textAlign': 'left', 'border-left': '1px solid #ffffff !important', 'background-color': '#FFFFFF'},
+        style_data_conditional=stats['boxes_colors']
+    )
+    ]
+
+    return elements_list
