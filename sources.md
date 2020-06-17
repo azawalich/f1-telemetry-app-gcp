@@ -1,9 +1,9 @@
 # Significant Sources
 ## Whole project timeline
-### Support, motivation and technical feedback group
+### Support, motivation, design and technical feedback group
 - **Adam Florczak** [LinkedIn profile](https://www.linkedin.com/in/adam-florczak-4379b692/) [GitHub repository](https://github.com/aqum)
 - **Paweł Talarek** [LinkedIn profile](https://www.linkedin.com/in/pawe%C5%82-talarek-a5501012b/)
-- **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/)
+- **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/) [Dribbble profile](https://dribbble.com/gathspar)
 - **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/) [GitHub repository](https://github.com/jsnowacki)
 ## v0.1 
 - dealing with F1 2019 packets: [GitHub repository](https://gitlab.com/reddish/f1-2019-telemetry)
@@ -45,4 +45,21 @@
 - [GitHub repository file - Nationalities & countries dataset](https://github.com/knowitall/chunkedextractor/blob/master/src/main/resources/edu/knowitall/chunkedextractor/demonyms.csv)
 - [GitHub repository - World countries dataset](https://github.com/mledoze/countries)
 - [GitHub repository - Countries SVG flag icons](https://github.com/yammadev/flag-icons/)
-
+## v0.8
+- Dashboard design and UX: once again, **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/) [Dribbble profile](https://dribbble.com/gathspar)
+- [Article - Fixed CSS sidebar](https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp)
+- [Article - CSS nth-child Recipes](https://css-tricks.com/useful-nth-child-recipies/)
+- [Article - basic RWD with CSS @media](https://css-tricks.com/scaled-proportional-blocks-with-css-and-javascript/)
+- [Documentation Article - Dash External resources](https://dash.plotly.com/external-resources)
+- [Documentation Article - Dash Table Callbacks, Paging and Filtering](https://dash.plotly.com/datatable/callbacks)
+- [Documentation Article - Dash Table Styling](https://dash.plotly.com/datatable/style)
+- [Documentation Article - Conditional Table Formatting](https://dash.plotly.com/datatable/conditional-formatting)
+- [Stack Overflow Discussion - CSS @media max and min width](https://stackoverflow.com/questions/29300907/html-full-page-zoom-depending-on-screen-resolution)
+- [Stack Overflow Discussion - finding list elements indexes conditionally](https://stackoverflow.com/questions/13717463/find-the-indices-of-elements-greater-than-x)
+- [Stack Overflow Discussion - formatting numbers appropriately](https://stackoverflow.com/questions/16670125/python-format-string-thousand-separator-with-spaces/18891054)
+- [Stack Overflow Discussion - BigQuery common column join](https://stackoverflow.com/questions/48175579/i-want-to-join-two-tables-with-a-common-column-in-big-query)
+- [Stack Overflow Discussion - moving pandas column to table front](https://stackoverflow.com/questions/25122099/move-column-by-name-to-front-of-table-in-pandas)
+- [Stack Overflow Discussion - margins between table rows](https://stackoverflow.com/questions/1993277/css-table-layout-why-does-table-row-not-accept-a-margin/2173500)
+- [Stack Overflow Discussion - creating variables from string](https://stackoverflow.com/questions/13002530/python-3-convert-string-to-variable)
+- [Stack Overflow Discussion - accessing variables from string](https://stackoverflow.com/questions/11864926/python-access-variable-from-string/)
+- last, but not least: _tons of frontend-related Stack-overflow / Google search results material_ 
