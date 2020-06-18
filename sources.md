@@ -1,10 +1,10 @@
 # Significant Sources
 ## Whole project timeline
 ### Support, motivation, design and technical feedback group
-- **Adam Florczak** [LinkedIn profile](https://www.linkedin.com/in/adam-florczak-4379b692/) [GitHub repository](https://github.com/aqum)
+- **Adam Florczak** [LinkedIn profile](https://www.linkedin.com/in/adam-florczak-4379b692/), [GitHub repository](https://github.com/aqum)
 - **Paweł Talarek** [LinkedIn profile](https://www.linkedin.com/in/pawe%C5%82-talarek-a5501012b/)
-- **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/) [Dribbble profile](https://dribbble.com/gathspar)
-- **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/) [GitHub repository](https://github.com/jsnowacki)
+- **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/), [Dribbble profile](https://dribbble.com/gathspar)
+- **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/), [GitHub repository](https://github.com/jsnowacki)
 ## v0.1 
 - dealing with F1 2019 packets: [GitHub repository](https://gitlab.com/reddish/f1-2019-telemetry)
 ## v0.2
@@ -12,7 +12,7 @@
 ## v0.3 
 - token auth in webhooks: [GitHub repository code](https://gist.github.com/tschieggm/7604940)
 ## v0.4
-- parser writing feedback: once again, **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/) [GitHub repository](https://github.com/jsnowacki)
+- parser writing feedback: once again, **Jakub Nowacki** [LinkedIn profile](https://www.linkedin.com/in/jakubnowacki/), [GitHub repository](https://github.com/jsnowacki)
 ## v0.5 / v0.5.1 / v0.5.2 / v0.5.3
 - inserts and schemas for BigQuery: 
   - [Documentation Article - tables](https://cloud.google.com/bigquery/docs/tables#python)
@@ -46,14 +46,17 @@
 - [GitHub repository - World countries dataset](https://github.com/mledoze/countries)
 - [GitHub repository - Countries SVG flag icons](https://github.com/yammadev/flag-icons/)
 ## v0.8
-- Dashboard design and UX: once again, **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/) [Dribbble profile](https://dribbble.com/gathspar)
+- Dashboard design and UX: once again, **Kacper Rzosiński** [LinkedIn profile](https://www.linkedin.com/in/gathspar/), [Dribbble profile](https://dribbble.com/gathspar)
 - [Article - Fixed CSS sidebar](https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp)
 - [Article - CSS nth-child Recipes](https://css-tricks.com/useful-nth-child-recipies/)
 - [Article - basic RWD with CSS @media](https://css-tricks.com/scaled-proportional-blocks-with-css-and-javascript/)
+- [Article - CSS-styling Markdown images](https://www.xaprb.com/blog/how-to-style-images-with-markdown/)
 - [Documentation Article - Dash External resources](https://dash.plotly.com/external-resources)
 - [Documentation Article - Dash Table Callbacks, Paging and Filtering](https://dash.plotly.com/datatable/callbacks)
 - [Documentation Article - Dash Table Styling](https://dash.plotly.com/datatable/style)
-- [Documentation Article - Conditional Table Formatting](https://dash.plotly.com/datatable/conditional-formatting)
+- [Documentation Article - Dash Conditional Table Formatting](https://dash.plotly.com/datatable/conditional-formatting)
+- [Documentation Article - Dash Conditional Table Width](https://dash.plotly.com/datatable/width)
+- [Documentation Article - Dash Markdown inside Tables](https://community.plotly.com/t/dash-v1-8-0-release-dcc-graph-updates-markdown-link-support-in-datatable-and-more/33629)
 - [Stack Overflow Discussion - CSS @media max and min width](https://stackoverflow.com/questions/29300907/html-full-page-zoom-depending-on-screen-resolution)
 - [Stack Overflow Discussion - finding list elements indexes conditionally](https://stackoverflow.com/questions/13717463/find-the-indices-of-elements-greater-than-x)
 - [Stack Overflow Discussion - formatting numbers appropriately](https://stackoverflow.com/questions/16670125/python-format-string-thousand-separator-with-spaces/18891054)
