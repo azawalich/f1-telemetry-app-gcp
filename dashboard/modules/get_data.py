@@ -16,8 +16,7 @@ def overall_stats():
         'global_records': None,
         'global_statistics': None,
         'session_cards': None,
-        'choice_table': None,
-        'boxes_colors': None
+        'choice_table': None
     }
 
     # setup credentials
@@ -78,7 +77,10 @@ def overall_stats():
 
     stats_data['global_statistics'] = global_statistics
 
-    #recent_statistics_df = recent_statistics_df.loc[recent_statistics_df.index.repeat(12)]
+    # recent_statistics_df = recent_statistics_df.loc[recent_statistics_df.index.repeat(12)]
+    # recent_statistics_df['team'] = recent_statistics_df['team'].replace({
+    #     'Mercedes': 'Charouz Racing System'
+    #     })
 
     session_cards = {
         'All Sessions': {
@@ -161,26 +163,14 @@ def overall_stats():
         'fastest_lap_format': 'Fastest Lap'
         })
 
-    stats_data['choice_table'] = choice_table
-
-    boxes_colors = []
-
+    teams_boxes = []
     for single_team in choice_table['Team'].tolist():
-        if single_team in css.TEAMS_COLORS.keys():
-            color = css.TEAMS_COLORS[single_team]['hex']
-        else: 
-            color = css.TEAMS_COLORS['Unknown']['hex']
-
-        boxes_colors.append(
-            {
-            'if': {
-                'filter_query': '{Team} = "' + single_team + '"',
-                'column_id': 'Team'
-            },
-            'background': 'linear-gradient(to right, {} 2%, #ffffff 2%)'.format(color),
-        },
+        teams_boxes.append(
+            '![{}](assets/images/team_tile.svg) '.format(single_team)
         )
 
-    stats_data['boxes_colors'] = boxes_colors
+    choice_table['Team'] = teams_boxes + choice_table['Team']
+
+    stats_data['choice_table'] = choice_table
 
     return stats_data

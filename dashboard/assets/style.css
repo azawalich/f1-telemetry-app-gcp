@@ -174,7 +174,6 @@ a {
     opacity: 0.9;
 }
 
-/* czemu tak schodzi na dół? */
 .overall-stat img {
     height: 18px;
     filter: invert(64%) sepia(5%) saturate(112%) hue-rotate(202deg) brightness(98%) contrast(92%);
@@ -234,8 +233,6 @@ a {
     width: 1016px;
     height: 198px;
     padding: 25px 0px;
-    /* trzeba dorzucić, bo teraz z Figmą się nie schodzi
-    padding-left: */ 
     margin-left: 280px;
     margin-bottom: 19px;
     float: left;
@@ -321,9 +318,9 @@ a {
 }
 
 #types-wrapper {
-    height: 24px;
+    height: 20px;
     margin-top: 16px;
-    margin-bottom: 26px;
+    margin-bottom: 16px;
 }
 
 #types-wrapper button {
@@ -333,9 +330,13 @@ a {
     color: #20202E;
     opacity: 0.54;
     float: left;
-    margin-right: 24px;
+    margin-right: 32px;
     border: 0;
     background-color: #ffffff;
+}
+
+#types-wrapper button:first-child{
+    padding-left: 0px;
 }
 
 #types-wrapper .to-choose:hover{
@@ -359,20 +360,31 @@ a {
     cursor: default;
 }
 
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tr:nth-child(n+2):hover {
+    background-color: #E9E9EB !important;
+}
+
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td {
+    background: none !important;
+}
+
 #datatable-paging-page-count table tr td {
     border: 0 !important;
-    background-color: rgba(255, 255, 555, 1) !important;
 }
 
 #datatable-paging-page-count table {
     margin-left: 14px;
     width: 968px;
     border-collapse: collapse;
-    background-color: #ffffff !important;
 }
 
 #datatable-paging-page-count table tr {
     border-bottom: 5px solid #ffffff;
+    /* height: 22px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+    margin-top: 4px; */
 }
 
 #datatable-paging-page-count td {
@@ -417,3 +429,127 @@ a {
     line-height: 17px;
     color: rgba(31, 31, 45, 0.6)
 }
+
+.cell-markdown p{
+    font-family: Formula1;
+    font-size: 14px;
+    line-height: 17px;
+    color: rgba(31, 31, 45, 0.9);
+    margin: 0;
+}
+
+#datatable-paging-page-count img[alt="Mercedes"] { 
+    filter: invert(58%) sepia(53%) saturate(1151%) hue-rotate(129deg) brightness(97%) contrast(101%)
+   }
+   
+   #datatable-paging-page-count img[alt="Ferrari"] { 
+    filter: invert(9%) sepia(67%) saturate(7498%) hue-rotate(1deg) brightness(102%) contrast(113%)
+   }
+   
+   #datatable-paging-page-count img[alt="Red Bull Racing"] { 
+    filter: invert(9%) sepia(100%) saturate(6898%) hue-rotate(250deg) brightness(81%) contrast(139%)
+   }
+   
+   #datatable-paging-page-count img[alt="Renault"] { 
+    filter: invert(74%) sepia(93%) saturate(1095%) hue-rotate(7deg) brightness(113%) contrast(105%)
+   }
+   
+   #datatable-paging-page-count img[alt="Haas"] { 
+    filter: invert(47%) sepia(0%) saturate(0%) hue-rotate(260deg) brightness(99%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="Racing Point"] { 
+    filter: invert(69%) sepia(62%) saturate(540%) hue-rotate(291deg) brightness(106%) contrast(92%)
+   }
+   
+   #datatable-paging-page-count img[alt="Alpha Tauri"] { 
+    filter: invert(88%) sepia(0%) saturate(450%) hue-rotate(191deg) brightness(94%) contrast(88%)
+   }
+   
+   #datatable-paging-page-count img[alt="McLaren"] { 
+    filter: invert(53%) sepia(48%) saturate(1858%) hue-rotate(360deg) brightness(101%) contrast(107%)
+   }
+   
+   #datatable-paging-page-count img[alt="Alfa Romeo"] { 
+    filter: invert(13%) sepia(33%) saturate(6885%) hue-rotate(350deg) brightness(103%) contrast(122%)
+   }
+   
+   #datatable-paging-page-count img[alt="Williams"] { 
+    filter: invert(48%) sepia(78%) saturate(5193%) hue-rotate(192deg) brightness(98%) contrast(101%)
+   }
+   
+   #datatable-paging-page-count img[alt="Toro Rosso"] { 
+    filter: invert(45%) sepia(86%) saturate(789%) hue-rotate(190deg) brightness(105%) contrast(101%)
+   }
+   
+   #datatable-paging-page-count img[alt="Trident"] { 
+    filter: invert(29%) sepia(79%) saturate(2689%) hue-rotate(222deg) brightness(101%) contrast(91%)
+   }
+   
+   #datatable-paging-page-count img[alt="BWT Arden"] { 
+    filter: invert(73%) sepia(32%) saturate(445%) hue-rotate(281deg) brightness(96%) contrast(94%)
+   }
+   
+   #datatable-paging-page-count img[alt="MP Motorsport"] { 
+    filter: invert(89%) sepia(34%) saturate(6928%) hue-rotate(310deg) brightness(98%) contrast(96%)
+   }
+   
+   #datatable-paging-page-count img[alt="Campos Vexatec Racing"] { 
+    filter: invert(57%) sepia(92%) saturate(3954%) hue-rotate(353deg) brightness(101%) contrast(92%)
+   }
+   
+   #datatable-paging-page-count img[alt="Charouz Racing System"] { 
+    filter: invert(10%) sepia(62%) saturate(6113%) hue-rotate(333deg) brightness(95%) contrast(94%)
+   }
+   
+   #datatable-paging-page-count img[alt="Pertamina"] { 
+    filter: invert(60%) sepia(51%) saturate(5312%) hue-rotate(328deg) brightness(98%) contrast(96%)
+   }
+   
+   #datatable-paging-page-count img[alt="Virtuosi Racing"] { 
+    filter: invert(91%) sepia(50%) saturate(7480%) hue-rotate(333deg) brightness(96%) contrast(104%)
+   }
+   
+   #datatable-paging-page-count img[alt="DAMS"] { 
+    filter: invert(88%) sepia(34%) saturate(1809%) hue-rotate(155deg) brightness(97%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="ART Grand Prix"] { 
+    filter: invert(10%) sepia(30%) saturate(7050%) hue-rotate(338deg) brightness(86%) contrast(107%)
+   }
+   
+   #datatable-paging-page-count img[alt="Carlin"] { 
+    filter: invert(32%) sepia(12%) saturate(2066%) hue-rotate(122deg) brightness(94%) contrast(91%)
+   }
+   
+   #datatable-paging-page-count img[alt="Russian Time"] { 
+    filter: invert(13%) sepia(92%) saturate(3048%) hue-rotate(221deg) brightness(104%) contrast(94%)
+   }
+   
+   #datatable-paging-page-count img[alt="Hitech Grand Prix"] { 
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(10deg) brightness(102%) contrast(106%)
+   }
+   
+   #datatable-paging-page-count img[alt="Red Bull 2010"] { 
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(158deg) brightness(91%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="Brawn 2009"] { 
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(158deg) brightness(91%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="McLaren 2010"] { 
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(158deg) brightness(91%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="Ferrari 2004"] { 
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(158deg) brightness(91%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="Williams 2003"] { 
+    filter: invert(96%) sepia(0%) saturate(0%) hue-rotate(158deg) brightness(91%) contrast(93%)
+   }
+   
+   #datatable-paging-page-count img[alt="Unknown"] { 
+    filter: invert(32%) sepia(0%) saturate(39%) hue-rotate(199deg) brightness(98%) contrast(86%)
+   }

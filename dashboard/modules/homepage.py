@@ -50,15 +50,44 @@ def homepage_wrapper(stats, page_size):
 
         dash_table.DataTable(
         id='datatable-paging-page-count',
-        columns=[{"name": i, "id": i} for i in stats['choice_table'].columns],
+        columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i == 'Team' else {"name": i, "id": i} for i in stats['choice_table'].columns],
         filter_query='',
         page_current=0,
         page_size=page_size,
         page_action='custom',
         page_count=pages_count,
-        style_header={'border': '0 !important', 'background-color': '#FFFFFF'},
-        style_cell={'textAlign': 'left', 'border-left': '1px solid #ffffff !important', 'background-color': '#FFFFFF'},
-        style_data_conditional=stats['boxes_colors']
+        style_header={'border': '0 !important'},
+        style_cell={'textAlign': 'left'},
+        style_cell_conditional=[
+            {
+                'if': {'column_id': 'Id'},
+                'width': '40px'
+            },
+            {
+                'if': {'column_id': 'Team'},
+                'width': '232px'
+            },
+            {
+                'if': {'column_id': 'Time'},
+                'width': '252px'
+            },
+            {
+                'if': {'column_id': 'Session Track'},
+                'width': '167px'
+            },
+            {
+                'if': {'column_id': 'Laps'},
+                'width': '63px'
+            },
+            {
+                'if': {'column_id': 'Time'},
+                'width': '133px'
+            },
+            {
+                'if': {'column_id': 'Fastest Lap'},
+                'width': '115px'
+            }
+        ]
     )
     ]
 
