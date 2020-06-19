@@ -333,6 +333,7 @@ a {
     margin-right: 32px;
     border: 0;
     background-color: #ffffff;
+    outline: none;
 }
 
 #types-wrapper button:first-child{

@@ -16,7 +16,44 @@ ext_styles = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(
     external_stylesheets=ext_styles,
-    suppress_callback_exceptions=True
+    suppress_callback_exceptions=True,
+    meta_tags=[
+        {
+            'name': 'title',
+            'content': 'F1 Telemetry App - Aleksander Zawalich'
+        },
+        {
+            'name': 'description',
+            'content': 'F1 telemetry app hosted on GCP'
+        },
+        {
+            'name': 'image',
+            'content': 'https://www.codemasters.com/wp-content/uploads/2019/03/f1_2019_monza_010.jpg'
+        },
+        {
+            'name': 'url',
+            'content': 'http://f1.zawalich.pl'
+        },
+        {
+            'name': 'width',
+            'content': '3840'
+        },
+        {
+            'name': 'height',
+            'content': '2160'
+        },
+        {
+            'name': 'type',
+            'content': 'image/jpeg'
+        },
+        {
+            'http-equiv': 'X-UA-Compatible',
+            'content': 'IE=edge'
+        },
+        {
+            'charset': 'UTF-8'
+        },
+    ]
     )
 
 server = app.server
@@ -65,11 +102,7 @@ def render_navigation_content(pathname):
 
 @app.callback(Output("header", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
-    if pathname in ['/session-summary']:
-        return mdl_header.header_bar(stats = stats_data['global_statistics'])
-    else:
-        # /, /homepage, non-existent pages
-        return mdl_header.header_bar(stats = stats_data['global_statistics'])
+    return mdl_header.header_bar(stats = stats_data['global_statistics'])
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
@@ -93,7 +126,8 @@ sorters_names = list(stats_data['session_cards'].keys())
 @app.callback(
     [
         Output('datatable-paging-page-count', 'filter_query'),
-        Output('datatable-paging-page-count', 'active_cell')
+        Output('datatable-paging-page-count', 'active_cell'),
+        Output('datatable-paging-page-count', 'page_current')
     ],
     [
         Input('All Sessions', 'n_clicks'),
@@ -116,7 +150,7 @@ def update_filter_query(a1, a2, a3, a4, a5, a6, a7):
                 sorters_state[single_state] = eval(single_state)
                 choice = sorters_names[state_indeks]
 
-    return choice, None
+    return choice, None, 0
 
 
 @app.callback(
@@ -209,5 +243,5 @@ def render_current(pathname):
     return output_list
 
 if __name__ == "__main__":
-    app.title = 'F1 Telemetry App'
+    app.title = 'F1 Telemetry App - Aleksander Zawalich'
     app.run_server('0.0.0.0', port=5005)

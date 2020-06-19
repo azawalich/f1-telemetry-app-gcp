@@ -9,6 +9,8 @@ import time
 import data_assets.style as css
 import sql.q_homepage as bqq
 
+pd.options.mode.chained_assignment = None
+
 def overall_stats():
 
     stats_data = {
@@ -77,10 +79,10 @@ def overall_stats():
 
     stats_data['global_statistics'] = global_statistics
 
-    # recent_statistics_df = recent_statistics_df.loc[recent_statistics_df.index.repeat(12)]
-    # recent_statistics_df['team'] = recent_statistics_df['team'].replace({
-    #     'Mercedes': 'Charouz Racing System'
-    #     })
+    recent_statistics_df = recent_statistics_df.loc[recent_statistics_df.index.repeat(12)]
+    recent_statistics_df['team'] = recent_statistics_df['team'].replace({
+        'Mercedes': 'Charouz Racing System'
+        })
 
     session_cards = {
         'All Sessions': {
