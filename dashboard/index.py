@@ -19,19 +19,19 @@ app = dash.Dash(
     suppress_callback_exceptions=True,
     meta_tags=[
         {
-            'name': 'title',
+            'name': 'og:title',
             'content': 'F1 Telemetry App - Aleksander Zawalich'
         },
         {
-            'name': 'description',
+            'name': 'og:description',
             'content': 'F1 telemetry app hosted on GCP'
         },
         {
-            'name': 'image',
+            'name': 'og:image',
             'content': 'https://www.codemasters.com/wp-content/uploads/2019/03/f1_2019_monza_010.jpg'
         },
         {
-            'name': 'url',
+            'name': 'og:url',
             'content': 'http://f1.zawalich.pl'
         },
         {
