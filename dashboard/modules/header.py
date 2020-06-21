@@ -27,7 +27,12 @@ for single_section in sct.SECTIONS.keys():
     )
     navigation_elements.append(element)
 
-def global_stats_elements(stats):
+def global_stats_elements(stats, section):
+    if section != None:
+        section = ''.join(section)
+    else: 
+        section = ''
+
     stats_list = []
     element_wrapper = []
     for single_stat in stats:
@@ -47,14 +52,20 @@ def global_stats_elements(stats):
                     )
                 )
         else:
-            if list(stats.keys()).index(single_stat) < 3:
-                temp_list.append(
-                    html.H2(stats[single_stat])
-                )
+            if section in ['', 'homepage']:
+                if list(stats.keys()).index(single_stat) < 3:
+                    temp_list.append(
+                        html.H2(stats[single_stat])
+                    )
+                else:
+                    temp_list.append(
+                        html.H3(stats[single_stat])
+                    )
             else:
                 temp_list.append(
-                    html.H3(stats[single_stat])
-                )
+                        html.H2(stats[single_stat])
+                    )
+            
         element_wrapper.append(temp_list)
 
     for single_element in element_wrapper:
@@ -67,7 +78,12 @@ def global_stats_elements(stats):
 
     return stats_list
 
-def header_bar(stats = None):
+def header_bar(stats = None, pathname = None):
+    if pathname != None:
+        pathname_splitted = pathname[1:].split('-')
+    else:
+        pathname_splitted = pathname
+
     headbar = html.Div(
         [
             html.Div(
@@ -90,7 +106,10 @@ def header_bar(stats = None):
                 id='title-wrapper'
             ), 
             html.Div(
-                global_stats_elements(stats),
+                global_stats_elements(
+                    stats, 
+                    section = pathname_splitted
+                    ),
                 id='global-stats-wrapper'
             )
         ],
@@ -172,7 +191,10 @@ def header_bar_session(stats = None, pathname = None, publish_time = None):
                         id='title-wrapper-top'
                     ), 
                     html.Div(
-                        global_stats_elements(session_stats_groups['top']),
+                        global_stats_elements(
+                            session_stats_groups['top'], 
+                            section = pathname_splitted
+                            ),
                         id='global-stats-wrapper'
                     )
                 ],
@@ -188,7 +210,10 @@ def header_bar_session(stats = None, pathname = None, publish_time = None):
                         id='title-wrapper-bottom'
                     ), 
                     html.Div(
-                        global_stats_elements(session_stats_groups['bottom']),
+                        global_stats_elements(
+                            session_stats_groups['bottom'], 
+                            section = pathname_splitted
+                            ),
                         id='global-stats-wrapper'
                     )
                 ],

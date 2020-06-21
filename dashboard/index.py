@@ -112,7 +112,7 @@ def render_header_content(pathname):
     if pathname_clean in ['/session-summary']:
         return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
     else:
-        return mdl_header.header_bar(stats = stats_data['global_statistics'])
+        return mdl_header.header_bar(stats = stats_data['global_statistics'], pathname = pathname_clean)
 
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
