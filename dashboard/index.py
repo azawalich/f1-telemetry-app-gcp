@@ -57,7 +57,7 @@ sidebar = html.Div(
     )
 
 content = html.Div(
-    id='page-content'
+    id='page-content-wrapper'
     )
 
 header = html.Div(
@@ -114,7 +114,7 @@ def render_header_content(pathname):
     else:
         return mdl_header.header_bar(stats = stats_data['global_statistics'])
 
-@app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+@app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname not in [None, '/', '/homepage']:
         pathname_clean, publish_time = pathname.split('%3F')
@@ -125,7 +125,12 @@ def render_page_content(pathname):
     if pathname_clean in ["/", "/homepage"]:
         return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
     elif pathname_clean == "/session-summary":
-        return html.P("This is the content of page 2. Yay!")
+        return html.Div(
+            html.P("This is the content of page 2. Yay!"),
+            id='page-content',
+            style={'height': '730px'}
+        )
+        
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [

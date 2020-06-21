@@ -36,7 +36,8 @@ def homepage_wrapper(stats, page_size):
         else:
             pages_count += 1
             
-    elements_list = [
+    elements_list = html.Div(
+        [
         html.Div(
                     html.H1(
                         'Choose Session'
@@ -85,6 +86,9 @@ def homepage_wrapper(stats, page_size):
             }
         ]
     )
-    ]
-
+        ],
+        id='page-content',
+        style={'height': '613px'}
+    )
+    
     return elements_list

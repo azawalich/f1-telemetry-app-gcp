@@ -463,12 +463,13 @@ a {
     opacity: 0.6;
 }
 
+#page-content-wrapper{
+    height: 613px;
+}
+
 #page-content {
     margin-left: 280px;
     width: 1016px;
-    /* wartość dla homepage: */
-    /* height: 613px; */
-    height: 730px;
     float: left;
     background: #FFFFFF;
     border-radius: 8px;
