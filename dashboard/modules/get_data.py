@@ -156,7 +156,7 @@ def overall_stats():
     choice_table = choice_table.loc[:, cols]
     
     choice_table = choice_table.rename(columns={
-        'id': 'Id', 
+        'id': '', 
         'team': 'Team', 
         'publish_time': 'Session Time', 
         'track': 'Session Track', 

@@ -60,16 +60,16 @@ def homepage_wrapper(stats, page_size):
         style_cell={'textAlign': 'left'},
         style_cell_conditional=[
             {
-                'if': {'column_id': 'Id'},
-                'width': '40px'
+                'if': {'column_id': ''},
+                'width': '20px'
             },
             {
                 'if': {'column_id': 'Team'},
-                'width': '232px'
+                'width': '222px'
             },
             {
-                'if': {'column_id': 'Time'},
-                'width': '252px'
+                'if': {'column_id': 'Session Time'},
+                'width': '250px'
             },
             {
                 'if': {'column_id': 'Session Track'},
@@ -77,15 +77,11 @@ def homepage_wrapper(stats, page_size):
             },
             {
                 'if': {'column_id': 'Laps'},
-                'width': '63px'
+                'width': '96px'
             },
             {
-                'if': {'column_id': 'Time'},
+                'if': {'column_id': 'Session Duration'},
                 'width': '133px'
-            },
-            {
-                'if': {'column_id': 'Fastest Lap'},
-                'width': '115px'
             }
         ]
     )
