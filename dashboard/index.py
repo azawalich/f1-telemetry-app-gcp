@@ -61,7 +61,7 @@ content = html.Div(
     )
 
 header = html.Div(
-    id='header'
+    id='header-wrapper'
 )
 
 def serve_layout():
@@ -90,24 +90,48 @@ app.layout = serve_layout
 
 @app.callback(Output("sidebar", "children"), [Input("url", "pathname")])
 def render_navigation_content(pathname):
-    return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
+    if pathname not in [None, '/', '/homepage']:
+        pathname_clean, publish_time = pathname.split('%3F')
+        publish_time = publish_time.replace('%20', ' ')
+    else:
+        pathname_clean = pathname
 
-@app.callback(Output("header", "children"), [Input("url", "pathname")])
+    if pathname_clean in ['/session-summary']:
+        return mdl_navigation.navigation_bar_links(stats = stats_data, publish_time = publish_time)
+    else:
+        return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
+
+@app.callback(Output("header-wrapper", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
-    return mdl_header.header_bar(stats = stats_data['global_statistics'])
+    if pathname not in [None, '/', '/homepage']:
+        pathname_clean, publish_time = pathname.split('%3F')
+        publish_time = publish_time.replace('%20', ' ')
+    else:
+        pathname_clean = pathname
+    
+    if pathname_clean in ['/session-summary']:
+        return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
+    else:
+        return mdl_header.header_bar(stats = stats_data['global_statistics'])
 
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname in ["/", "/homepage"]:
+    if pathname not in [None, '/', '/homepage']:
+        pathname_clean, publish_time = pathname.split('%3F')
+        publish_time = publish_time.replace('%', '')
+    else:
+        pathname_clean = pathname
+    
+    if pathname_clean in ["/", "/homepage"]:
         return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
-    elif pathname == "/session-summary":
+    elif pathname_clean == "/session-summary":
         return html.P("This is the content of page 2. Yay!")
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
         [
             html.H1("404: Not found", className="text-danger"),
             html.Hr(),
-            html.P(f"The pathname {pathname} was not recognised..."),
+            html.P(f"The pathname {pathname_clean} was not recognised..."),
             html.A('Back to homepage', href='/'),
         ]
     )
@@ -201,38 +225,60 @@ def update_sessions_table(active_cell, page_current, page_size, filter_query):
     if active_cell == None:
         output_session = 'None'
     else:
-        output_session = dff_return['Session Time'].tolist()[active_cell['row']]
+        sessionUID = dff_return['Session Time'].tolist()[active_cell['row']]
+        output_session = dcc.Location(pathname="/session-summary?publish_time={}".format(sessionUID), id="redirect-id")
 
-    message = html.H1(output_session)
+    return dff_return.to_dict('records'), pages_count, output_session, eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 
-    return dff_return.to_dict('records'), pages_count, message, eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
+@app.callback(
+    [   
+        Output('session-summary', 'className'),
+        Output('driver-ranking', 'className'),
+        Output('sector-data', 'className'),
+        Output('session-map', 'className'),
+        Output('telemetry-data', 'className'),
+        Output('tires-age', 'className'),
+        Output('pure-pitwall', 'className')
+    ], 
+    [Input("url", "pathname")])
+def render_active_menu(pathname):
+    if pathname not in [None, '/', '/homepage']:
+        pathname_clean = pathname.split('%3F')[0]
+    else:
+        pathname_clean = pathname
 
-@app.callback([Output(f"{i}-current-indicator", "children") for i in sct.SECTIONS.keys()], [Input("url", "pathname")])
-def render_current(pathname):
-    output_list = []
-    for single_section in sct.SECTIONS.keys():
-        output_list.append(
-            html.Img(
-                src=sct.SECTIONS[single_section]['icon'],
-                height="25px",
-                style=sct.SECTIONS[single_section]['img_style']
-                )
-        )
+    for single_indeks in range(1, len(sct.SECTIONS.keys())):
+        single_section = list(sct.SECTIONS.keys())[single_indeks]
+        if single_section == pathname_clean[1:]:
+            exec('a{}="navigation-link-current"'.format(single_indeks))
+        else:
+            exec('a{}=""'.format(single_indeks))
+    return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 
-    indeks = 0
-    pathname_stripped = 'homepage'
+@app.callback(
+    [   
+        Output('session-summary-current-image', 'className'),
+        Output('driver-ranking-current-image', 'className'),
+        Output('sector-data-current-image', 'className'),
+        Output('session-map-current-image', 'className'),
+        Output('telemetry-data-current-image', 'className'),
+        Output('tires-age-current-image', 'className'),
+        Output('pure-pitwall-current-image', 'className')
+    ], 
+    [Input("url", "pathname")])
+def render_active_menu_image(pathname):
+    if pathname not in [None, '/', '/homepage']:
+        pathname_clean = pathname.split('%3F')[0]
+    else:
+        pathname_clean = pathname
 
-    if pathname not in [None, '/']:
-        # do not include homepage
-        pathname_stripped = pathname[1:]
-        indeks = list(sct.SECTIONS.keys()).index(pathname_stripped)
-    
-    output_list[indeks] = html.Img(
-            src=sct.SECTIONS[pathname_stripped]['icon'],
-            height="25px",
-            style=css.GREEN_COLOR
-            )
-    return output_list
+    for single_indeks in range(1, len(sct.SECTIONS.keys())):
+        single_section = list(sct.SECTIONS.keys())[single_indeks]
+        if single_section == pathname_clean[1:]:
+            exec('a{}="navigation-link-current-image"'.format(single_indeks))
+        else:
+            exec('a{}=""'.format(single_indeks))
+    return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 
 if __name__ == "__main__":
     app.title = 'F1 Telemetry App - Aleksander Zawalich'

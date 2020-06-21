@@ -2,8 +2,8 @@ import data_assets.style as css
 
 SECTIONS = {
     'homepage': {
-        'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/flag-checkered.svg',
-        'name': 'Homepage',
+        'icon': 'assets/images/menu_arrow.svg',
+        'name': 'Back',
         'disabled': False,
         'img_style': css.ENABLED_COLOR,
         'tile_style': css.ENABLED_TILE_STYLE,
