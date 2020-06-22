@@ -90,11 +90,12 @@ app.layout = serve_layout
 
 @app.callback(Output("sidebar", "children"), [Input("url", "pathname")])
 def render_navigation_content(pathname):
-    if pathname not in [None, '/', '/homepage']:
-        pathname_clean, publish_time = pathname.split('%3F')
-        publish_time = publish_time.replace('%20', ' ')
-    else:
-        pathname_clean = pathname
+    pathname_clean = pathname
+    if pathname != None:
+        if len(pathname.split('%3F')) > 1:
+            if pathname not in ['/', '/homepage']:
+                pathname_clean, publish_time = pathname.split('%3F')
+                publish_time = publish_time.replace('%20', ' ')
 
     if pathname_clean in ['/session-summary']:
         return mdl_navigation.navigation_bar_links(stats = stats_data, publish_time = publish_time)
@@ -103,11 +104,12 @@ def render_navigation_content(pathname):
 
 @app.callback(Output("header-wrapper", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
-    if pathname not in [None, '/', '/homepage']:
-        pathname_clean, publish_time = pathname.split('%3F')
-        publish_time = publish_time.replace('%20', ' ')
-    else:
-        pathname_clean = pathname
+    pathname_clean = pathname
+    if pathname != None:
+        if len(pathname.split('%3F')) > 1:
+            if pathname not in ['/', '/homepage']:
+                pathname_clean, publish_time = pathname.split('%3F')
+                publish_time = publish_time.replace('%20', ' ')
     
     if pathname_clean in ['/session-summary']:
         return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
@@ -116,11 +118,12 @@ def render_header_content(pathname):
 
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    if pathname not in [None, '/', '/homepage']:
-        pathname_clean, publish_time = pathname.split('%3F')
-        publish_time = publish_time.replace('%', '')
-    else:
-        pathname_clean = pathname
+    pathname_clean = pathname
+    if pathname != None:
+        if len(pathname.split('%3F')) > 1:
+            if pathname not in ['/', '/homepage']:
+                pathname_clean, publish_time = pathname.split('%3F')
+                publish_time = publish_time.replace('%', '')
     
     if pathname_clean in ["/", "/homepage"]:
         return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
@@ -135,11 +138,12 @@ def render_page_content(pathname):
     return html.Div(
         [
             html.H1("404: Not found", className="text-danger"),
-            html.Hr(),
             html.P(f"The pathname {pathname_clean} was not recognised..."),
             html.A('Back to homepage', href='/'),
-        ]
-    )
+        ],
+            id='page-content',
+            style={'height': '613px'}
+        )
 
 sorters_state = dict.fromkeys(['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7'])
 sorters_names = list(stats_data['session_cards'].keys())
