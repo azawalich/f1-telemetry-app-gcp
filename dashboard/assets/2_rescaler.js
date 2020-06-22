@@ -5,7 +5,7 @@ function resize_dashboard(layout_width, window_width) {
             'transform-origin': 'top left'
         });
     $("#sidebar").css({
-        'height': $(window).height() * 0.9
+        'height': $(window).height() * 0.69
     });
   } else {
     $("#scaleable-wrapper").attr('style', '');
