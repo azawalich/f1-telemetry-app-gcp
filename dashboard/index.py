@@ -98,9 +98,10 @@ def render_navigation_content(pathname):
                 publish_time = publish_time.replace('%20', ' ')
 
     if pathname_clean in ['/session-summary']:
-        return mdl_navigation.navigation_bar_links(stats = stats_data, publish_time = publish_time)
-    else:
-        return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
+        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
+            return mdl_navigation.navigation_bar_links(stats = stats_data, publish_time = publish_time)
+
+    return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
 
 @app.callback(Output("header-wrapper", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
@@ -112,9 +113,10 @@ def render_header_content(pathname):
                 publish_time = publish_time.replace('%20', ' ')
     
     if pathname_clean in ['/session-summary']:
-        return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
-    else:
-        return mdl_header.header_bar(stats = stats_data['global_statistics'], pathname = pathname_clean)
+        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
+            return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
+
+    return mdl_header.header_bar(stats = stats_data['global_statistics'], pathname = pathname_clean)
 
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
@@ -123,16 +125,17 @@ def render_page_content(pathname):
         if len(pathname.split('%3F')) > 1:
             if pathname not in ['/', '/homepage']:
                 pathname_clean, publish_time = pathname.split('%3F')
-                publish_time = publish_time.replace('%', '')
-    
+                publish_time = publish_time.replace('%20', ' ')
+
     if pathname_clean in ["/", "/homepage"]:
         return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
     elif pathname_clean == "/session-summary":
-        return html.Div(
-            html.P("This is the content of page 2. Yay!"),
-            id='page-content',
-            style={'height': '730px'}
-        )
+        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
+            return html.Div(
+                html.P("This is the content of page 2. Yay!"),
+                id='page-content',
+                style={'height': '730px'}
+            )
         
     # If the user tries to reach a different page, return a 404 message
     return html.Div(
