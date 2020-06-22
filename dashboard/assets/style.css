@@ -108,11 +108,11 @@ a {
 
 #sidebar {
     width: 280px;
+    height: 100%;
     padding: 24px;
     padding-bottom: 0px;
     background-color: #101017;
     float: left;
-    height: 100%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -285,6 +285,10 @@ a {
     color: rgba(255, 255, 255, 1);
 }
 
+#navigation-footer {
+    height: 80px;
+}
+
 #navigation-footer p, i {
     font-family: Titillium Web;
     font-size: 10px;
@@ -370,10 +374,10 @@ a {
 }
 
 #header-top-row {
-    width: 1016px;
-    height: 105px;
+    width: 1020px;
+    height: 100px;
     float: left;
-    margin-left: 24px;
+    padding-left: 24px;
     position: fixed;
     background-color: #101017;
     z-index:1;
