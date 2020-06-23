@@ -173,9 +173,9 @@ def navigation_bar(stats = None):
     ]
     return navbar
 
-def navigation_bar_links(stats, publish_time):
-    publish_time = publish_time.split('=')[1]
-    track_name = stats['recent_statistics_df'][stats['recent_statistics_df']['publish_time'] == publish_time]['track'].tolist()[0]
+def navigation_bar_links(stats, sessionUID):
+    publish_time = stats['recent_statistics_df'][stats['recent_statistics_df']['sessionUID'] == sessionUID]['publish_time'].tolist()[0]
+    track_name = stats['recent_statistics_df'][stats['recent_statistics_df']['sessionUID'] == sessionUID]['track'].tolist()[0]
     track_name_splitted = track_name.split(' ')
 
     if len(track_name_splitted) > 1:

@@ -91,46 +91,52 @@ app.layout = serve_layout
 @app.callback(Output("sidebar", "children"), [Input("url", "pathname")])
 def render_navigation_content(pathname):
     pathname_clean = pathname
+    sessionUID = None
+
     if pathname != None:
         if len(pathname.split('%3F')) > 1:
             if pathname not in ['/', '/homepage']:
-                pathname_clean, publish_time = pathname.split('%3F')
-                publish_time = publish_time.replace('%20', ' ')
+                pathname_clean, sessionUID = pathname.split('%3F')
+                sessionUID = sessionUID.split('=')[1]
 
-    if pathname_clean in ['/session-summary']:
-        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
-            return mdl_navigation.navigation_bar_links(stats = stats_data, publish_time = publish_time)
+    if pathname_clean in ['/session-summary'] and sessionUID != None:
+        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
+            return mdl_navigation.navigation_bar_links(stats = stats_data, sessionUID = sessionUID)
 
     return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
 
 @app.callback(Output("header-wrapper", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
     pathname_clean = pathname
+    sessionUID = None
+
     if pathname != None:
         if len(pathname.split('%3F')) > 1:
             if pathname not in ['/', '/homepage']:
-                pathname_clean, publish_time = pathname.split('%3F')
-                publish_time = publish_time.replace('%20', ' ')
+                pathname_clean, sessionUID = pathname.split('%3F')
+                sessionUID = sessionUID.split('=')[1]
     
-    if pathname_clean in ['/session-summary']:
-        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
-            return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, publish_time = publish_time)
+    if pathname_clean in ['/session-summary'] and sessionUID != None:
+        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
+            return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, sessionUID = sessionUID)
 
     return mdl_header.header_bar(stats = stats_data['global_statistics'], pathname = pathname_clean)
 
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     pathname_clean = pathname
+    sessionUID = None
+
     if pathname != None:
         if len(pathname.split('%3F')) > 1:
             if pathname not in ['/', '/homepage']:
-                pathname_clean, publish_time = pathname.split('%3F')
-                publish_time = publish_time.replace('%20', ' ')
+                pathname_clean, sessionUID = pathname.split('%3F')
+                sessionUID = sessionUID.split('=')[1]
 
     if pathname_clean in ["/", "/homepage"]:
         return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
-    elif pathname_clean == "/session-summary":
-        if publish_time.split('=')[1] in stats_data['recent_statistics_df']['publish_time'].tolist():
+    elif pathname_clean == "/session-summary" and sessionUID != None:
+        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             return html.Div(
                 html.P("This is the content of page 2. Yay!"),
                 id='page-content',
@@ -237,8 +243,8 @@ def update_sessions_table(active_cell, page_current, page_size, filter_query):
     if active_cell == None:
         output_session = 'None'
     else:
-        sessionUID = dff_return['Session Time'].tolist()[active_cell['row']]
-        output_session = dcc.Location(pathname="/session-summary?publish_time={}".format(sessionUID), id="redirect-id")
+        sessionUID = stats_data['recent_statistics_df']['sessionUID'].tolist()[active_cell['row']]
+        output_session = dcc.Location(pathname="/session-summary?sessionUID={}".format(sessionUID), id="redirect-id")
 
     return dff_return.to_dict('records'), pages_count, output_session, eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 

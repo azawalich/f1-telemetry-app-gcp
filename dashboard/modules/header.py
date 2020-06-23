@@ -97,13 +97,13 @@ def header_bar(stats = None, pathname = None):
     
     return headbar
 
-def header_bar_session(stats = None, pathname = None, publish_time = None):
+def header_bar_session(stats = None, pathname = None, sessionUID = None):
 
-    publish_time = publish_time.split('=')[1]
     pathname_splitted = pathname[1:].split('-')
 
-    session_row = stats['recent_statistics_df'][stats['recent_statistics_df']['publish_time'] == publish_time].to_dict('records')[0]
-
+    print(sessionUID)
+    session_row = stats['recent_statistics_df'][stats['recent_statistics_df']['sessionUID'] == sessionUID].to_dict('records')[0]
+    
     weather_types = {
         0: 'Clear',
         1: 'Light Cloud',
