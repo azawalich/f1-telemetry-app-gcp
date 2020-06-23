@@ -59,6 +59,7 @@ class ConvertPacketsToJSON(beam.PTransform):
                 full_dict[single_field] = self.check_upacked_udp_packet_types(
                     unpacked_udp_packet = getattr(unpacked_udp_packet, single_field))
         full_dict['publish_time'] = publish_time
+        full_dict['header']['sessionUID'] = str(full_dict['header']['sessionUID'])
         return json.dumps(full_dict, ensure_ascii=False).encode('utf8').decode()
 
     def cleanup_packets(self, single_file):

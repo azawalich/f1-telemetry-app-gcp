@@ -59,6 +59,9 @@ for single_file in test_files:
 # define supplementary code
 
 def fill_repeated_fields_dict(name_d, type_d):
+    #fix for long integers
+    if name_d == 'sessionUID':
+        type_d = 'STRING'
     return bigquery.SchemaField(
         name_d,
         type_d,

@@ -1,6 +1,8 @@
 from flask import Flask, Response, request
 import subprocess
 import re
+import time
+import requests
 
 secrets = {}
 
@@ -48,7 +50,21 @@ def token_auth_handler_on():
                 subprocess.Popen('gcloud compute instances start {}'.format(single_job), shell=True)
                 print("Started Compute Engine VMs: {}".format(single_job))
         
-        return Response("Starting VMs completed.")
+        time.sleep(40)
+
+        # let's convert the data to JSONs
+        data = {
+            'auth_token': auth_token
+            } 
+        
+        webhook_url = 'http://{}:5000/dataflow-on?auth-token={}'.format(
+            secrets['vm_worker_external_ip'], secrets['webhook_auth_token'])
+        
+        requests.post(url = webhook_url, data = data)
+
+        return Response("Starting VMs and PubSub job completed.")
+
+    
 
 @app.route('/worker-off', methods=['POST'])
 def token_auth_handler_off():

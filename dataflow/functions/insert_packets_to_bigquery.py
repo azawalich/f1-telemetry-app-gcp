@@ -158,6 +158,7 @@ def insert_packets_to_bigquery(file_pattern, database, project_name):
             )
         del pipeline
 
-    for hgx in glob.glob("mapped_results*.txt"):
-        os.remove(hgx)
-    return True
+    if database == 'packets_data':
+        for hgx in glob.glob("mapped_results*.txt"):
+            os.remove(hgx)
+        return True
