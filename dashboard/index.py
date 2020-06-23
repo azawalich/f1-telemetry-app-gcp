@@ -11,41 +11,14 @@ import modules.get_data as mdl_get_data
 import modules.navigation as mdl_navigation
 import modules.header as mdl_header
 import modules.homepage as mdl_homepage
+import modules.callback_functions as mdl_call
 
 ext_styles = [dbc.themes.BOOTSTRAP]
 
 app = dash.Dash(
     external_stylesheets=ext_styles,
     suppress_callback_exceptions=True,
-    meta_tags=[
-        {
-            'property': 'og:title',
-            'content': 'F1 Telemetry App - Aleksander Zawalich'
-        },
-        {
-            'property': 'og:description',
-            'content': 'F1 telemetry app hosted on GCP'
-        },
-        {
-            'property': 'og:image',
-            'content': 'https://www.codemasters.com/wp-content/uploads/2019/03/f1_2019_monza_010.jpg'
-        },
-        {
-            'property': 'og:url',
-            'content': 'http://f1.zawalich.pl'
-        },
-        {
-            'property': 'og:type',
-            'content': 'website'
-        },
-        {
-            'http-equiv': 'X-UA-Compatible',
-            'content': 'IE=edge'
-        },
-        {
-            'charset': 'UTF-8'
-        },
-    ]
+    meta_tags=mdl_call.OG_META_TAGS
     )
 
 server = app.server
@@ -90,69 +63,44 @@ app.layout = serve_layout
 
 @app.callback(Output("sidebar", "children"), [Input("url", "pathname")])
 def render_navigation_content(pathname):
-    pathname_clean = pathname
-    sessionUID = None
-
-    if pathname != None:
-        if len(pathname.split('%3F')) > 1:
-            if pathname not in ['/', '/homepage']:
-                pathname_clean, sessionUID = pathname.split('%3F')
-                sessionUID = sessionUID.split('=')[1]
-
-    if pathname_clean in ['/session-summary'] and sessionUID != None:
-        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
-            return mdl_navigation.navigation_bar_links(stats = stats_data, sessionUID = sessionUID)
-
-    return mdl_navigation.navigation_bar(stats = stats_data['global_records'])
+    return mdl_call.return_dash_content(pathname, 'navigation', stats_data)
 
 @app.callback(Output("header-wrapper", "children"), [Input("url", "pathname")])
 def render_header_content(pathname):
-    pathname_clean = pathname
-    sessionUID = None
-
-    if pathname != None:
-        if len(pathname.split('%3F')) > 1:
-            if pathname not in ['/', '/homepage']:
-                pathname_clean, sessionUID = pathname.split('%3F')
-                sessionUID = sessionUID.split('=')[1]
-    
-    if pathname_clean in ['/session-summary'] and sessionUID != None:
-        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
-            return mdl_header.header_bar_session(stats = stats_data, pathname = pathname_clean, sessionUID = sessionUID)
-
-    return mdl_header.header_bar(stats = stats_data['global_statistics'], pathname = pathname_clean)
+    return mdl_call.return_dash_content(pathname, 'header', stats_data)
 
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
-    pathname_clean = pathname
-    sessionUID = None
+    return mdl_call.return_dash_content(pathname, 'page_content', stats_data)
 
-    if pathname != None:
-        if len(pathname.split('%3F')) > 1:
-            if pathname not in ['/', '/homepage']:
-                pathname_clean, sessionUID = pathname.split('%3F')
-                sessionUID = sessionUID.split('=')[1]
+@app.callback(
+    [   
+        Output('session-summary', 'className'),
+        Output('driver-ranking', 'className'),
+        Output('sector-data', 'className'),
+        Output('session-map', 'className'),
+        Output('telemetry-data', 'className'),
+        Output('tires-age', 'className'),
+        Output('pure-pitwall', 'className')
+    ], 
+    [Input("url", "pathname")])
+def render_active_menu(pathname):
+    return mdl_call.return_active_class_elements(pathname, 'active_menu')
 
-    if pathname_clean in ["/", "/homepage"]:
-        return mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
-    elif pathname_clean == "/session-summary" and sessionUID != None:
-        if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
-            return html.Div(
-                html.P("This is the content of page 2. Yay!"),
-                id='page-content',
-                style={'height': '730px'}
-            )
-        
-    # If the user tries to reach a different page, return a 404 message
-    return html.Div(
-        [
-            html.H1("404: Not found", className="text-danger"),
-            html.P(f"The pathname {pathname_clean} was not recognised..."),
-            html.A('Back to homepage', href='/'),
-        ],
-            id='page-content',
-            style={'height': '613px'}
-        )
+@app.callback(
+    [   
+        Output('session-summary-current-image', 'className'),
+        Output('driver-ranking-current-image', 'className'),
+        Output('sector-data-current-image', 'className'),
+        Output('session-map-current-image', 'className'),
+        Output('telemetry-data-current-image', 'className'),
+        Output('tires-age-current-image', 'className'),
+        Output('pure-pitwall-current-image', 'className')
+    ], 
+    [Input("url", "pathname")])
+def render_active_menu_image(pathname):
+    return mdl_call.return_active_class_elements(pathname, 'active_menu_image')
+
 
 sorters_state = dict.fromkeys(['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7'])
 sorters_names = list(stats_data['session_cards'].keys())
@@ -247,56 +195,6 @@ def update_sessions_table(active_cell, page_current, page_size, filter_query):
         output_session = dcc.Location(pathname="/session-summary?sessionUID={}".format(sessionUID), id="redirect-id")
 
     return dff_return.to_dict('records'), pages_count, output_session, eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
-
-@app.callback(
-    [   
-        Output('session-summary', 'className'),
-        Output('driver-ranking', 'className'),
-        Output('sector-data', 'className'),
-        Output('session-map', 'className'),
-        Output('telemetry-data', 'className'),
-        Output('tires-age', 'className'),
-        Output('pure-pitwall', 'className')
-    ], 
-    [Input("url", "pathname")])
-def render_active_menu(pathname):
-    if pathname not in [None, '/', '/homepage']:
-        pathname_clean = pathname.split('%3F')[0]
-    else:
-        pathname_clean = pathname
-
-    for single_indeks in range(1, len(sct.SECTIONS.keys())):
-        single_section = list(sct.SECTIONS.keys())[single_indeks]
-        if single_section == pathname_clean[1:]:
-            exec('a{}="navigation-link-current"'.format(single_indeks))
-        else:
-            exec('a{}=""'.format(single_indeks))
-    return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
-
-@app.callback(
-    [   
-        Output('session-summary-current-image', 'className'),
-        Output('driver-ranking-current-image', 'className'),
-        Output('sector-data-current-image', 'className'),
-        Output('session-map-current-image', 'className'),
-        Output('telemetry-data-current-image', 'className'),
-        Output('tires-age-current-image', 'className'),
-        Output('pure-pitwall-current-image', 'className')
-    ], 
-    [Input("url", "pathname")])
-def render_active_menu_image(pathname):
-    if pathname not in [None, '/', '/homepage']:
-        pathname_clean = pathname.split('%3F')[0]
-    else:
-        pathname_clean = pathname
-
-    for single_indeks in range(1, len(sct.SECTIONS.keys())):
-        single_section = list(sct.SECTIONS.keys())[single_indeks]
-        if single_section == pathname_clean[1:]:
-            exec('a{}="navigation-link-current-image"'.format(single_indeks))
-        else:
-            exec('a{}=""'.format(single_indeks))
-    return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 
 if __name__ == "__main__":
     app.title = 'F1 Telemetry App - Aleksander Zawalich'

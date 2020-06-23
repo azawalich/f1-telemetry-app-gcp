@@ -101,7 +101,6 @@ def header_bar_session(stats = None, pathname = None, sessionUID = None):
 
     pathname_splitted = pathname[1:].split('-')
 
-    print(sessionUID)
     session_row = stats['recent_statistics_df'][stats['recent_statistics_df']['sessionUID'] == sessionUID].to_dict('records')[0]
     
     weather_types = {
