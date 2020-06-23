@@ -63,21 +63,30 @@ def token_auth_handler_on():
         running_jobs = _get_dataflow_jobs_list("Running")
         current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
         # Dataflow accepts only names consisting of [a-z0-9-]
-        job_name = re.sub('_|:', '-', 'pubsub_to_gcs_raw_{}'.format(current_time))
+        # job_name = re.sub('_|:', '-', 'pubsub_to_gcs_raw_{}'.format(current_time))
         if len(running_jobs) == 0:
+            # open_dataflow_cmd = """python3 pubsub_to_gcs_raw.py \
+            # --job_name={} \
+            # --project={} \
+            # --input_topic=projects/{}/topics/{} \
+            # --output_path=gs://{}/raw/{}/ \
+            # --runner=DataflowRunner \
+            # --window_size=1 \
+            # --region={} \
+            # --temp_location=gs://{}/raw/{}/temp
+            # """.format(
+            #     job_name, secrets['project_name'],secrets['project_name'],
+            #     secrets['topic_name'], secrets['bucket_name'], current_time, 
+            #     secrets['region'], secrets['bucket_name'], current_time)
             open_dataflow_cmd = """python3 pubsub_to_gcs_raw.py \
-            --job_name={} \
-            --project={} \
             --input_topic=projects/{}/topics/{} \
             --output_path=gs://{}/raw/{}/ \
-            --runner=DataflowRunner \
             --window_size=1 \
-            --region={} \
             --temp_location=gs://{}/raw/{}/temp
             """.format(
-                job_name, secrets['project_name'],secrets['project_name'],
-                secrets['topic_name'], secrets['bucket_name'], current_time, 
-                secrets['region'], secrets['bucket_name'], current_time)
+                secrets['project_name'], secrets['topic_name'], 
+                secrets['bucket_name'], current_time, 
+                secrets['bucket_name'], current_time)
             
             subprocess.Popen(open_dataflow_cmd, shell=True)
             message="Started a Dataflow job."
