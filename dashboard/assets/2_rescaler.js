@@ -10,7 +10,7 @@ function resize_dashboard(layout_width, window_width) {
   }
   if (window_width > 1920){
     $("#sidebar").css({
-        'height': $(window).height() * 0.65
+        'height': $(window).height() * 0.6
     });
   }
   else {
