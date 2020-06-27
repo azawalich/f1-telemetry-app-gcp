@@ -4,12 +4,19 @@ function resize_dashboard(layout_width, window_width) {
             transform: "scale(" + 0.8*(window_width / layout_width) + ")",  
             'transform-origin': 'top left'
         });
-    $("#sidebar").css({
-        'height': $(window).height() * 0.89
-    });
   } else {
     $("#scaleable-wrapper").attr('style', '');
     $("#layout-design").attr('style', '');
+  }
+  if (window_width > 1920){
+    $("#sidebar").css({
+        'height': $(window).height() * 0.6
+    });
+  }
+  else {
+    $("#sidebar").css({
+        'height': $(window).height() * 0.89
+    });
   }
 };
 
