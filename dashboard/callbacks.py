@@ -19,7 +19,11 @@ def render_header_content(pathname):
 @app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
 def render_page_content(pathname):
     if pathname != None:
-        if '/session-summary' in pathname:
+        if 'sessionUID=' in pathname:
+            sessionUID = pathname.split('=')[1]
+        else:
+            sessionUID = ''
+        if '/session-summary' in pathname and sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             global participants_data_call
             elements_list, participants_data_call = fct_call_fct.return_dash_content(pathname, 'page_content', stats_data)
             return elements_list
