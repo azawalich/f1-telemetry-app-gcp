@@ -48,7 +48,6 @@ def homepage_wrapper(stats, page_size):
                     types_list,
                     id='types-wrapper'
                 ),
-
         dash_table.DataTable(
         id='datatable-paging-page-count',
         columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i == 'Team' else {"name": i, "id": i} for i in stats['choice_table'].columns],

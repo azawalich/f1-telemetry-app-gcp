@@ -9,10 +9,10 @@ import data_assets.sections as sct
 navigation_elements = []
 
 for single_section in sct.SECTIONS.keys():
-    if single_section == 'session-summary':
-        link_href = ''
-    else:
+    if single_section in ['homepage']:
         link_href = "/{}".format(single_section)
+    else:
+        link_href = ''
     # jak time trial, to nie pokazuj bezsensownych linków, np drivers ranking
     temp_section = sct.SECTIONS[single_section]
     element = html.Div(

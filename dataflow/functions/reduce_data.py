@@ -56,6 +56,8 @@ def reduce_data(rows_to_add, packet_id, database, session_type):
         # lap table
         elif packet_id == 2:
             participant_dict = {k: [] for k in range(0, len(rows_to_add[0]['lapData']))}
+            participant_dict2 = {k: [] for k in range(0, len(rows_to_add[0]['lapData']))}
+
             # for all players, last row from each CurrentLapNum
             for single_row_indeks in range(0, len(rows_to_add)):
                 #split into participant groups
@@ -64,7 +66,10 @@ def reduce_data(rows_to_add, packet_id, database, session_type):
                     participant_dict[single_participant_indeks].append(
                         temp_row['lapData'][single_participant_indeks]['currentLapNum']
                         )
-
+                    participant_dict2[single_participant_indeks].append(
+                        temp_row['lapData'][single_participant_indeks]['pitStatus']
+                        )
+                        
             all_indexes = []
             # determine last laps for each participant
             for single_participant in participant_dict.keys():
@@ -73,11 +78,41 @@ def reduce_data(rows_to_add, packet_id, database, session_type):
                     if i == len(temp_participant) - 1 or x != temp_participant[i + 1]]
                 all_indexes.append(last_lap_indexes)
 
+            #determine first and last pitstop status index for each participant
+            pitstop_indexes = []
+            for single_participant in participant_dict2.keys():
+                temp_participant = participant_dict2[single_participant]
+                for single_status in sorted(set(temp_participant)):
+                    if single_status > 0:
+                        pitstop_statuses = [
+                            i for i, x in enumerate(temp_participant) if x == single_status
+                            ]
+                        res, last = [[]], None
+                        for x in pitstop_statuses:
+                            if last is None or abs(last - x) <= 1:
+                                res[-1].append(x)
+                            else:
+                                res.append([x])
+                            last = x
+                        for single_status_group_indeks in range(0, len(res)):
+                            res[single_status_group_indeks] = [
+                                res[single_status_group_indeks][0],
+                                res[single_status_group_indeks][-1]
+                                ]
+                        flat_res = [item for sublist in res for item in sublist]
+                        pitstop_indexes.append(flat_res)
+
+            pitstop_indexes_flat = [item for sublist in pitstop_indexes for item in sublist]
+            pitstop_indexes_flat = sorted(set(pitstop_indexes_flat))
+
             # join all together
             all_indexes_flat = [item for sublist in all_indexes for item in sublist]
             all_indexes_flat = sorted(set(all_indexes_flat))
 
-            rows_to_add = [rows_to_add[i] for i in all_indexes_flat] 
+            full_list = all_indexes_flat + pitstop_indexes_flat
+            full_list = sorted(set(full_list))
+
+            rows_to_add = [rows_to_add[i] for i in full_list]
         # event table
         elif packet_id == 3:
             # no changes

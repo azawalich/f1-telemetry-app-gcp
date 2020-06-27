@@ -164,7 +164,7 @@ def header_bar_session(stats = None, pathname = None, sessionUID = None):
                     html.Div(
                         [   
                             session_info_html_add,
-                            html.Div(id="session-indicator"),
+                            html.Div(id="session-indicator2"),
                         ],
                         id='title-wrapper-top'
                     ), 

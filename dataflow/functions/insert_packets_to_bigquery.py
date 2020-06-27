@@ -114,7 +114,13 @@ def insert_packets_to_bigquery(file_pattern, database, project_name):
 
     # add row to statistics table
     if database == 'dashboard_data':
+        # if there is no event packet
+        if statistics_dict['event_win'] == None and statistics_dict['event_fastest_lap'] == None:
+            statistics_dict['event_win'] = 0
+            statistics_dict['event_fastest_lap'] = 0
+
         statistics_dict_row = [statistics_dict]
+
         # prepare schemas and rows
         
         schema_types = {

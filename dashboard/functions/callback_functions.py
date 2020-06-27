@@ -1,40 +1,11 @@
 import dash_html_components as html
 
 import data_assets.sections as sct
-import modules.get_data as mdl_get_data
+import functions.get_data as mdl_get_data
 import modules.navigation as mdl_navigation
 import modules.header as mdl_header
 import modules.homepage as mdl_homepage
-
-OG_META_TAGS = [
-        {
-            'property': 'og:title',
-            'content': 'F1 Telemetry App - Aleksander Zawalich'
-        },
-        {
-            'property': 'og:description',
-            'content': 'F1 telemetry app hosted on GCP'
-        },
-        {
-            'property': 'og:image',
-            'content': 'https://www.codemasters.com/wp-content/uploads/2019/03/f1_2019_monza_010.jpg'
-        },
-        {
-            'property': 'og:url',
-            'content': 'http://f1.zawalich.pl'
-        },
-        {
-            'property': 'og:type',
-            'content': 'website'
-        },
-        {
-            'http-equiv': 'X-UA-Compatible',
-            'content': 'IE=edge'
-        },
-        {
-            'charset': 'UTF-8'
-        },
-    ]
+import modules.summary as mdl_summary
 
 def return_dash_content(pathname, content_type, stats_data):
     pathname_clean = pathname
@@ -47,7 +18,7 @@ def return_dash_content(pathname, content_type, stats_data):
                 pathname_clean, sessionUID = pathname.split('%3F')
                 sessionUID = sessionUID.split('=')[1]
     
-    if pathname_clean in ['/session-summary'] and sessionUID != None:
+    if pathname_clean in ['/session-summary', '/session-laps'] and sessionUID != None:
         if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             return_rendered_content = True
     
@@ -64,12 +35,15 @@ def return_dash_content(pathname, content_type, stats_data):
     elif content_type == 'page_content':
         if pathname_clean in ["/", "/homepage"]:
             rendered_content = mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
-        elif return_rendered_content:
-                rendered_content = html.Div(
-                    html.P("This is the content of page 2. Yay!"),
-                    id='page-content',
-                    style={'height': '730px'}
-                )
+        elif pathname_clean in ['/session-summary']:
+            session_type = stats_data['recent_statistics_df'][stats_data['recent_statistics_df']['sessionUID'] == sessionUID]['sessionType'].tolist()[0]
+            rendered_content = mdl_summary.summary_wrapper(sessionUID = sessionUID, session_type = session_type, page_size = 10)
+        elif pathname_clean in ['/session-laps']:
+            rendered_content = html.Div(
+                html.P("This is the content of page 3. Yay!"),
+                id='page-content',
+                style={'height': '690px'}
+            )
         else:  
             # If the user tries to reach a different page, return a 404 message
             rendered_content = html.Div(
@@ -85,7 +59,8 @@ def return_dash_content(pathname, content_type, stats_data):
 
 def return_active_class_elements(pathname, render_type):
     if pathname not in [None, '/', '/homepage']:
-            pathname_clean = pathname.split('%3F')[0]
+        pathname_clean, sessionUID = pathname.split('%3F')
+        sessionUID = sessionUID.split('=')[1]
     else:
         pathname_clean = pathname
 
@@ -100,4 +75,14 @@ def return_active_class_elements(pathname, render_type):
             exec('a{}="{}"'.format(single_indeks, css_class_name))
         else:
             exec('a{}=""'.format(single_indeks))
+
+    return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
+
+def return_navigation_links(pathname):
+    if pathname not in [None, '/', '/homepage']:
+        sessionUID = pathname.split('%3F')[1].split('=')[1]
+    
+    for single_indeks in range(1, len(sct.SECTIONS.keys())):
+        single_section = list(sct.SECTIONS.keys())[single_indeks]
+        exec('a{}="/{}?sessionUID={}"'.format(single_indeks, single_section, sessionUID))
     return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')

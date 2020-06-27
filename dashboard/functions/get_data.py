@@ -18,7 +18,8 @@ def overall_stats():
         'global_records': None,
         'global_statistics': None,
         'session_cards': None,
-        'choice_table': None
+        'choice_table': None,
+        'participants_table': None
     }
 
     # setup credentials
@@ -168,7 +169,7 @@ def overall_stats():
     teams_boxes = []
     for single_team in choice_table['Team'].tolist():
         teams_boxes.append(
-            '![{}](assets/images/team_tile.svg) '.format(single_team)
+            '![{}](assets/images/teams/{}.svg) '.format(single_team, single_team.replace(' ', '_'))
         )
 
     choice_table['Team'] = teams_boxes + choice_table['Team']

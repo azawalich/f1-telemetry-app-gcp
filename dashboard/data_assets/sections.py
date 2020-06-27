@@ -17,17 +17,17 @@ SECTIONS = {
         'tile_style': css.DISABLED_TILE_STYLE,
         'link_style': css.DISABLED_LINK_TEXT_STYLE
     },
-    'driver-ranking': {
-        'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/random.svg',
-        'name': 'Driver Ranking',
+    'session-laps': {
+        'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/th.svg',
+        'name': 'Session Laps',
         'disabled': True,
         'img_style': css.DISABLED_COLOR2,
         'tile_style': css.DISABLED_TILE_STYLE,
         'link_style': css.DISABLED_LINK_TEXT_STYLE
     },
-    'sector-data': {
-        'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/th.svg',
-        'name': 'Sector Data',
+    'driver-ranking': {
+        'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/random.svg',
+        'name': 'Driver Ranking',
         'disabled': True,
         'img_style': css.DISABLED_COLOR2,
         'tile_style': css.DISABLED_TILE_STYLE,
