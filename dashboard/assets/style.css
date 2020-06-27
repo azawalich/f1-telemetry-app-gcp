@@ -320,7 +320,7 @@ a {
     float: left;
 }
 
-#header #session-indicator {
+#header #session-indicator, #header #session-indicator2 {
     visibility: hidden;
 }
 
