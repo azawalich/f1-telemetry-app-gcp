@@ -231,7 +231,7 @@ schema_list.append(
     bigquery_convert_to_schemas(
         {
             'schema': [
-                {'mode': 'NULLABLE', 'name': 'sessionUID', 'type': 'INT64', 'description': None}, 
+                {'mode': 'NULLABLE', 'name': 'sessionUID', 'type': 'STRING', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'publish_time', 'type': 'STRING', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'sessionType', 'type': 'INT64', 'description': None}, 
                 {'mode': 'NULLABLE', 'name': 'sessionTime', 'type': 'INT64', 'description': None}, 
