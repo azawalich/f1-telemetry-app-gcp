@@ -110,7 +110,7 @@ def get_summary_data(sessionUID, session_type):
     full_df_joined['name_short'] = full_df_joined['name'].str.split(' ').apply(lambda x: x[1][0:3].upper())
 
     full_df_joined = full_df_joined[
-        ['name_short', 'nationality', 'team', 'total_laps', 'fastest_lap_format', 'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
+        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'fastest_lap_format', 'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
         ]
 
     if session_type in ['Race', 'Race 2']:
@@ -148,7 +148,7 @@ def get_summary_data(sessionUID, session_type):
         full_df_joined = full_df_joined.drop(columns = 'full_total_time')
 
         full_df_joined = full_df_joined[
-        ['name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 'int', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
+        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 'int', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
         ]
 
     full_df_joined = full_df_joined.drop(columns = 'participant_grouping_id')
@@ -174,9 +174,11 @@ def get_summary_data(sessionUID, session_type):
         })
 
     teams_boxes = []
-    for single_team in full_df_joined['Team'].tolist():
+    for single_team_index in range(0, len(full_df_joined['Team'].tolist())):
+        single_team = full_df_joined['Team'].tolist()[single_team_index]
+        full_name = full_df_joined['name'].tolist()[single_team_index]
         teams_boxes.append(
-            '![{}](assets/images/teams/{}.svg) '.format(single_team, single_team.replace(' ', '_'))
+            '![{}](assets/images/teams/{}.svg "{}") '.format(single_team, single_team.replace(' ', '_'), full_name)
         )
 
     full_df_joined['Name'] = teams_boxes + full_df_joined['Name']
@@ -184,9 +186,10 @@ def get_summary_data(sessionUID, session_type):
     nationality_flags = []
     for single_nationality in full_df_joined['Nat.'].tolist():
         nationality_flags.append(
-            '![{}]({})'.format(
+            '![{}]({} "{}")'.format(
                 nat.NATIONALITIES[single_nationality]['country'],
-                nat.NATIONALITIES[single_nationality]['flag_url']
+                nat.NATIONALITIES[single_nationality]['flag_url'],
+                nat.NATIONALITIES[single_nationality]['country']
                 )
         )
     
@@ -196,9 +199,10 @@ def get_summary_data(sessionUID, session_type):
     for single_participant_stint in full_df_joined['Stint'].tolist():
         single_participant_stint_temp = ''
         for single_stint in single_participant_stint:
-            single_participant_stint_temp = '{} ![{}](assets/images/tires/{}.svg)'.format(
+            single_participant_stint_temp = '{} ![{}](assets/images/tires/{}.svg "{} Tires")'.format(
                 single_participant_stint_temp, 
                 single_stint, 
+                single_stint,
                 single_stint
                 )
             
@@ -213,8 +217,8 @@ def get_summary_data(sessionUID, session_type):
         })
 
     final_df_splitted = (
-        full_df_joined[full_df_joined['yourTelemetry'] == 0].drop(columns='yourTelemetry'), 
-        full_df_joined[full_df_joined['yourTelemetry'] == 1].drop(columns='yourTelemetry')
+        full_df_joined[full_df_joined['yourTelemetry'] == 0].drop(columns=['yourTelemetry', 'name']), 
+        full_df_joined[full_df_joined['yourTelemetry'] == 1].drop(columns=['yourTelemetry', 'name'])
     )
 
     print('loading time: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))

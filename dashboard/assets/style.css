@@ -109,7 +109,8 @@ a {
 #sidebar {
     width: 280px;
     height: 100%;
-    padding: 24px;
+    padding-top: 24px;
+    padding-left: 24px;
     padding-bottom: 0px;
     background-color: #101017;
     float: left;
@@ -118,6 +119,8 @@ a {
     top: 0;
     left: 0;
     overflow-x: hidden;
+    border-right: 1px solid;
+    border-color:#20202D;
 }
 
 #logo {
@@ -195,6 +198,7 @@ a {
     font-family: TitilliumWeb;
     font-size: 12px;
     line-height: 18px;
+    padding-right: 24px;
 }
 
 .navigation-link a{
@@ -245,7 +249,7 @@ a {
 
 #link-wrapper {
     height: 18px;
-    width: 232px;
+    width: 263px;
     margin-bottom: 32px;
 }
 
@@ -259,6 +263,7 @@ a {
     visibility:hidden;
     height: 38px;
     margin-top: -10px;
+    margin-right: 0px !important;
 }
 
 .navigation-link-current-image{
@@ -315,7 +320,7 @@ a {
     width: 1016px;
     height: 198px;
     padding: 19px 0px;
-    margin-left: 260px;
+    margin-left: 261px;
     margin-bottom: 19px;
     float: left;
 }
@@ -344,10 +349,10 @@ a {
 
 #header-session {
     width: 1016px;
-    height: 334px;
+    height: 254px;
     padding-bottom: 19px;
     padding-left: 19px;
-    margin-left: 260px;
+    margin-left: 261px;
     margin-bottom: 19px;
     float: left;
     background-color: #101017;
@@ -434,6 +439,10 @@ a {
     margin-bottom: 13px;
 }
 
+#header-wrapper #header-session #header-bottom-row #global-stats-wrapper > div:nth-last-child(-n+3){
+    padding-top: 0px;
+}
+
 #global-stats-wrapper :nth-child(3n+3) { 
     margin-right: 0; 
 }
@@ -451,7 +460,7 @@ a {
     font-size: 12px;
     line-height: 14px;
     color: #FFFFFF;
-    opacity: 0.9;
+    opacity: 0.6;
     margin-bottom: 10px;
 }
 
@@ -467,7 +476,7 @@ a {
     font-size: 16px;
     line-height: 19px;
     color: #FFFFFF;
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 #page-content-wrapper{
@@ -498,10 +507,11 @@ a {
     color: #ffffff !important;
     opacity: 0.9;
 }
+*/
 
 .previous-next-container {
-    background-color: #1F1D29;
-} */
+    background-color: #1F1D29 !important;
+}
 
 #subtitle-wrapper h1 {
     font-family: Formula1Wide;
@@ -559,8 +569,13 @@ a {
     background-color: #101017 !important;
 }
 
-.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tr:nth-child(n+2):hover {
+#datatable-paging-page-count tr:nth-child(n+2):hover, #datatable-2-paging-page-count tr:nth-child(n+2):hover {
     background-color: #1F1D29 !important;
+    cursor: pointer;
+}
+
+#datatable-3-paging-page-count > div.previous-next-container > div > input {
+    color: white !important;
 }
 
 .dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td {
@@ -606,17 +621,21 @@ a {
     margin-left:10px;
 }
 
-[id^=datatable-] tr:nth-child(n+2):hover {
-    cursor: pointer;
-}
-
-[id^=datatable-] th, .previous-next-container {
+[id^=datatable-] th{
     font-family: Formula1;
     font-size: 10px;
     line-height: 12px;
     color: #ffffff;
     opacity: 0.6;
     background-color: #101017 !important;
+}
+
+[id^=datatable-] th, .previous-next-container {
+    font-family: Formula1;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ffffff !important;
+    opacity: 0.6;
 }
 
 .dash-table-container {
@@ -627,16 +646,15 @@ a {
     font-family: Formula1;
     font-size: 10px !important;
     line-height: 12px;
-    color: #ffffff;
+    color: #ffffff !important;
     opacity: 0.6;
-    background-color: #101017 !important;
+    background-color: #1F1D29 !important;
 }
 
 [id^=datatable-] tr:nth-child(n+1) td:nth-child(-n+1) {
     font-family: Formula1;
     font-size: 14px;
     line-height: 17px;
-    /* color: rgba(31, 31, 45, 0.6) */
     color: #ffffff;
     opacity: 0.6;
 }
@@ -645,7 +663,6 @@ a {
     font-family: Formula1;
     font-size: 14px;
     line-height: 17px;
-    /* color: rgba(31, 31, 45, 0.9); */
     color: #ffffff;
     opacity: 0.9;
     margin: 0;
