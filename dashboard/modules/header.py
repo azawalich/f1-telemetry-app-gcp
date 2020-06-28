@@ -85,7 +85,12 @@ def header_bar(stats = None, pathname = None):
                 global_stats_elements(
                     stats, 
                     section = pathname_splitted
-                    ),
+                    ) + [
+                            html.Div('',
+                                id='loader-wrapper',
+                                style={'display': 'none'}
+                                )
+                            ],
                 id='global-stats-wrapper'
             )
         ],
@@ -186,7 +191,21 @@ def header_bar_session(stats = None, pathname = None, sessionUID = None):
                         global_stats_elements(
                             session_stats_groups['bottom'], 
                             section = pathname_splitted
-                            ),
+                            ) + [
+                                html.Div(
+                                    [
+                                        html.Div(
+                                            [
+                                                dbc.Spinner(color="danger"),
+                                                html.H1('Loading Data...'),
+                                            ], 
+                                            id = 'preloader'
+                                        ),
+                                    ],
+                                    id='loader-wrapper',
+                                    style={'padding-left': '20px'}
+                                    )
+                                ],
                         id='global-stats-wrapper'
                     )
                 ],

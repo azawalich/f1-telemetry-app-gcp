@@ -498,17 +498,6 @@ a {
     opacity: 0.9;
 }
 
-/* #datatable-3-paging-page-count > div.previous-next-container > div > input {
-    color: #ffffff !important;
-    opacity: 0.9;
-}
-
-#datatable-3-paging-page-count > div.previous-next-container > div > input:focus {
-    color: #ffffff !important;
-    opacity: 0.9;
-}
-*/
-
 .previous-next-container {
     background-color: #1F1D29 !important;
 }
@@ -666,4 +655,12 @@ a {
     color: #ffffff;
     opacity: 0.9;
     margin: 0;
+}
+
+#header-session .spinner-border, #header-session .text-danger {
+    width: 20px !important;
+    height: 20px !important;
+    float: left !important;
+    color: #FF1E00 !important;
+    margin-right: 10px;
 }

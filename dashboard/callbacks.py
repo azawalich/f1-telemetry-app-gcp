@@ -16,7 +16,14 @@ def render_navigation_content(pathname):
 def render_header_content(pathname):
     return fct_call_fct.return_dash_content(pathname, 'header', stats_data)
 
-@app.callback(Output("page-content-wrapper", "children"), [Input("url", "pathname")])
+@app.callback(
+    [
+        Output("page-content-wrapper", "children"),
+        Output("loader-wrapper", "children")
+    ], 
+    [
+        Input("url", "pathname")
+    ])
 def render_page_content(pathname):
     if pathname != None:
         if 'sessionUID=' in pathname:
@@ -26,9 +33,9 @@ def render_page_content(pathname):
         if '/session-summary' in pathname and sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             global participants_data_call
             elements_list, participants_data_call = fct_call_fct.return_dash_content(pathname, 'page_content', stats_data)
-            return elements_list
+            return elements_list, None
         else:
-            return fct_call_fct.return_dash_content(pathname, 'page_content', stats_data)
+            return fct_call_fct.return_dash_content(pathname, 'page_content', stats_data), None
 
 @app.callback(
     [   
