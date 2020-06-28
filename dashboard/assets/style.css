@@ -439,7 +439,7 @@ a {
     margin-bottom: 13px;
 }
 
-#header-wrapper #header-session #header-bottom-row #global-stats-wrapper > div:nth-last-child(-n+3){
+#header-wrapper #header-session #header-bottom-row #global-stats-wrapper > div:nth-last-child(-n+4){
     padding-top: 0px;
 }
 
