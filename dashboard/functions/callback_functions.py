@@ -18,7 +18,12 @@ def return_dash_content(pathname, content_type, stats_data):
                 pathname_clean, sessionUID = pathname.split('%3F')
                 sessionUID = sessionUID.split('=')[1]
     
-    if pathname_clean in ['/session-summary', '/session-laps'] and sessionUID != None:
+    active_pages = [
+        '/session-summary'
+        #,'/session-laps'
+    ]
+
+    if pathname_clean in active_pages and sessionUID != None:
         if sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             return_rendered_content = True
     
@@ -77,18 +82,25 @@ def return_active_class_elements(pathname, render_type):
 
     for single_indeks in range(1, len(sct.SECTIONS.keys())):
         single_section = list(sct.SECTIONS.keys())[single_indeks]
-        if single_section == pathname_clean[1:]:
-            exec('a{}="{}"'.format(single_indeks, css_class_name))
+        if pathname_clean != None:
+            if single_section == pathname_clean[1:]:
+                exec('a{}="{}"'.format(single_indeks, css_class_name))
+            else:
+                exec('a{}=""'.format(single_indeks))
         else:
             exec('a{}=""'.format(single_indeks))
 
     return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
 
 def return_navigation_links(pathname):
+    sessionUID = None
     if pathname not in [None, '/', '/homepage']:
         sessionUID = pathname.split('%3F')[1].split('=')[1]
     
     for single_indeks in range(1, len(sct.SECTIONS.keys())):
         single_section = list(sct.SECTIONS.keys())[single_indeks]
-        exec('a{}="/{}%3FsessionUID={}"'.format(single_indeks, single_section, sessionUID))
+        if sessionUID != None:
+            exec('a{}="/{}%3FsessionUID={}"'.format(single_indeks, single_section, sessionUID))
+        else:
+            exec('a{}="/{}"'.format(single_indeks, single_section))
     return eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')

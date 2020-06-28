@@ -222,6 +222,8 @@ def get_summary_data(sessionUID, session_type):
     return final_df_splitted
 
 def summary_wrapper(sessionUID, session_type, page_size):
+    participants_elements = []
+    
     #12 = Time Trial
     if session_type == 12:
         session_type = 'Time Trial'
@@ -250,6 +252,53 @@ def summary_wrapper(sessionUID, session_type, page_size):
     if len(summary_data) > 1:
         participants_data = summary_data[1]
         pages_count = int(round(participants_data.shape[0] / page_size, 0))
+        if session_type != 'Time Trial':
+            participants_elements = [
+                html.Div(
+                        html.H1(
+                            '{} Classification'.format(session_type)
+                        ),
+                        id='subtitle-wrapper'
+                    ),
+            dash_table.DataTable(
+            id='datatable-3-paging-page-count',
+            columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] else {"name": i, "id": i} for i in participants_data.columns],
+            # data=participants_data.to_dict('records'),
+            filter_query='',
+            page_current=0,
+            page_size=page_size,
+            page_action='custom',
+            page_count=pages_count,
+            style_header={'border': '0 !important'},
+            style_cell={'textAlign': 'left'},
+            # style_cell_conditional=[
+            #     {
+            #         'if': {'column_id': ''},
+            #         'width': '20px'
+            #     },
+            #     {
+            #         'if': {'column_id': 'Team'},
+            #         'width': '222px'
+            #     },
+            #     {
+            #         'if': {'column_id': 'Session Time'},
+            #         'width': '250px'
+            #     },
+            #     {
+            #         'if': {'column_id': 'Session Track'},
+            #         'width': '167px'
+            #     },
+            #     {
+            #         'if': {'column_id': 'Laps'},
+            #         'width': '96px'
+            #     },
+            #     {
+            #         'if': {'column_id': 'Session Duration'},
+            #         'width': '133px'
+            #     }
+            # ]
+            )
+        ]
 
     elements_list = html.Div(
         [
@@ -296,52 +345,7 @@ def summary_wrapper(sessionUID, session_type, page_size):
         #         'width': '133px'
         #     }
         # ]
-    ),
-        html.Div(
-                    html.H1(
-                         '{} Classification'.format(session_type)
-                    ),
-                    id='subtitle-wrapper'
-                ),
-        dash_table.DataTable(
-        id='datatable-3-paging-page-count',
-        columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] else {"name": i, "id": i} for i in participants_data.columns],
-        # data=participants_data.to_dict('records'),
-        filter_query='',
-        page_current=0,
-        page_size=page_size,
-        page_action='custom',
-        page_count=pages_count,
-        style_header={'border': '0 !important'},
-        style_cell={'textAlign': 'left'},
-        # style_cell_conditional=[
-        #     {
-        #         'if': {'column_id': ''},
-        #         'width': '20px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Team'},
-        #         'width': '222px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Time'},
-        #         'width': '250px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Track'},
-        #         'width': '167px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Laps'},
-        #         'width': '96px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Duration'},
-        #         'width': '133px'
-        #     }
-        # ]
-    )
-        ],
+    )] + participants_elements,
         id='page-content',
         style={'height': '690px'}
     )
