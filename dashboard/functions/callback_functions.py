@@ -48,7 +48,7 @@ def return_dash_content(pathname, content_type, stats_data):
         if pathname_clean in ["/", "/homepage"]:
             rendered_content = mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
         elif pathname_clean in ['/session-summary'] and sessionUID != None and sessionUID.isdigit():
-            rendered_content = mdl_summary.summary_wrapper(sessionUID = sessionUID, session_type = session_type, page_size = 10)
+            rendered_content = mdl_summary.summary_wrapper(pathname_clean = pathname_clean, sessionUID = sessionUID, session_type = session_type, page_size = 10)
         # elif pathname_clean in ['/session-laps'] and sessionUID != None and sessionUID.isdigit():
         #     rendered_content = html.Div(
         #         html.P("This is the content of page 3. Yay!"),

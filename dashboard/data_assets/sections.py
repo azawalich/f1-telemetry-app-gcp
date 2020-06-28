@@ -3,66 +3,111 @@ import data_assets.style as css
 SECTIONS = {
     'homepage': {
         'icon': 'assets/images/menu_arrow.svg',
-        'name': 'Back',
-        'disabled': False,
-        'img_style': css.ENABLED_COLOR,
-        'tile_style': css.ENABLED_TILE_STYLE,
-        'link_style': css.ENABLED_LINK_TEXT_STYLE
+        'name': 'Back'
     },
     'session-summary': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/table.svg',
         'name': 'Session Summary',
         'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'table_cell_widths': [
+                {
+                    'if': {'column_id': ''},
+                    'width': '40px'
+                },
+                {
+                    'if': {'column_id': 'Name'},
+                    'width': '65px'
+                },
+                {
+                    'if': {'column_id': 'Nat.'},
+                    'width': '65px'
+                },
+                {
+                    'if': {'column_id': 'Team'},
+                    'width': '252px'
+                },
+                {
+                    'if': {'column_id': 'Laps'},
+                    'width': '96px'
+                },
+                {
+                    'if': {'column_id': 'Fastest Lap'},
+                    'width': '100px'
+                },
+                {
+                    'if': {'column_id': 'Gap'},
+                    'width': '70px'
+                },
+                {
+                    'if': {'column_id': 'Pits'},
+                    'width': '45px'
+                }
+            ],
+        'table_race_cell_widths': [
+                {
+                    'if': {'column_id': ''},
+                    'width': '40px'
+                },
+                {
+                    'if': {'column_id': 'Name'},
+                    'width': '65px'
+                },
+                {
+                    'if': {'column_id': 'Nat.'},
+                    'width': '65px'
+                },
+                {
+                    'if': {'column_id': 'Team'},
+                    'width': '202px'
+                },
+                {
+                    'if': {'column_id': 'Laps'},
+                    'width': '50px'
+                },
+                {
+                    'if': {'column_id': 'Time'},
+                    'width': '120px'
+                },
+                {
+                    'if': {'column_id': 'Int.'},
+                    'width': '90px'
+                },
+                {
+                    'if': {'column_id': 'Fastest Lap'},
+                    'width': '90px'
+                },
+                {
+                    'if': {'column_id': 'Gap'},
+                    'width': '70px'
+                },
+                {
+                    'if': {'column_id': 'Pits'},
+                    'width': '35px'
+                }
+            ]
     },
     'session-laps': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/th.svg',
-        'name': 'Session Laps',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Session Laps'
     },
     'driver-ranking': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/random.svg',
-        'name': 'Driver Ranking',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Driver Ranking'
     },
     'session-map': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/route.svg',
-        'name': 'Session Map',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Session Map'
     },
     'telemetry-data': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/chart-line.svg',
-        'name': 'Telemetry Data',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Telemetry Data'
     },
     'tires-age': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/circle-notch.svg',
-        'name': 'Tires Age',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Tires Age'
     },
     'pure-pitwall': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/chart-pie.svg',
-        'name': 'Pure Pitwall',
-        'disabled': True,
-        'img_style': css.DISABLED_COLOR2,
-        'tile_style': css.DISABLED_TILE_STYLE,
-        'link_style': css.DISABLED_LINK_TEXT_STYLE
+        'name': 'Pure Pitwall'
     }
 }

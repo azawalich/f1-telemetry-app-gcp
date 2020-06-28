@@ -9,6 +9,7 @@ import datetime
 import time
 
 import data_assets.nationalities as nat
+import data_assets.sections as sct
 import sql.q_summary as bqq
 
 from dash.dependencies import Input, Output
@@ -225,7 +226,8 @@ def get_summary_data(sessionUID, session_type):
 
     return final_df_splitted
 
-def summary_wrapper(sessionUID, session_type, page_size):
+def summary_wrapper(pathname_clean, sessionUID, session_type, page_size):
+    pathname_clean = pathname_clean.replace('/', '')
     participants_elements = []
     
     #12 = Time Trial
@@ -249,6 +251,11 @@ def summary_wrapper(sessionUID, session_type, page_size):
     elif session_type in [11]:
         session_type = 'Race {}'.format(session_type - 9)
     
+    table_widths = sct.SECTIONS[pathname_clean]['table_cell_widths']
+
+    if 'Race' in session_type:
+        table_widths = sct.SECTIONS[pathname_clean]['table_race_cell_widths']
+
     summary_data = get_summary_data(sessionUID, session_type)
     
     your_data = summary_data[0]
@@ -267,7 +274,6 @@ def summary_wrapper(sessionUID, session_type, page_size):
             dash_table.DataTable(
             id='datatable-3-paging-page-count',
             columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] else {"name": i, "id": i} for i in participants_data.columns],
-            # data=participants_data.to_dict('records'),
             filter_query='',
             page_current=0,
             page_size=page_size,
@@ -275,32 +281,7 @@ def summary_wrapper(sessionUID, session_type, page_size):
             page_count=pages_count,
             style_header={'border': '0 !important'},
             style_cell={'textAlign': 'left'},
-            # style_cell_conditional=[
-            #     {
-            #         'if': {'column_id': ''},
-            #         'width': '20px'
-            #     },
-            #     {
-            #         'if': {'column_id': 'Team'},
-            #         'width': '222px'
-            #     },
-            #     {
-            #         'if': {'column_id': 'Session Time'},
-            #         'width': '250px'
-            #     },
-            #     {
-            #         'if': {'column_id': 'Session Track'},
-            #         'width': '167px'
-            #     },
-            #     {
-            #         'if': {'column_id': 'Laps'},
-            #         'width': '96px'
-            #     },
-            #     {
-            #         'if': {'column_id': 'Session Duration'},
-            #         'width': '133px'
-            #     }
-            # ]
+            style_cell_conditional=table_widths
             )
         ]
 
@@ -323,32 +304,7 @@ def summary_wrapper(sessionUID, session_type, page_size):
         page_count=1,
         style_header={'border': '0 !important'},
         style_cell={'textAlign': 'left'},
-        # style_cell_conditional=[
-        #     {
-        #         'if': {'column_id': ''},
-        #         'width': '20px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Team'},
-        #         'width': '222px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Time'},
-        #         'width': '250px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Track'},
-        #         'width': '167px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Laps'},
-        #         'width': '96px'
-        #     },
-        #     {
-        #         'if': {'column_id': 'Session Duration'},
-        #         'width': '133px'
-        #     }
-        # ]
+        style_cell_conditional=table_widths
     )] + participants_elements,
         id='page-content',
         style={'height': '690px'}
