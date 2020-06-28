@@ -69,3 +69,16 @@
 - [Stack Overflow Discussion - creating variables from string](https://stackoverflow.com/questions/13002530/python-3-convert-string-to-variable)
 - [Stack Overflow Discussion - accessing variables from string](https://stackoverflow.com/questions/11864926/python-access-variable-from-string/)
 - last, but not least: _tons of frontend-related Stack-overflow / Google search results material_ 
+## v0.8.1
+- [Documentation Article - Dash External resources loading order](https://dash.plotly.com/external-resources)
+- [Documentation Article - Dash Multi-page App structure](https://dash.plotly.com/urls)
+- [Documentation Article - Dash Bootstrap spinners](https://dash-bootstrap-components.opensource.faculty.ai/docs/components/spinner/)
+- [Documentation Article - flattening nested BigQuery fields](https://cloud.google.com/life-sciences/docs/how-tos/flatten-bigquery-table)
+- [Plotly Community Discussion - passing parameters in multi-page Dash applications](https://community.plotly.com/t/pass-a-parameter-from-one-page-to-another-page/27976)
+- [Plotly Community Discussion - Dash applications loading state completion](https://community.plotly.com/t/dash-loading-states/5687)
+- [Stack Overflow Discussion - jQuery trigerring window events](https://stackoverflow.com/questions/23544913/trigger-jquerys-window-resize-only-after-window-load)
+- [Stack Overflow Discussion - JavaScript wait time](https://stackoverflow.com/questions/1836105/how-to-wait-5-seconds-with-jquery)
+- [Stack Overflow Discussion - using global variable in function](https://stackoverflow.com/questions/423379/using-global-variables-in-a-function)
+- [Stack Overflow Discussion - splitting list based on elements' difference](https://stackoverflow.com/questions/52005258/split-a-list-in-sublists-based-on-the-difference-between-consecutive-values)
+- [Stack Overflow Discussion - list of duplicated list elements](https://stackoverflow.com/questions/5419204/index-of-duplicates-items-in-a-python-list)
+- [Stack Overflow Discussion - regexp-like CSS styling](https://stackoverflow.com/questions/11496645/how-to-get-css-to-select-id-that-begins-with-a-string-not-in-javascript)
