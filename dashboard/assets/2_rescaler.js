@@ -8,16 +8,16 @@ function resize_dashboard(layout_width, window_width) {
     $("#scaleable-wrapper").attr('style', '');
     $("#layout-design").attr('style', '');
   }
-  if (window_width > 1920){
-    $("#sidebar").css({
-        'height': $(window).height() * 0.63
-    });
-  }
-  else {
-    $("#sidebar").css({
-        'height': $(window).height() * 0.89
-    });
-  }
+  // if (window_width > 1920){
+  //   $("#sidebar").css({
+  //       'height': $(window).height() * 0.63
+  //   });
+  // }
+  // else {
+  //   $("#sidebar").css({
+  //       'height': $(window).height() * 0.89
+  //   });
+  // }
 };
 
 var layout_width = $("#scaleable-wrapper").width();
