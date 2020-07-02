@@ -30,7 +30,7 @@ def render_page_content(pathname):
             sessionUID = pathname.split('=')[1]
         else:
             sessionUID = ''
-        if '/session-summary' in pathname and sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
+        if ('/session-summary' in pathname or '/session-laps' in pathname) and sessionUID in stats_data['recent_statistics_df']['sessionUID'].tolist():
             global participants_data_call
             elements_list, participants_data_call = fct_call_fct.return_dash_content(pathname, 'page_content', stats_data)
             return elements_list, None

@@ -6,6 +6,7 @@ import modules.navigation as mdl_navigation
 import modules.header as mdl_header
 import modules.homepage as mdl_homepage
 import modules.summary as mdl_summary
+import modules.laps as mdl_laps
 
 def return_dash_content(pathname, content_type, stats_data):
     pathname_clean = pathname
@@ -19,8 +20,8 @@ def return_dash_content(pathname, content_type, stats_data):
                 sessionUID = sessionUID.split('=')[1]
     
     active_pages = [
-        '/session-summary'
-        #,'/session-laps'
+        '/session-summary',
+        '/session-laps'
     ]
 
     if pathname_clean in active_pages and sessionUID != None:
@@ -49,12 +50,8 @@ def return_dash_content(pathname, content_type, stats_data):
             rendered_content = mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
         elif pathname_clean in ['/session-summary'] and sessionUID != None and sessionUID.isdigit():
             rendered_content = mdl_summary.summary_wrapper(pathname_clean = pathname_clean, sessionUID = sessionUID, session_type = session_type, page_size = 10)
-        # elif pathname_clean in ['/session-laps'] and sessionUID != None and sessionUID.isdigit():
-        #     rendered_content = html.Div(
-        #         html.P("This is the content of page 3. Yay!"),
-        #         id='page-content',
-        #         style={'height': '690px'}
-        #     )
+        elif pathname_clean in ['/session-laps'] and sessionUID != None and sessionUID.isdigit():
+            rendered_content = mdl_laps.laps_wrapper(pathname_clean = pathname_clean, sessionUID = sessionUID, session_type = session_type, page_size = 10)
         else:  
             # If the user tries to reach a different page, return a 404 message
             rendered_content = html.Div(
