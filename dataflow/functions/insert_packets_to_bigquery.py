@@ -34,7 +34,7 @@ def insert_packets_to_bigquery(file_pattern, database, project_name):
         'distance_driven', 'distance_driven_format', 'team_id', 'nationality_id', 'track_id', 
         'lap_count', 'fastest_lap', 'fastest_lap_format', 'record_lap', 'record_lap_format', 
         'event_win', 'event_fastest_lap', 'assist_tractionControl', 'assist_antiLockBrakes', 
-        'datapoint_count_format', 'insert_time', 'networkGame']
+        'datapoint_count_format', 'insert_time', 'networkGame', 'trackLength', 'fullLaps']
         )        
     statistics_dict['datapoint_count'] = 0
 
@@ -118,6 +118,14 @@ def insert_packets_to_bigquery(file_pattern, database, project_name):
         if statistics_dict['event_win'] == None and statistics_dict['event_fastest_lap'] == None:
             statistics_dict['event_win'] = 0
             statistics_dict['event_fastest_lap'] = 0
+
+        statistics_dict['distance_driven'] = statistics_dict['fullLaps'] * statistics_dict['trackLength']
+        statistics_dict['distance_driven_format'] = '{:,}km'.format(
+            statistics_dict['distance_driven'] / 1000
+            ).replace(',', ' ')
+
+        del statistics_dict['fullLaps']
+        del statistics_dict['trackLength']
 
         statistics_dict_row = [statistics_dict]
 

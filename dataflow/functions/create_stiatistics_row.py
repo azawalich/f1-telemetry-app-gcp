@@ -1,7 +1,7 @@
 import time
 import datetime
 
-def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
+def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):   
     last_row = rows_to_add_reduced[-1]
     if packet_id == 1: # session table
         statistics_dict['sessionUID'] = last_row['header'][0]['sessionUID']
@@ -23,14 +23,21 @@ def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
             datetime.timedelta(seconds=statistics_dict['sessionTime'])
             ).strftime("%Y-%m-%d %H:%M:%S")
         statistics_dict['track_id'] = last_row['trackId']
+        statistics_dict['trackLength'] = last_row['trackLength']
     elif packet_id == 2: # lap table
         player_indeks = last_row['header'][0]['playerCarIndex']
-        statistics_dict['distance_driven'] = int(round(last_row['lapData'][player_indeks]['totalDistance']))
-        statistics_dict['distance_driven_format'] = '{:,}km'.format(
-            statistics_dict['distance_driven'] / 1000
-            ).replace(',', ' ')
-        statistics_dict['lap_count'] = last_row['lapData'][player_indeks]['currentLapNum']
-        
+        full_laps = []
+        for single_row_indeks in range(0, len(rows_to_add_reduced)):
+            single_row = rows_to_add_reduced[single_row_indeks]
+            if single_row['lapData'][player_indeks]['sector'] == 2:
+                full_laps.append(
+                    '{}_{}'.format(
+                        single_row['lapData'][player_indeks]['sector'],
+                        single_row['lapData'][player_indeks]['currentLapNum']
+                    )
+                )
+        statistics_dict['fullLaps'] = len(set(full_laps))
+        statistics_dict['lap_count'] = statistics_dict['fullLaps']
         # to get fastest lap we need to iterate through all lap rows
         lap_times = []
         for single_row_indeks in range(0, len(rows_to_add_reduced)):
