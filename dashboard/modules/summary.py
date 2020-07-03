@@ -1,4 +1,5 @@
 import sys, os
+import numpy as np
 import pandas as pd
 from pandas.io import gbq
 import dash_html_components as html
@@ -42,9 +43,15 @@ def get_summary_data(sessionUID, session_type):
 
     participant_grouping_ids = list(range(0, int(max(summary_laps_df_flat['carPosition'].tolist()))))
 
-    summary_laps_df_flat['participant_grouping_id'] =  participant_grouping_ids * int(summary_laps_df_flat.shape[0] / len(participant_grouping_ids))
-    summary_car_status_df_flat['participant_grouping_id'] =  participant_grouping_ids * int(summary_car_status_df_flat.shape[0] / len(participant_grouping_ids))
-
+    summary_laps_df_flat['participant_grouping_id'] = np.tile(
+        participant_grouping_ids, len(summary_laps_df_flat) // len(participant_grouping_ids)).tolist() + \
+            participant_grouping_ids[:len(summary_laps_df_flat)%len(participant_grouping_ids)]
+    summary_laps_df_flat = summary_laps_df_flat[summary_laps_df_flat['sector'] == 2]
+    
+    summary_car_status_df_flat['participant_grouping_id'] = np.tile(
+        participant_grouping_ids, len(summary_car_status_df_flat) // len(participant_grouping_ids)).tolist() + \
+            participant_grouping_ids[:len(summary_car_status_df_flat)%len(participant_grouping_ids)]
+    
     #total laps
     total_laps_df = pd.DataFrame(summary_laps_df_flat.groupby(['participant_grouping_id'])['currentLapNum'].max()).reset_index()
     total_laps_df = total_laps_df.rename(columns = {'currentLapNum': 'total_laps'})
@@ -65,7 +72,9 @@ def get_summary_data(sessionUID, session_type):
             groupby(['pitStatus', 'currentLapNum']).tail(1)[['currentLapNum', 'pitStatus', 'sessionTime', 'participant_grouping_id']]
         pitstops_info['sessionTime_rounded'] = pitstops_info['sessionTime'].round(0)
 
-        tires_info = summary_car_status_df_flat[summary_car_status_df_flat['participant_grouping_id'] == participant][['tyreVisualCompound', 'sessionTime', 'participant_grouping_id']]
+        tires_info = summary_car_status_df_flat[
+            summary_car_status_df_flat['participant_grouping_id'] == participant
+            ][['tyreVisualCompound', 'sessionTime', 'participant_grouping_id']]
         tires_info['sessionTime_rounded'] = tires_info['sessionTime'].round(0)
 
         #16 = soft, 17 = medium, 18 = hard, 7 = inter, 8 = wet 
@@ -79,7 +88,8 @@ def get_summary_data(sessionUID, session_type):
 
         pitstops_tires_merged = pd.merge(pitstops_info, tires_info, on=['participant_grouping_id', 'sessionTime_rounded'], how='left')
 
-        tires_laps = pitstops_tires_merged[pitstops_tires_merged['pitStatus'] == 0].groupby(['participant_grouping_id', 'currentLapNum', 'tyreVisualCompound']).head(1).drop_duplicates('tyreVisualCompound')
+        tires_laps = pitstops_tires_merged[pitstops_tires_merged['pitStatus'] == 0].groupby(
+            ['participant_grouping_id', 'currentLapNum', 'tyreVisualCompound']).head(1).drop_duplicates('tyreVisualCompound')
 
         tyre_indexes = list(pitstops_tires_merged[pitstops_tires_merged['pitStatus'] == 1].index + 1)
 
@@ -103,15 +113,16 @@ def get_summary_data(sessionUID, session_type):
     laps_full_df_joined = pd.merge(fastest_lap_df, total_laps_df, on='participant_grouping_id', how='left').\
         merge(tires_final_joined, on='participant_grouping_id', how='left').sort_values('fastest_lap_format')
 
-    laps_full_df_joined['gap'] = laps_full_df_joined['fastest_lap'].diff().round(3).astype(str)
-    laps_full_df_joined.loc[laps_full_df_joined[laps_full_df_joined['gap'] == 'nan'].index, 'gap'] = ''
+    laps_full_df_joined['gap'] = laps_full_df_joined['fastest_lap'].diff().apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
+    laps_full_df_joined.loc[laps_full_df_joined[laps_full_df_joined['gap'] == 'nans'].index, 'gap'] = '+/-'
 
     full_df_joined = pd.merge(summary_participants_df, laps_full_df_joined, on='participant_grouping_id', how='left').sort_values('fastest_lap')
 
     full_df_joined['name_short'] = full_df_joined['name'].str.split(' ').apply(lambda x: x[1][0:3].upper())
 
     full_df_joined = full_df_joined[
-        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'fastest_lap_format', 'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
+        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'fastest_lap_format', 
+        'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
         ]
 
     if session_type in ['Race', 'Race 2']:
@@ -136,8 +147,8 @@ def get_summary_data(sessionUID, session_type):
         full_df_joined = pd.merge(full_df_joined, total_time_df_joined, on='participant_grouping_id', how='left').sort_values('full_total_time')
 
         full_df_joined['int'] = full_df_joined['full_total_time'] - full_df_joined['full_total_time'].tolist()[0]
-        full_df_joined['int'] = full_df_joined['int'].round(3).astype(str) + 's'
-        full_df_joined.loc[full_df_joined[full_df_joined['int'] == '0.0s'].index, 'int'] = ''
+        full_df_joined['int'] = full_df_joined['int'].apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
+        full_df_joined.loc[full_df_joined[full_df_joined['int'] == '0.0s'].index, 'int'] = '+/-'
 
         full_df_joined['full_total_time_format'] = full_df_joined['full_total_time'].apply(
             lambda x: time.strftime(
@@ -149,7 +160,8 @@ def get_summary_data(sessionUID, session_type):
         full_df_joined = full_df_joined.drop(columns = 'full_total_time')
 
         full_df_joined = full_df_joined[
-        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 'int', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
+        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 
+        'int', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
         ]
 
     full_df_joined = full_df_joined.drop(columns = 'participant_grouping_id')
@@ -273,12 +285,13 @@ def summary_wrapper(pathname_clean, sessionUID, session_type, page_size):
                     ),
             dash_table.DataTable(
             id='datatable-3-paging-page-count',
-            columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] else {"name": i, "id": i} for i in participants_data.columns],
+            columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] \
+                else {"name": i, "id": i} for i in participants_data.columns],
             filter_query='',
             page_current=0,
             page_size=page_size,
             page_action='custom',
-            page_count=pages_count,
+            page_count=pages_count if participants_data.shape[0] > page_size else -1,
             style_header={'border': '0 !important'},
             style_cell={'textAlign': 'left'},
             style_cell_conditional=table_widths
@@ -295,7 +308,8 @@ def summary_wrapper(pathname_clean, sessionUID, session_type, page_size):
                 ),
         dash_table.DataTable(
         id='datatable-2-paging-page-count',
-        columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] else {"name": i, "id": i} for i in your_data.columns],
+        columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Stint'] \
+            else {"name": i, "id": i} for i in your_data.columns],
         data=your_data.to_dict('records'),
         filter_query='',
         page_current=0,

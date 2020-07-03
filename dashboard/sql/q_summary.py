@@ -8,8 +8,8 @@ JOIN (select id as nationality, value as nationality_val from `f1-telemetry-app.
 
 summary_laps = '''
 select header.sessionTime, header.playerCarIndex, lapData.currentLapNum, lapData.lastLapTime, lapData.pitStatus, lapData.currentLapTime, 
-lapData.penalties, lapData.carPosition from `f1-telemetry-app.dashboard_data.lap` as t, t.lapData as lapData, t.header as header
-where header.sessionUID = '$_sessionUID' order by header.frameIdentifier
+lapData.penalties, lapData.carPosition, lapData.sector  from `f1-telemetry-app.dashboard_data.lap` as t, t.lapData as lapData, 
+t.header as header where header.sessionUID = '$_sessionUID' order by header.frameIdentifier
 '''
 
 summary_car_status = '''
