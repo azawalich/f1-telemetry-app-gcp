@@ -484,13 +484,14 @@ a {
 }
 
 #page-content {
-    margin-left: 280px;
+    margin-left: 279px;
     width: 1016px;
     float: left;
     background: #101017;
-    border-radius: 8px;
     padding: 24px; 
     margin-bottom: 12px;
+    border-left: 1px solid;
+    border-color:#20202D;
 }
 
 #page-content p, .current-page {
