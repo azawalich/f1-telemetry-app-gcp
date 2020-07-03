@@ -36,7 +36,7 @@ SECTIONS = {
                 },
                 {
                     'if': {'column_id': 'Gap'},
-                    'width': '70px'
+                    'width': '85px'
                 },
                 {
                     'if': {'column_id': 'Pits'},
@@ -78,7 +78,7 @@ SECTIONS = {
                 },
                 {
                     'if': {'column_id': 'Gap'},
-                    'width': '70px'
+                    'width': '85px'
                 },
                 {
                     'if': {'column_id': 'Pits'},
