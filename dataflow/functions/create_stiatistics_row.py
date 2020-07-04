@@ -54,13 +54,16 @@ def create_stiatistics_row(statistics_dict, packet_id, rows_to_add_reduced):
         for single_lap_indeks in range(0, len(full_laps)):
             single_row = full_laps[single_lap_indeks]
             if single_row['sector'] == 2 and \
-                single_row['sector1Time'] > 0 and \
-                    single_row['sector2Time'] > 0 and \
-                        single_row['pitStatus'] == 0:
+                 single_row['sector1Time'] > 0 and \
+                     single_row['sector2Time'] > 0 and \
+                         single_row['pitStatus'] == 0:
                 full_laps_sectors.append(
-                    single_row
+                    '{}_{}'.format(
+                        single_row['sector'],
+                        single_row['currentLapNum']
+                    )
                 )
-        statistics_dict['fullLaps'] = len(full_laps_sectors)
+        statistics_dict['fullLaps'] = len(set(full_laps_sectors))
         statistics_dict['lap_count'] = statistics_dict['fullLaps']
     elif packet_id == 3: # event table
         player_indeks = last_row['header'][0]['playerCarIndex']
