@@ -82,3 +82,7 @@
 - [Stack Overflow Discussion - splitting list based on elements' difference](https://stackoverflow.com/questions/52005258/split-a-list-in-sublists-based-on-the-difference-between-consecutive-values)
 - [Stack Overflow Discussion - list of duplicated list elements](https://stackoverflow.com/questions/5419204/index-of-duplicates-items-in-a-python-list)
 - [Stack Overflow Discussion - regexp-like CSS styling](https://stackoverflow.com/questions/11496645/how-to-get-css-to-select-id-that-begins-with-a-string-not-in-javascript)
+## v0.8.2
+- [Stack Overflow Discussion - creating repeating values column for mismatching indexes](https://stackoverflow.com/questions/50804427/how-to-create-a-column-with-repeating-values-pandas-mismatching-indexes)
+- [Stack Overflow Discussion - adding sign to positive DataFrame values](https://stackoverflow.com/questions/53497597/add-sign-to-positive-numbers-in-pandas-df)
+
