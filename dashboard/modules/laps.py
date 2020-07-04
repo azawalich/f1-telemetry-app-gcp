@@ -58,22 +58,20 @@ def get_laps_data(sessionUID, session_type, record_lap):
         participant_grouping_ids, len(summary_laps_df_flat) // len(participant_grouping_ids)).tolist() + \
             participant_grouping_ids[:len(summary_laps_df_flat)%len(participant_grouping_ids)]
     
-    summary_laps_df_flat = summary_laps_df_flat.groupby(['participant_grouping_id', 'currentLapNum']).tail(1)
     summary_car_status_df_flat['participant_grouping_id'] = np.tile(
         participant_grouping_ids, len(summary_car_status_df_flat) // len(participant_grouping_ids)).tolist() + \
             participant_grouping_ids[:len(summary_car_status_df_flat)%len(participant_grouping_ids)]
     
     your_telemery_small_df = summary_participants_df[['participant_grouping_id', 'yourTelemetry']]
-    
+        
     summary_laps_df_flat = pd.merge(summary_laps_df_flat, your_telemery_small_df, on='participant_grouping_id', how='left')
-    
-    summary_laps_df_flat = summary_laps_df_flat[(summary_laps_df_flat['yourTelemetry'] == 0) & (summary_laps_df_flat['sector'] == 2)].\
+
+    summary_laps_df_flat = summary_laps_df_flat[(summary_laps_df_flat['yourTelemetry'] == 0) & (summary_laps_df_flat['sector'] == 2)]\
+        .groupby(['participant_grouping_id', 'currentLapNum']).tail(1).\
         sort_values('currentLapTime', ascending=True).rename(columns={'currentLapNum': 'lap'})
 
     summary_laps_df_flat['sector3Time'] = summary_laps_df_flat['currentLapTime'] - (summary_laps_df_flat['sector1Time'] + summary_laps_df_flat['sector2Time'])
     summary_laps_df_flat['sessionTime_rounded'] = summary_laps_df_flat['sessionTime'].round(0)
-
-    print(summary_laps_df_flat)
 
     summary_laps_df_flat['lap_time_format'] = summary_laps_df_flat['currentLapTime'].apply(lambda x: str(
             datetime.timedelta(seconds=x)
