@@ -146,6 +146,9 @@ def get_summary_data(sessionUID, session_type):
 
         full_df_joined = pd.merge(full_df_joined, total_time_df_joined, on='participant_grouping_id', how='left').sort_values('full_total_time')
 
+        full_df_joined['penalties_format'] = full_df_joined['penalties'].apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
+        full_df_joined.loc[full_df_joined[full_df_joined['penalties_format'] == '0.0s'].index, 'penalties_format'] = 'None'
+
         full_df_joined['int'] = full_df_joined['full_total_time'] - full_df_joined['full_total_time'].tolist()[0]
         full_df_joined['int'] = full_df_joined['int'].apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
         full_df_joined.loc[full_df_joined[full_df_joined['int'] == '0.0s'].index, 'int'] = '+/-'
@@ -161,7 +164,7 @@ def get_summary_data(sessionUID, session_type):
 
         full_df_joined = full_df_joined[
         ['name', 'name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 
-        'int', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
+        'int', 'penalties', 'penalties_format', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
         ]
 
     full_df_joined = full_df_joined.drop(columns = 'participant_grouping_id')
@@ -184,6 +187,7 @@ def get_summary_data(sessionUID, session_type):
         'pit_stops': 'Pits',
         'stint': 'Stint',
         'gap': 'Gap', 
+        'penalties_format': 'Tot. Penalty'
         })
 
     teams_boxes = []
@@ -229,9 +233,13 @@ def get_summary_data(sessionUID, session_type):
         'full_total_time_format': 'Time',
         })
 
+    drop_columns = ['yourTelemetry', 'name', 'penalties']
+    if len(full_df_joined['penalties'].drop_duplicates().tolist()) == 1:
+        drop_columns.append(['Tot. Penalty'])
+
     final_df_splitted = (
-        full_df_joined[full_df_joined['yourTelemetry'] == 0].drop(columns=['yourTelemetry', 'name']), 
-        full_df_joined[full_df_joined['yourTelemetry'] == 1].drop(columns=['yourTelemetry', 'name'])
+        full_df_joined[full_df_joined['yourTelemetry'] == 0].drop(columns=drop_columns), 
+        full_df_joined[full_df_joined['yourTelemetry'] == 1].drop(columns=drop_columns)
     )
 
     print('loading time: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
