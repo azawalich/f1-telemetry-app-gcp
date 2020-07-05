@@ -83,6 +83,6 @@
 - [Stack Overflow Discussion - list of duplicated list elements](https://stackoverflow.com/questions/5419204/index-of-duplicates-items-in-a-python-list)
 - [Stack Overflow Discussion - regexp-like CSS styling](https://stackoverflow.com/questions/11496645/how-to-get-css-to-select-id-that-begins-with-a-string-not-in-javascript)
 ## v0.8.2
+- [Documentation Article - Dash conditional cell formatting](https://dash.plotly.com/datatable/conditional-formatting)
 - [Stack Overflow Discussion - creating repeating values column for mismatching indexes](https://stackoverflow.com/questions/50804427/how-to-create-a-column-with-repeating-values-pandas-mismatching-indexes)
 - [Stack Overflow Discussion - adding sign to positive DataFrame values](https://stackoverflow.com/questions/53497597/add-sign-to-positive-numbers-in-pandas-df)
-
