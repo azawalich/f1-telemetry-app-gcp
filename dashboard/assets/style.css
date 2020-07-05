@@ -380,6 +380,12 @@ a {
     padding-top: 15px;
 }
 
+#title-wrapper-bottom img {
+    height: 100px;
+    width: 250px;
+    margin-left: -20px;
+}
+
 #header-top-row {
     width: 1020px;
     height: 100px;
