@@ -31,7 +31,7 @@ $(window).on('load resize', function() {
             var layout_width = $("#scaleable-wrapper").width();
             var window_width = $(window).width();
             resize_dashboard(layout_width, window_width);
-        }, 100);
+        }, 120);
     }
     resize_dashboard(layout_width, window_width);
 }).trigger('resize');
