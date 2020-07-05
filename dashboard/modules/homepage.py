@@ -87,7 +87,7 @@ def homepage_wrapper(stats, page_size):
     )
         ],
         id='page-content',
-        style={'height': '613px'}
+        style={'max-height': '613px'}
     )
     
     return elements_list
