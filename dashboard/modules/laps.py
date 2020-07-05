@@ -105,7 +105,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
    
     full_df_joined['name_short'] = full_df_joined['name'].str.split(' ').apply(lambda x: x[1][0:3].upper())
 
-    print(full_df_joined)
+    # print(full_df_joined)
 
     best_lap = full_df_joined[full_df_joined['currentLapTime'] == full_df_joined['currentLapTime'].min()]
     theoretical_best_lap = full_df_joined[full_df_joined['currentLapTime'] == full_df_joined['currentLapTime'].min()][
@@ -136,7 +136,12 @@ def get_laps_data(sessionUID, session_type, record_lap):
     theoretical_best_lap['tires'] = 'Soft'
 
     dataframes_list = [full_df_joined, best_lap, theoretical_best_lap]
-    achievements_list = ['Best Lap', 'Theoretical Best Lap', 'Record Lap']
+    legend_full = {
+        'BL': 'Best Lap',
+        'TBL': 'Theoretical Best Lap',
+        'RL': 'Record Lap'
+    }
+    achievements_list = list(legend_full.keys())
 
     for single_df_indeks in range(0, len(dataframes_list)):
         temp_df = dataframes_list[single_df_indeks]
@@ -147,10 +152,10 @@ def get_laps_data(sessionUID, session_type, record_lap):
             ]
         
         if single_df_indeks > 0:
-            temp_df['Achievement'] = achievements_list[single_df_indeks-1]
+            temp_df['achievement'] = achievements_list[single_df_indeks-1]
             cols = list(temp_df)
             # move the column to head of list using index, pop and insert
-            cols.insert(0, cols.pop(cols.index('Achievement')))
+            cols.insert(0, cols.pop(cols.index('achievement')))
             temp_df = temp_df.loc[:, cols]
             temp_df['id'] = single_df_indeks
         else:
@@ -175,7 +180,8 @@ def get_laps_data(sessionUID, session_type, record_lap):
             'sector_3_format': 'Sector 3',
             'gap_format': 'Gap',
             'currentLapInvalid': 'Lap Invalid',
-            'tires': 'Tires'
+            'tires': 'Tires',
+            'achievement': 'Ach.'
             })
 
         teams_boxes = []
@@ -231,6 +237,13 @@ def get_laps_data(sessionUID, session_type, record_lap):
     record_df['Gap'] = record_df['gap'].round(3).astype(str) + 's'
     record_df.loc[record_df[record_df['Gap'] == '0.0s'].index, 'Gap'] = '+/-'
 
+    legend = 'Achievements legend: '
+
+    for single_type in record_df['Ach.'].tolist():
+        legend += '{} - {}'.format(single_type, legend_full[single_type])
+        if single_type != record_df['Ach.'].tolist()[-1]:
+            legend += ', '
+
     drop_columns_record = ['yourTelemetry', 'name', 'Lap', 'currentLapTime', 'gap', 'index']
     drop_columns_laps = ['yourTelemetry', 'name', 'currentLapTime']
 
@@ -241,7 +254,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
 
     print('loading time: {}'.format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-    return final_df_splitted
+    return (final_df_splitted, legend)
 
 def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap):
     pathname_clean = pathname_clean.replace('/', '')
@@ -268,7 +281,9 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
     elif session_type in [11]:
         session_type = 'Race {}'.format(session_type - 9)
 
-    laps_data = get_laps_data(sessionUID, session_type, record_lap)
+    table_widths = sct.SECTIONS[pathname_clean]['table_cell_widths']
+
+    laps_data, types_legend = get_laps_data(sessionUID, session_type, record_lap)
     
     your_data, participants_data = laps_data
     page_count_laps = int(round(participants_data.shape[0] / page_size, 0))
@@ -290,7 +305,8 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
             page_action='custom',
             page_count=page_count_laps if participants_data.shape[0] > page_size else -1,
             style_header={'border': '0 !important'},
-            style_cell={'textAlign': 'left'}
+            style_cell={'textAlign': 'left'},
+            style_cell_conditional = table_widths
         )
     ]
 
@@ -313,8 +329,10 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
         page_action='custom',
         page_count=1,
         style_header={'border': '0 !important'},
-        style_cell={'textAlign': 'left'}
-    )
+        style_cell={'textAlign': 'left'},
+        style_cell_conditional = table_widths
+    ),
+    html.P(types_legend)
     ] + participants_elements,
     id='page-content',
     style={'height': '690px'}
