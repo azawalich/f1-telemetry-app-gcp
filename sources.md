@@ -86,3 +86,4 @@
 - [Documentation Article - Dash conditional cell formatting](https://dash.plotly.com/datatable/conditional-formatting)
 - [Stack Overflow Discussion - creating repeating values column for mismatching indexes](https://stackoverflow.com/questions/50804427/how-to-create-a-column-with-repeating-values-pandas-mismatching-indexes)
 - [Stack Overflow Discussion - adding sign to positive DataFrame values](https://stackoverflow.com/questions/53497597/add-sign-to-positive-numbers-in-pandas-df)
+- [Stack Overflow Discussion - replacing cell values in pandas DataFrame](https://stackoverflow.com/questions/13842088/set-value-for-particular-cell-in-pandas-dataframe-using-index)
