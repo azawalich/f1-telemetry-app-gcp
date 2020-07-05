@@ -120,12 +120,20 @@ def get_summary_data(sessionUID, session_type):
 
     full_df_joined['name_short'] = full_df_joined['name'].str.split(' ').apply(lambda x: x[1][0:3].upper())
 
+    penalties_df = pd.DataFrame(summary_laps_df_flat[['participant_grouping_id', 'penalties']].groupby(['participant_grouping_id']).max()).reset_index()
+    full_df_joined = pd.merge(full_df_joined, penalties_df, on='participant_grouping_id', how='left')
+
+    full_df_joined['penalties_format'] = full_df_joined['penalties'].apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
+    full_df_joined.loc[full_df_joined[full_df_joined['penalties_format'] == '0.0s'].index, 'penalties_format'] = 'None'
+
     full_df_joined = full_df_joined[
-        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'fastest_lap_format', 
-        'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
+        ['name', 'name_short', 'nationality', 'team', 'total_laps', 'penalties', 'penalties_format',
+        'fastest_lap_format', 'gap', 'pit_stops', 'stint', 'yourTelemetry', 'participant_grouping_id']
         ]
 
     if session_type in ['Race', 'Race 2']:
+        full_df_joined = full_df_joined.drop(columns=['penalties', 'penalties_format'])
+        
         #total time
         laps_grouped_df = summary_laps_df_flat.groupby(['participant_grouping_id', 'currentLapNum']).tail(1)
 
@@ -164,7 +172,8 @@ def get_summary_data(sessionUID, session_type):
 
         full_df_joined = full_df_joined[
         ['name', 'name_short', 'nationality', 'team', 'total_laps', 'full_total_time_format', 
-        'int', 'penalties', 'penalties_format', 'fastest_lap_format', 'gap', 'pit_stops', 'stint',  'yourTelemetry', 'participant_grouping_id']
+        'int', 'penalties', 'penalties_format', 'fastest_lap_format', 'gap', 'pit_stops', 'stint', 
+        'yourTelemetry', 'participant_grouping_id']
         ]
 
     full_df_joined = full_df_joined.drop(columns = 'participant_grouping_id')
@@ -235,7 +244,7 @@ def get_summary_data(sessionUID, session_type):
 
     drop_columns = ['yourTelemetry', 'name', 'penalties']
     if len(full_df_joined['penalties'].drop_duplicates().tolist()) == 1:
-        drop_columns.append(['Tot. Penalty'])
+        drop_columns.append('Tot. Penalty')
 
     final_df_splitted = (
         full_df_joined[full_df_joined['yourTelemetry'] == 0].drop(columns=drop_columns), 
