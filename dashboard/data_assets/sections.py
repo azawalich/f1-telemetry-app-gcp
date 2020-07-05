@@ -145,8 +145,54 @@ SECTIONS = {
             {
                 'if': {'column_id': 'Lap Invalid'},
                 'width': '95px'
+            },
+            {
+                'if': {'column_id': 'lap_diff'},
+                'display': 'none'
+            },
+            {
+                'if': {'column_id': 's1_diff'},
+                'display': 'none'
+            },
+            {
+                'if': {'column_id': 's2_diff'},
+                'display': 'none'
+            },
+            {
+                'if': {'column_id': 's3_diff'},
+                'display': 'none'
             }
-        ]
+        ],
+        'table_data_conditional': [
+                {
+                    'if': {
+                        'filter_query': '{lap_diff} < 0',
+                        'column_id': 'Lap Time'
+                    },
+                    'color': '#009C38'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s1_diff} < 0',
+                        'column_id': 'Sector 1'
+                    },
+                    'color': '#009C38'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s2_diff} < 0',
+                        'column_id': 'Sector 2'
+                    },
+                    'color': '#009C38'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s3_diff} < 0',
+                        'column_id': 'Sector 3'
+                    },
+                    'color': '#009C38'
+                }
+            ]
     },
     'driver-ranking': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/random.svg',

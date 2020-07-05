@@ -148,7 +148,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
         temp_df = temp_df[
             ['lap', 'name_short', 'nationality', 'team', 'lap_time_format', 'sector_1_format', 
             'sector_2_format', 'sector_3_format', 'gap_format', 'currentLapInvalid', 'tires', 
-            'yourTelemetry', 'name', 'currentLapTime']
+            'yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time']
             ]
         
         if single_df_indeks > 0:
@@ -159,8 +159,14 @@ def get_laps_data(sessionUID, session_type, record_lap):
             temp_df = temp_df.loc[:, cols]
             temp_df['id'] = single_df_indeks
         else:
+            temp_df = temp_df.sort_values('lap', ascending=True)
             temp_df['id'] = range(1, len(temp_df) + 1)
-        
+
+            temp_df['lap_diff'] = temp_df['currentLapTime'].diff().fillna(-0.01)
+            temp_df['s1_diff'] = temp_df['sector1Time'].diff().fillna(-0.01)
+            temp_df['s2_diff'] = temp_df['sector2Time'].diff().fillna(-0.01)
+            temp_df['s3_diff'] = temp_df['sector3Time'].diff().fillna(-0.01)
+                
         temp_df['id'] = temp_df['id'].astype(str) + '.'
         cols = list(temp_df)
         # move the column to head of list using index, pop and insert
@@ -237,6 +243,11 @@ def get_laps_data(sessionUID, session_type, record_lap):
     record_df['Gap'] = record_df['gap'].round(3).astype(str) + 's'
     record_df.loc[record_df[record_df['Gap'] == '0.0s'].index, 'Gap'] = '+/-'
 
+    record_df['lap_diff'] = record_df['currentLapTime'].diff().fillna(-0.01)
+    record_df['s1_diff'] = record_df['sector1Time'].diff().fillna(-0.01)
+    record_df['s2_diff'] = record_df['sector2Time'].diff().fillna(-0.01)
+    record_df['s3_diff'] = record_df['sector3Time'].diff().fillna(-0.01)
+
     legend = 'Achievements legend: '
 
     for single_type in record_df['Ach.'].tolist():
@@ -244,8 +255,8 @@ def get_laps_data(sessionUID, session_type, record_lap):
         if single_type != record_df['Ach.'].tolist()[-1]:
             legend += ', '
 
-    drop_columns_record = ['yourTelemetry', 'name', 'Lap', 'currentLapTime', 'gap', 'index']
-    drop_columns_laps = ['yourTelemetry', 'name', 'currentLapTime']
+    drop_columns_record = ['yourTelemetry', 'name', 'Lap', 'currentLapTime', 'gap', 'index', 'sector1Time', 'sector2Time', 'sector3Time']
+    drop_columns_laps = ['yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time']
 
     final_df_splitted = (
         record_df.drop(columns=drop_columns_record),
@@ -282,6 +293,7 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
         session_type = 'Race {}'.format(session_type - 9)
 
     table_widths = sct.SECTIONS[pathname_clean]['table_cell_widths']
+    table_data_conditional = sct.SECTIONS[pathname_clean]['table_data_conditional']
 
     laps_data, types_legend = get_laps_data(sessionUID, session_type, record_lap)
     
@@ -306,7 +318,8 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
             page_count=page_count_laps if participants_data.shape[0] > page_size else -1,
             style_header={'border': '0 !important'},
             style_cell={'textAlign': 'left'},
-            style_cell_conditional = table_widths
+            style_cell_conditional=table_widths,
+            style_data_conditional=table_data_conditional 
         )
     ]
 
@@ -330,7 +343,8 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
         page_count=1,
         style_header={'border': '0 !important'},
         style_cell={'textAlign': 'left'},
-        style_cell_conditional = table_widths
+        style_cell_conditional=table_widths,
+        style_data_conditional=table_data_conditional
     ),
     html.P(types_legend)
     ] + participants_elements,
