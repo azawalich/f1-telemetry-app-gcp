@@ -191,6 +191,34 @@ SECTIONS = {
                         'column_id': 'Sector 3'
                     },
                     'color': '#009C38'
+                },
+                {
+                    'if': {
+                        'filter_query': '{lap_diff} = 10',
+                        'column_id': 'Lap Time'
+                    },
+                    'color': '#831E91'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s1_diff} = 10',
+                        'column_id': 'Sector 1'
+                    },
+                    'color': '#831E91'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s2_diff} = 10',
+                        'column_id': 'Sector 2'
+                    },
+                    'color': '#831E91'
+                },
+                {
+                    'if': {
+                        'filter_query': '{s3_diff} = 10',
+                        'column_id': 'Sector 3'
+                    },
+                    'color': '#831E91'
                 }
             ]
     },

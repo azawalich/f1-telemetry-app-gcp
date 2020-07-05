@@ -66,12 +66,40 @@ def get_laps_data(sessionUID, session_type, record_lap):
         
     summary_laps_df_flat = pd.merge(summary_laps_df_flat, your_telemery_small_df, on='participant_grouping_id', how='left')
 
-    summary_laps_df_flat = summary_laps_df_flat[(summary_laps_df_flat['yourTelemetry'] == 0) & (summary_laps_df_flat['sector'] == 2)]\
+    participants_rest = summary_laps_df_flat[(summary_laps_df_flat['sector'] == 2) & (summary_laps_df_flat['pitStatus'] == 0)]\
+        .groupby(['participant_grouping_id', 'currentLapNum']).tail(1).\
+        sort_values('currentLapTime', ascending=True).rename(columns={'currentLapNum': 'lap'})
+    participants_rest['sector3Time'] = participants_rest['currentLapTime'] - (participants_rest['sector1Time'] + participants_rest['sector2Time'])
+
+    summary_laps_df_flat = summary_laps_df_flat[(summary_laps_df_flat['yourTelemetry'] == 0) & (summary_laps_df_flat['sector'] == 2) & (summary_laps_df_flat['pitStatus'] == 0)]\
         .groupby(['participant_grouping_id', 'currentLapNum']).tail(1).\
         sort_values('currentLapTime', ascending=True).rename(columns={'currentLapNum': 'lap'})
 
     summary_laps_df_flat['sector3Time'] = summary_laps_df_flat['currentLapTime'] - (summary_laps_df_flat['sector1Time'] + summary_laps_df_flat['sector2Time'])
     summary_laps_df_flat['sessionTime_rounded'] = summary_laps_df_flat['sessionTime'].round(0)
+
+    record_results = {
+        'frame': {
+        'currentLapTime': None,
+        'sector1Time': None,
+        'sector2Time': None,
+        'sector3Time': None
+        },
+        'columns': ['lap_diff', 's1_diff', 's2_diff', 's3_diff']
+    }
+    for single_type in record_results['frame'].keys():
+        aaa = participants_rest[participants_rest[single_type].isin(participants_rest.\
+            groupby('lap')[single_type].min().values)][['lap', single_type, 'participant_grouping_id']]\
+                .sort_values('lap', ascending=True)
+        best_times = aaa[single_type].tolist()
+        best_times_indexes = [1]
+        for single_lap_value in range(2, len(best_times)):
+            lap_row = aaa[aaa['lap'] == single_lap_value]
+            if lap_row.shape[0] > 0:
+                if lap_row[single_type].values[0] < aaa[aaa['lap'] == best_times_indexes[-1]][single_type].values[0]:
+                    best_times_indexes.append(lap_row['lap'].values[0])
+        record_results['frame'][single_type] = aaa[aaa['lap'].isin(best_times_indexes)]
+        record_results['frame'][single_type]['record_join_index'] = 1
 
     summary_laps_df_flat['lap_time_format'] = summary_laps_df_flat['currentLapTime'].apply(lambda x: str(
             datetime.timedelta(seconds=x)
@@ -109,7 +137,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
 
     best_lap = full_df_joined[full_df_joined['currentLapTime'] == full_df_joined['currentLapTime'].min()]
     theoretical_best_lap = full_df_joined[full_df_joined['currentLapTime'] == full_df_joined['currentLapTime'].min()][
-        ['name_short', 'nationality', 'team', 'name', 'lap', 'gap_format', 'yourTelemetry']]
+        ['name_short', 'nationality', 'team', 'name', 'lap', 'gap_format', 'yourTelemetry', 'participant_grouping_id']]
 
     theoretical_best_lap['sector1Time'] = summary_laps_df_flat['sector1Time'].min()
     theoretical_best_lap['sector2Time'] = summary_laps_df_flat['sector2Time'].min()
@@ -139,7 +167,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
     legend_full = {
         'BL': 'Best Lap',
         'TBL': 'Theoretical Best Lap',
-        'RL': 'Record Lap'
+        'PRL': 'Personal Record Lap'
     }
     achievements_list = list(legend_full.keys())
 
@@ -148,7 +176,7 @@ def get_laps_data(sessionUID, session_type, record_lap):
         temp_df = temp_df[
             ['lap', 'name_short', 'nationality', 'team', 'lap_time_format', 'sector_1_format', 
             'sector_2_format', 'sector_3_format', 'gap_format', 'currentLapInvalid', 'tires', 
-            'yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time']
+            'yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time', 'participant_grouping_id']
             ]
         
         if single_df_indeks > 0:
@@ -166,7 +194,13 @@ def get_laps_data(sessionUID, session_type, record_lap):
             temp_df['s1_diff'] = temp_df['sector1Time'].diff().fillna(-0.01)
             temp_df['s2_diff'] = temp_df['sector2Time'].diff().fillna(-0.01)
             temp_df['s3_diff'] = temp_df['sector3Time'].diff().fillna(-0.01)
-                
+
+            for single_type_indeks in range(0, len(record_results['frame'].keys())):
+                single_type = list(record_results['frame'].keys())[single_type_indeks]
+                temp_record_df = pd.merge(temp_df, record_results['frame'][single_type], on=record_results['frame'][single_type].columns[:-1].tolist(), how='left').dropna()
+                if temp_record_df.shape[0] > 0:
+                    for single_value in temp_record_df[single_type].tolist():
+                        temp_df.at[temp_df[temp_df[single_type] == single_value].index[0], record_results['columns'][single_type_indeks]] = 10
         temp_df['id'] = temp_df['id'].astype(str) + '.'
         cols = list(temp_df)
         # move the column to head of list using index, pop and insert
@@ -248,15 +282,21 @@ def get_laps_data(sessionUID, session_type, record_lap):
     record_df['s2_diff'] = record_df['sector2Time'].diff().fillna(-0.01)
     record_df['s3_diff'] = record_df['sector3Time'].diff().fillna(-0.01)
 
-    legend = 'Achievements legend: '
+    if len(dataframes_list) > 3:
+        for single_type in record_results['columns']:
+            record_df.at[record_df.index[-1], single_type] = 10
+
+    legend = 'Legend: '
 
     for single_type in record_df['Ach.'].tolist():
         legend += '{} - {}'.format(single_type, legend_full[single_type])
         if single_type != record_df['Ach.'].tolist()[-1]:
             legend += ', '
+        else:
+            legend += '; '
 
-    drop_columns_record = ['yourTelemetry', 'name', 'Lap', 'currentLapTime', 'gap', 'index', 'sector1Time', 'sector2Time', 'sector3Time']
-    drop_columns_laps = ['yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time']
+    drop_columns_record = ['yourTelemetry', 'name', 'Lap', 'currentLapTime', 'gap', 'index', 'sector1Time', 'sector2Time', 'sector3Time', 'participant_grouping_id']
+    drop_columns_laps = ['yourTelemetry', 'name', 'currentLapTime', 'sector1Time', 'sector2Time', 'sector3Time', 'participant_grouping_id']
 
     final_df_splitted = (
         record_df.drop(columns=drop_columns_record),
@@ -326,11 +366,20 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
     elements_list = html.Div(
         [
         html.Div(
-                    html.H1(
+            [
+                html.H1(
                         'Your {} Lap Times Summary'.format(session_type)
                     ),
-                    id='subtitle-wrapper'
-                ),
+        html.Div(
+            [
+                html.Span(types_legend, style={'color': '#ffffff', 'opacity': '0.9'}),
+                html.Span('Time Record (Session / Personal),', id='record'),
+                html.Span(' Time Improvement', id='time-improvement')
+            ], style = {'font-size': '11px'}
+        )
+        ],
+        id='subtitle-wrapper'
+        ),
         dash_table.DataTable(
         id='datatable-4-paging-page-count',
         columns=[{"name": i, "id": i, 'presentation': 'markdown'} if i in ['Name', 'Nat.', 'Tires'] \
@@ -345,8 +394,7 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
         style_cell={'textAlign': 'left'},
         style_cell_conditional=table_widths,
         style_data_conditional=table_data_conditional
-    ),
-    html.P(types_legend)
+    )
     ] + participants_elements,
     id='page-content',
     style={'max-height': '690px'}

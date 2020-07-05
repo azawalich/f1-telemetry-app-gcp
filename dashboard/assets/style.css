@@ -682,3 +682,11 @@ img[alt="McLaren 2010"], img[alt="Ferrari 2004"], img[alt="Williams 2003"], img[
 { 
     padding-right: 4px; 
 }
+
+#record {
+    color: #831E91 !important;
+}
+
+#time-improvement {
+    color: #009C38 !important;
+}
