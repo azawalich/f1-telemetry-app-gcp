@@ -338,7 +338,7 @@ def summary_wrapper(pathname_clean, sessionUID, session_type, page_size):
         style_cell_conditional=table_widths
     )] + participants_elements,
         id='page-content',
-        style={'height': '690px'}
+        style={'max-height': '690px'}
     )
     
     final_tuple = (

@@ -335,7 +335,7 @@ def laps_wrapper(pathname_clean, sessionUID, session_type, page_size, record_lap
     html.P(types_legend)
     ] + participants_elements,
     id='page-content',
-    style={'height': '690px'}
+    style={'max-height': '690px'}
     )
 
     final_tuple = (
