@@ -671,3 +671,14 @@ a {
     color: #FF1E00 !important;
     margin-right: 10px;
 }
+
+
+img[alt="Mercedes"], img[alt="Ferrari"], img[alt="Red Bull Racing"], img[alt="Renault"], img[alt="Haas"], img[alt="Racing Point"],
+img[alt="Alpha Tauri"], img[alt="McLaren"], img[alt="Alfa Romeo"], img[alt="Williams"], img[alt="Toro Rosso"], img[alt="Trident"], 
+img[alt="BWT Arden"], img[alt="MP Motorsport"], img[alt="Campos Vexatec Racing"], img[alt="Charouz Racing System"],
+img[alt="Pertamina"], img[alt="Virtuosi Racing"], img[alt="DAMS"], img[alt="ART Grand Prix"], img[alt="Carlin"],
+img[alt="Russian Time"], img[alt="Hitech Grand Prix"], img[alt="Red Bull 2010"], img[alt="Brawn 2009"], 
+img[alt="McLaren 2010"], img[alt="Ferrari 2004"], img[alt="Williams 2003"], img[alt="Unknown"]
+{ 
+    padding-right: 4px; 
+}
