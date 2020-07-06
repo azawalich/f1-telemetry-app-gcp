@@ -1,23 +1,14 @@
 function resize_dashboard(layout_width, window_width) {
-    if (window_width > 1750){
-    $("#scaleable-wrapper").css({
-            transform: "scale(" + 0.8*(window_width / layout_width) + ")",  
+    if (window_width > 1350){
+        $("#scaleable-wrapper").css({
+            transform: "scale(" + 0.98*(window_width / layout_width) + ")",  
             'transform-origin': 'top left'
         });
-  } else {
+  } 
+  else {
     $("#scaleable-wrapper").attr('style', '');
     $("#layout-design").attr('style', '');
   }
-  // if (window_width > 1920){
-  //   $("#sidebar").css({
-  //       'height': $(window).height() * 0.63
-  //   });
-  // }
-  // else {
-  //   $("#sidebar").css({
-  //       'height': $(window).height() * 0.89
-  //   });
-  // }
 };
 
 var layout_width = $("#scaleable-wrapper").width();
