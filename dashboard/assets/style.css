@@ -19,6 +19,77 @@
     src: url("fonts/TitilliumWeb-Regular.ttf");
 }
 
+@media only screen and (orientation:portrait){
+
+    #scaleable-wrapper {
+        opacity: 0;
+    }
+
+    #rotate-phone{
+        position:fixed;
+        padding:0;
+        margin:0;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+    }
+    
+    #rotate-phone div {
+        text-align: center;
+        position: absolute;
+    }
+
+    #rotate-phone :nth-child(1){
+        top: 5%
+    }
+    
+    #rotate-phone :nth-child(2){
+        top: 15%
+    }
+
+    #rotate-phone :nth-child(3){
+        top: 25%
+    }
+
+    #rotate-phone #mobile-refresh {
+        filter: invert(100%) sepia(1%) saturate(5526%) hue-rotate(183deg) brightness(113%) contrast(100%);
+        height: 125%;
+        width: 125%;
+    }
+
+    #rotate-phone #mobile-logo, #rotate-phone #mobile-logo2 {
+        height: 25%;
+        width: 25%;
+    }
+
+    #rotate-phone h1 {
+        font-size: 34px !important;
+    }
+  
+  }
+  
+  @media only screen and (orientation:landscape){
+  
+    /* #react-entry-point {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+    } */
+
+    #rotate-phone {
+        display: none;
+    }
+
+  }
+
 /* @media screen and (min-width: 2248px) and (min-height: 1152px) {
     .scaleable-wrapper {
        transform: scale(1.74);   
@@ -108,7 +179,6 @@ a {
 
 #sidebar {
     width: 280px;
-    /* height: 100%; */
     padding-top: 24px;
     padding-left: 24px;
     padding-bottom: 0px;
