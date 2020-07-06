@@ -26,18 +26,3 @@ $(window).on('load resize', function() {
     }
     resize_dashboard(layout_width, window_width);
 }).trigger('resize');
-
-$(window).scroll(function() {
-    // hacky solution to make scrolling work
-    // $("#sidebar").css({
-    //     "top": $(window).scrollTop(),
-    // });
-
-    // $("#header-top-row").css({
-    //     "top": $(window).scrollTop()
-    // });
-
-    // $('#scroll-background').css({
-    //     "top": $(window).scrollTop()
-    // });
-})
