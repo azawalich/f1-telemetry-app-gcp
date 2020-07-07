@@ -681,9 +681,9 @@ a {
     margin-top: 4px !important;
 }
 
-#datatable-paging-page-count tr:nth-child(n) td:nth-child(2) div {
+/* #datatable-paging-page-count tr:nth-child(n) td:nth-child(2) div {
     margin-left:10px;
-}
+} */
 
 [id^=datatable-] th:nth-child(2) div {
     margin-left:10px;

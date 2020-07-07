@@ -64,12 +64,12 @@ def homepage_wrapper(stats, page_size):
                 'width': '20px'
             },
             {
-                'if': {'column_id': 'Team'},
-                'width': '222px'
+                'if': {'column_id': 'Session Date'},
+                'width': '250px'
             },
             {
-                'if': {'column_id': 'Session Time'},
-                'width': '250px'
+                'if': {'column_id': 'Team'},
+                'width': '222px'
             },
             {
                 'if': {'column_id': 'Session Track'},

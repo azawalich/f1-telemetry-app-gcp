@@ -145,7 +145,7 @@ def overall_stats():
     stats_data['session_cards'] = session_cards
 
     choice_table = recent_statistics_df[
-        ['team', 'publish_time', 'track', 'lap_count', 'sessionTime_format', 'fastest_lap_format']
+        ['publish_time', 'team', 'track', 'lap_count', 'sessionTime_format', 'fastest_lap_format']
         ]
 
     choice_table['id'] = range(1, len(choice_table) + 1)
@@ -158,8 +158,8 @@ def overall_stats():
     
     choice_table = choice_table.rename(columns={
         'id': '', 
+        'publish_time': 'Session Date', 
         'team': 'Team', 
-        'publish_time': 'Session Time', 
         'track': 'Session Track', 
         'lap_count': 'Laps', 
         'sessionTime_format': 'Session Duration', 
