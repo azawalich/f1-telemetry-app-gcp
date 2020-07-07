@@ -47,7 +47,10 @@ def return_dash_content(pathname, content_type, stats_data):
         else:
             message = 'You can access this website after choosing session on a homepage first.'
         if pathname_clean in ["/", "/homepage"]:
-            rendered_content = mdl_homepage.homepage_wrapper(stats = stats_data, page_size = 10)
+            rendered_content = mdl_homepage.homepage_wrapper(
+                stats = stats_data,
+                pathname_clean = pathname_clean,
+                page_size = 10)
         elif pathname_clean in ['/session-summary'] and sessionUID != None and sessionUID.isdigit():
             rendered_content = mdl_summary.summary_wrapper(
                 pathname_clean = pathname_clean, 

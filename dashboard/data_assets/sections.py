@@ -3,12 +3,37 @@ import data_assets.style as css
 SECTIONS = {
     'homepage': {
         'icon': 'assets/images/menu_arrow.svg',
-        'name': 'Back'
+        'name': 'Back',
+        'table_cell_widths': [
+            {
+                'if': {'column_id': ''},
+                'width': '20px'
+            },
+            {
+                'if': {'column_id': 'Session Date'},
+                'width': '250px'
+            },
+            {
+                'if': {'column_id': 'Team'},
+                'width': '222px'
+            },
+            {
+                'if': {'column_id': 'Session Track'},
+                'width': '167px'
+            },
+            {
+                'if': {'column_id': 'Laps'},
+                'width': '96px'
+            },
+            {
+                'if': {'column_id': 'Session Duration'},
+                'width': '133px'
+            }
+        ]
     },
     'session-summary': {
         'icon': 'https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/solid/table.svg',
         'name': 'Session Summary',
-        'disabled': True,
         'table_cell_widths': [
                 {
                     'if': {'column_id': ''},
