@@ -59,17 +59,17 @@
 
     #rotate-phone #mobile-refresh {
         filter: invert(100%) sepia(1%) saturate(5526%) hue-rotate(183deg) brightness(113%) contrast(100%);
-        height: 125%;
-        width: 125%;
+        height: 75%;
+        width: 75%;
     }
 
     #rotate-phone #mobile-logo, #rotate-phone #mobile-logo2 {
-        height: 25%;
-        width: 25%;
+        height: 15%;
+        width: 15%;
     }
 
     #rotate-phone h1 {
-        font-size: 34px !important;
+        font-size: 28px !important;
     }
   
   }
