@@ -56,8 +56,12 @@ def get_summary_data(sessionUID, session_type):
     total_laps_df = pd.DataFrame(summary_laps_df_flat.groupby(['participant_grouping_id'])['currentLapNum'].max()).reset_index()
     total_laps_df = total_laps_df.rename(columns = {'currentLapNum': 'total_laps'})
     #fastest lap
-    fastest_lap_df = pd.DataFrame(summary_laps_df_flat.groupby(['participant_grouping_id'])['lastLapTime'].max()).reset_index()
-    fastest_lap_df = fastest_lap_df.rename(columns = {'lastLapTime': 'fastest_lap'})
+    laps = summary_laps_df_flat[(summary_laps_df_flat['sector'] == 2) & (summary_laps_df_flat['pitStatus'] == 0) & (summary_laps_df_flat['currentLapTime'] > 60)]\
+        .groupby(['participant_grouping_id', 'currentLapNum']).tail(1).\
+        sort_values('currentLapTime', ascending=True).rename(columns={'currentLapNum': 'lap'})
+    
+    fastest_lap_df = pd.DataFrame(laps.groupby(['participant_grouping_id'])['currentLapTime'].min()).reset_index().\
+        rename(columns = {'currentLapTime': 'fastest_lap'}).sort_values('fastest_lap', ascending=True)
 
     fastest_lap_df['fastest_lap_format'] = fastest_lap_df['fastest_lap'].apply((lambda x: str(
             datetime.timedelta(seconds=x)
@@ -113,8 +117,9 @@ def get_summary_data(sessionUID, session_type):
     laps_full_df_joined = pd.merge(fastest_lap_df, total_laps_df, on='participant_grouping_id', how='left').\
         merge(tires_final_joined, on='participant_grouping_id', how='left').sort_values('fastest_lap_format')
 
-    laps_full_df_joined['gap'] = laps_full_df_joined['fastest_lap'].diff().apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
-    laps_full_df_joined.loc[laps_full_df_joined[laps_full_df_joined['gap'] == 'nans'].index, 'gap'] = '+/-'
+    laps_full_df_joined['gap'] = laps_full_df_joined['fastest_lap'] - laps_full_df_joined['fastest_lap'].min()
+    laps_full_df_joined['gap'] = laps_full_df_joined['gap'].apply(lambda x: "+"+str(round(x,3))+'s' if x>0 else str(x)+'s')
+    laps_full_df_joined.loc[laps_full_df_joined[laps_full_df_joined['gap'] == '0.0s'].index, 'gap'] = '+/-'
 
     full_df_joined = pd.merge(summary_participants_df, laps_full_df_joined, on='participant_grouping_id', how='left').sort_values('fastest_lap')
 
