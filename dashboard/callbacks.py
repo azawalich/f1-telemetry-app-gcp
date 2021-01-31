@@ -167,7 +167,7 @@ def update_sessions_table(active_cell, page_current, page_size, filter_query):
     if active_cell == None:
         output_session = 'None'
     else:
-        sessionUID = stats_data['recent_statistics_df']['sessionUID'].tolist()[active_cell['row']]
+        sessionUID = dff['sessionUID'].tolist()[active_cell['row']]
         output_session = dcc.Location(pathname="/session-summary?sessionUID={}".format(sessionUID), id="redirect-id")
 
     return dff_return.to_dict('records'), pages_count, output_session, eval('a1'), eval('a2'), eval('a3'), eval('a4'), eval('a5'), eval('a6'), eval('a7')
