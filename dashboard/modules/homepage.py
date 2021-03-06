@@ -65,7 +65,9 @@ def homepage_wrapper(stats, pathname_clean, page_size):
         page_count=pages_count,
         style_header={'border': '0 !important'},
         style_cell={'textAlign': 'left'},
-        style_cell_conditional=table_widths
+        style_cell_conditional=table_widths,
+        hidden_columns=['sessionUID'],
+        css=[{"selector": ".show-hide", "rule": "display: none"}]
     )
         ],
         id='page-content',

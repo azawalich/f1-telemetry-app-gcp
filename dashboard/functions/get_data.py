@@ -145,7 +145,7 @@ def overall_stats():
     stats_data['session_cards'] = session_cards
 
     choice_table = recent_statistics_df[
-        ['publish_time', 'team', 'track', 'lap_count', 'sessionTime_format', 'fastest_lap_format']
+        ['publish_time', 'team', 'track', 'lap_count', 'sessionTime_format', 'fastest_lap_format', 'sessionUID']
         ]
 
     choice_table['id'] = range(1, len(choice_table) + 1)
