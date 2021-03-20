@@ -91,25 +91,15 @@ def navigation_bar(stats = None):
         html.Div(
             [
                 html.A(
-                    [
-                        html.Img(
-                            src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/brands/gitlab.svg"
-                        ),
-                        'GitLab'
-                    ], 
-                    href='https://gitlab.com/azawalich/f1-telemetry-app-gcp/', 
-                    target='_blank'
+                [
+                    html.Img(
+                        src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/brands/linkedin.svg"
                     ),
-                    html.A(
-                    [
-                        html.Img(
-                            src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/svgs/brands/linkedin.svg"
-                        ),
-                        'LinkedIn'
-                    ], 
-                    href='https://www.linkedin.com/in/aleksanderzawalich/', 
-                    target='_blank'
-                    )
+                    'LinkedIn'
+                ], 
+                href='https://www.linkedin.com/in/aleksanderzawalich/', 
+                target='_blank'
+                )
             ],
             className='navigation-link'
             ),
